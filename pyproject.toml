@@ -1,0 +1,6 @@
+[project]
+name = "dao-agentic"
+version = "0.1.0"
+description = "Harness framework with a deterministic control spine"
+requires-python = ">=3.10"
+dependencies = []
