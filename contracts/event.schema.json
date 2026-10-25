@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dao-Agentic event",
+  "type": "object",
+  "required": [
+    "event_id",
+    "sequence",
+    "kind",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kind": {
+      "enum": [
+        "TASK_ADMITTED",
+        "TASK_READY",
+        "WORK_STARTED",
+        "OUTPUT_READY",
+        "VERIFICATION_PASSED",
+        "VERIFICATION_FAILED",
+        "HOLD_ENTERED",
+        "RECOVERY_COMPLETED",
+        "CHECKPOINTED"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}
