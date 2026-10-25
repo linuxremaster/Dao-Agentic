@@ -1,18 +1,23 @@
 # Deterministic control spine
 
-The core implements one task lifecycle, using Python 3.10+ and the standard library:
+Dao-Agentic currently implements one task lifecycle as a small deterministic core:
 
 ```
 append-only event history -> hard admission predicates -> pure reducer
                          -> materialized state -> replay / recovery
 ```
 
-An event is a plain dictionary containing exactly `event_id`, `sequence`, `kind`,
-and `payload`. `contracts/event.schema.json` describes its wire shape. Runtime
-validation additionally rejects non-JSON Python objects, non-string object keys,
-non-finite numbers, cycles, booleans as sequences, duplicate IDs, and noncontiguous
-sequences. Sequence numbering starts at 1. IDs are unique across the full history.
-The schema alone cannot enforce history-dependent admission.
+The control semantics are intended to be language-independent. The verified WO-001
+reference is implemented in Python 3.10+ using only the standard library. WO-002R
+adds a browser-compatible JavaScript conformance candidate using standards-based ES
+modules and browser-safe APIs. JavaScript is preferred when it is the simplest
+adequate implementation, but language preference does not define semantic authority.
+
+An event contains exactly `event_id`, `sequence`, `kind`, and `payload`.
+`contracts/event.schema.json` describes its wire shape. Runtime validation rejects
+invalid event structure, non-finite payload numbers, duplicate IDs, noncontiguous
+sequences, and unspecified lifecycle transitions. The schema alone cannot enforce
+history-dependent admission.
 
 | Current status | Event | Next status |
 | --- | --- | --- |
@@ -27,27 +32,49 @@ The schema alone cannot enforce history-dependent admission.
 | HOLD | RECOVERY_COMPLETED | READY |
 | VERIFIED | CHECKPOINTED | DONE |
 
-Every other transition raises `AdmissionError`. Rejection does not change state.
-`reduce(state, event)` returns a frozen `State` with status, last sequence, a
-frozenset of admitted IDs, and a history hash. Caller-owned payloads are not retained.
-Payload claims do not select transitions; only admitted event kinds do.
+Every other transition is rejected. Rejection does not promote state. Payload claims
+do not select transitions; only admitted event kinds do.
 
-Canonical JSON uses recursively sorted keys, compact separators, ASCII escapes,
-and finite numbers. Arrays retain order. Integers and floats retain their encoding
-distinctions; this is a Python JSON convention, not an RFC 8785 implementation.
-The initial hash is SHA-256 of empty bytes. Each subsequent hash is SHA-256 of
-`previous_digest_bytes + canonical_event_utf8`. This commits to the complete
-ordered history; it is neither a signature nor evidence that a claim is true.
+## Conformance boundary
 
-The caller retains the append-only event sequence. The core has no storage or
-append API that can rewrite history, and cannot enforce a caller's storage policy.
-`replay(events)` reconstructs state from NEW, admitting every event again. There
-is no snapshot trust shortcut. Process recovery uses replay; lifecycle recovery
-uses RECOVERY_COMPLETED from HOLD and returns to READY. CHECKPOINTED changes
-VERIFIED to DONE; it does not write a file or database snapshot.
+`contracts/conformance/` contains checked-in observable fixtures used by both the
+Python reference and JavaScript candidate. Ordinary lifecycle, validation, nested
+ordering, strings, Unicode values, and representable numeric cases currently agree,
+including matching history hashes.
 
-The reducer and its helpers perform no external I/O and consult no clock,
-randomness, model, environment, or external facts. External observations can enter
-only as event data. Producers are responsible for the truth of verification and
-recovery observations; this spine validates structure and ordering, not semantic
-correctness. Tests passing demonstrate these structural properties only.
+The existing WO-001 canonical encoding is not language-neutral for the full event
+contract. It uses Python JSON number semantics. Native browser JavaScript loses or
+normalizes distinctions including:
+
+- sequence `1.0` versus integer `1` after `JSON.parse`;
+- payload `1.0` versus `1`;
+- `-0.0` versus `0`;
+- some exponent spellings;
+- integers outside JavaScript's exact safe-integer range.
+
+WO-002R therefore leaves canonicalization/hash parity in `HOLD`. It does not change
+the Python reference, narrow the contract, or invent a replacement canonicalization
+standard merely to obtain a passing result. See `docs/conformance.md`.
+
+## Hashing
+
+WO-001 canonical JSON uses recursively sorted keys, compact separators, ASCII
+escapes, and finite numbers under Python's JSON encoding. The initial history hash
+is SHA-256 of empty bytes. Each next hash is SHA-256 of
+`previous_digest_bytes + canonical_event_utf8`.
+
+This commits to the ordered history; it is neither a signature nor evidence that a
+payload claim is true. Where the JavaScript candidate produces exactly the same
+canonical bytes, it reproduces the same history hash.
+
+## Boundaries
+
+The deterministic core performs no filesystem or network I/O and consults no clock,
+randomness, model, environment, or external facts. The JavaScript core likewise uses
+no DOM, filesystem, `process`, Node `Buffer`, Node-only crypto import, or framework
+runtime; it uses browser-standard `TextEncoder` and Web Crypto hashing.
+
+The caller still retains event history. Persistence is intentionally deferred until
+cross-runtime canonical semantics are resolved. Producers remain responsible for the
+truth of verification and recovery observations. Structural conformance does not
+establish semantic correctness.
