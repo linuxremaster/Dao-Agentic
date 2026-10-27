@@ -2,6 +2,8 @@
 
 Status: **CONTRACTION / no candidate selected / no implementation**
 
+Revision: **R1** — corrections from blind audit SOC-THREAD-AUDITOR-001; see §10.
+
 Input state: branch `wo-003b-cross-runtime-contract` at
 `ac4fabec10cd618fca2037751d3d61b65bb71305` (WO-003A). This record changes no
 code, fixture, or evidence file.
@@ -22,6 +24,7 @@ Fixture names refer to `evidence.json` → `observations[].name`.
 | Test suites | Re-run by the author on Python 3.13 / Node 22 (WO-003A recorded Python 3.12.14 / Node v24.19.0). Counts reproduced. Same author, same exposure: re-execution, not independent replication. No CI exists. [OBS] |
 | Browser | `RESULTS.md` states no browser was executed; browser conformance is QUALIFIED. Unchanged here. [OBS] |
 | Standards | RFC 8259 / 7493 / 8785 are cited by WO-003A as anchors; the RFC fetch returned 403 in WO-003A's environment. This record does not treat any RFC as project authority (STANDARD EXISTS ≠ PROJECT AUTHORITY). |
+| Blind audit | SOC-THREAD-AUDITOR-001 (isolated project, memory off, canary `SOCBLIND_A` = UNKNOWN) independently reproduced the native-runtime divergences, the classification counts (baseline 20/18, N 27/11, J 19/19, D 29/9 PASS/HOLD), the 9 shared HOLDs, and the branch diff. Disagreements adopted in R1 (§10). |
 | WO-002R baseline | `docs/conformance.md`: Python reference vs JS candidate mismatch on sequence `1.0`, payload `1.0`, `-0.0`, `1e20`, `9007199254740993`; `9007199254740991` agrees. [OBS] |
 
 ## 2. Audit of WO-003A reasoning
@@ -129,7 +132,7 @@ partly 2.4. HOLD frequency is not a ranking signal.
 | P4 | If lexical/precision identity is load-bearing, raw representation must be preserved before native parsing | **SUPPORTED** |
 | P5 | Lexical spelling SHOULD be part of canonical identity | **HOLD** |
 | P6 | Object ordering must be explicitly specified | **SUPPORTED** |
-| P7 | Duplicate keys / malformed input need an explicit admission rule | **QUALIFIED** |
+| P7 | Duplicate keys / malformed input need an explicit admission rule | **SUPPORTED** (R1) |
 | P8 | Payload semantics should be separable from control/lifecycle identity | **QUALIFIED** |
 | P9 | A payload digest binds bytes without meaning, availability, authenticity or authorization | **SUPPORTED** |
 | P10 | A new canonical representation requires version/migration semantics | **SUPPORTED** |
@@ -188,8 +191,7 @@ partly 2.4. HOLD frequency is not a ranking signal.
   to identical digests; N and D distinguish them. Both behaviors replay
   identically across runtimes.
 - INFERENCE: Both choices are internally consistent. P4 does not imply P5.
-- MISSING PREMISE: any Dao-Agentic consumer (reducer, predicate, verifier,
-  relay) that needs to distinguish `1` from `1.0`. None is shown; the reducer
+- MISSING PREMISE: any existing Dao-Agentic consumer (reducer, predicate) that needs to distinguish `1` from `1.0`. None is shown; the reducer
   ignores payload.
 - DISPOSITION: HOLD.
 
@@ -200,24 +202,25 @@ partly 2.4. HOLD frequency is not a ranking signal.
 - MISSING PREMISE: for the choice of UTF-16 vs code-point order.
 - DISPOSITION: SUPPORTED that it must be specified; choice UNRESOLVED.
 
-### P7 — QUALIFIED
-- OBSERVATION: `duplicate_payload_key`: both natives keep last value and agree;
+### P7 — SUPPORTED (R1; was QUALIFIED)
+- OBSERVATION: `duplicate_payload_key`: both natives keep last value and agree,
+  irreversibly discarding the first value before canonicalization;
   `lone_surrogate`: both natives accept and agree; `nonfinite_literal`: all HOLD.
   N/J/D HOLD the first two via the shared parser.
-- INFERENCE: For the tested pair no cross-runtime *divergence* forces a rule;
-  silent agreed loss (2.8) argues for an explicit rule. A third parser with
-  first-wins or rejection semantics would diverge, but none was tested.
-- MISSING PREMISE: observed divergence from another conforming parser.
-- DISPOSITION: QUALIFIED — need is inferred from information loss, not observed
-  as divergence.
+- INFERENCE: The proposition asserts the need for an explicit rule, not an
+  observed cross-runtime divergence. Observed pre-canonical information loss is
+  sufficient for that need. R0 wrongly required divergence from a third parser.
+- MISSING PREMISE: none for the need. Which policy (reject, last-wins, other)
+  is unresolved; the shared N/J/D rejection is not promoted.
+- DISPOSITION: SUPPORTED.
 
 ### P8 — QUALIFIED
 - OBSERVATION: D separates control envelope from payload digest and replays
   identically; the reducer does not read payload (`core/reducer.py`).
 - INFERENCE: Separation is feasible and matches current reducer behavior.
 - MISSING PREMISE: that predicates/verifiers will never need payload content
-  for lifecycle decisions; the relay harness proposals expect verification
-  against payload content.
+  for lifecycle decisions. (R1: an R0 reference to relay harness proposals was
+  removed; they are outside the issue #6 frozen inputs and do not bear on P8.)
 - DISPOSITION: QUALIFIED — separable at the *identity* layer; not shown
   separable at the *verification* layer.
 
@@ -235,8 +238,10 @@ partly 2.4. HOLD frequency is not a ranking signal.
 - OBSERVATION: Python canonical bytes equal to baseline P: N on 9/38, J on 12/38,
   D on 0/38 fixtures.
 - INFERENCE: Any adoption changes existing history hashes on some or all events,
-  in candidate-dependent, non-obvious patterns. Without an explicit format/version
-  marker a reader cannot tell which canonicalization produced a hash.
+  in candidate-dependent, non-obvious patterns. Without explicit version context
+  a reader cannot tell which canonicalization produced a hash. Where that context
+  lives (inline in the event, or at a history/container/protocol boundary) is
+  not discriminated by this evidence.
 - MISSING PREMISE: none for the requirement; migration *policy* is unresolved.
 - DISPOSITION: SUPPORTED.
 
@@ -282,7 +287,7 @@ partly 2.4. HOLD frequency is not a ranking signal.
 - Obligations: retain raw payload bytes wherever identity must be re-verified;
   any consumer that interprets payload re-encounters the numeric problem (2.4).
 - Falsifiers: a verifier or predicate that needs to compare payload values across
-  runtimes; a transport (e.g. relay copy/paste) that alters whitespace while
+  runtimes; a transport that alters whitespace while
   preserving meaning — D would treat that as a different event. [INF]
 
 ## 5. Identity-layer boundary assessment
@@ -308,13 +313,16 @@ or is a definitional property:
    Ordering choice unspecified.
 4. **If precision or lexical identity is load-bearing, it must be captured before
    native parsing** (P4, conditional).
-5. **A canonical-representation change requires an explicit format/version marker**
-   (P10).
+5. **A canonical-representation change requires explicit version/migration
+   semantics** (P10). R1: R0 said "marker"; an inline marker is one option, not
+   established as required.
 6. **A digest binds bytes, not meaning, availability, authenticity or authorization**
    (P9).
+7. **Ambiguous or malformed JSON requires an explicit admission policy** (P7, R1;
+   `duplicate_payload_key`). Policy unspecified.
 
 Not promoted (shared-premise only, per #6 control rule): duplicate-key HOLD,
-lone-surrogate HOLD, depth ≤ 64, safe-range sequence ceiling, UTF-16 ordering,
+lone-surrogate HOLD (the specific policies, as distinct from invariant 7), depth ≤ 64, safe-range sequence ceiling, UTF-16 ordering,
 the `$numeric` namespace. Each remains a candidate policy.
 
 ## 7. Unresolved design choices
@@ -324,17 +332,18 @@ the `$numeric` namespace. Each remains a candidate policy.
 3. Key ordering: UTF-16 or code-point.
 4. Sequence domain: safe-range ceiling, and reject vs normalize `1.0`/`1e0`.
 5. Duplicate keys / lone surrogates: reject, or explicitly specify last-wins.
-6. Version marker form and migration policy for existing WO-001 hashes.
+6. Where version context lives, and migration policy for existing WO-001 hashes.
 7. Whether raw payload bytes must be retained, and where (persistence is out of scope).
-8. Whether relay transport may alter whitespace (affects D). [INF]
+8. Whether any transport may alter payload whitespace (affects D). [INF]
 
 ## 8. Smallest next discriminating experiment
 
 **Required: YES.**
 
 **E1 — consumer-requirement probe (decides choice 1 and 2).** Enumerate every
-existing and currently proposed reader of `payload` (reducer, predicates, the
-relay verification discipline's checks) and, for each, write one fixture in
+**existing** reader of `payload` in the repository (reducer, predicates), plus
+any reader fixed by an explicitly frozen consumer requirement, and, for each,
+write one fixture in
 which two payloads differ only in numeric spelling (`1` vs `1.0`; `0` vs `-0.0`)
 or in whitespace. Record whether the reader's correct output differs.
 - If no reader distinguishes them → P5 REJECT-candidate; N's extra obligation
@@ -342,19 +351,44 @@ or in whitespace. Record whether the reader's correct output differs.
 - If no reader interprets payload at all → D's deferral costs nothing now.
 - If any reader needs the distinction → J falsified for that reader.
 
-No new candidate code is needed; it is a fixture-and-reader inventory.
+No new candidate code is needed. R1 note: E1 is partly an inventory, not a
+purely empirical experiment. Unratified proposed readers are excluded so that
+design intent is not imported as evidence. If no existing reader reads
+payload, E1 shows only that the current code does not need it; a frozen consumer
+requirement is then the remaining premise.
 
 **E2 (secondary, optional) — third-parser divergence.** Run the 38 raw inputs
 plus duplicate-key/surrogate variants through one additional independent JSON
-implementation (non-CPython, non-V8). Converts P7 and the ordering choice from
-inferred to observed, and reduces the 2.6 overfitting exposure.
+implementation (non-CPython, non-V8). Strengthens portability evidence for the admission policy and ordering choice
+(it does not establish P7's basic need, which R1 holds SUPPORTED), and reduces the 2.6 overfitting exposure.
 
 ## 9. Production implementation decision
 
 **PRODUCTION IMPLEMENTATION JUSTIFIED: NO.**
 
-A WO restricted to invariants 1–6 would still have to pick a key ordering, a
-sequence domain and a version marker form, none of which this evidence
+A WO restricted to invariants 1–7 would still have to pick a key ordering, a
+sequence domain, an admission policy and a version-context location, none of which this evidence
 discriminates. No N/J/D selection is justified. The current Python reference
 remains authoritative for single-runtime replay; cross-runtime identity stays
 HOLD as in WO-002R until E1 is run.
+
+
+## 10. Revision R1 — blind-audit corrections
+
+Source: SOC-THREAD-AUDITOR-001 blind audit of R0 (`eb7e191`). Each finding was
+checked against this record and the frozen evidence before adoption.
+
+| Audit finding | R1 change |
+|---|---|
+| P7 under-classified: the need for an admission rule does not require observed cross-runtime divergence | P7 QUALIFIED → **SUPPORTED**; invariant 7 added; E2 no longer claimed to establish P7 |
+| P10 over-promoted to "format/version **marker**" in §6 | Invariant 5 limited to explicit version/migration semantics; location of version context listed as unresolved |
+| Context contamination: P8 and E1 used relay proposals / relay verification discipline, outside issue #6 frozen inputs | References removed from P5, P8, §4 D and §7; P8 disposition unchanged (QUALIFIED) |
+| E1 partly an inventory; "currently proposed" readers import unratified intent | E1 restricted to existing readers or an explicitly frozen consumer requirement |
+| P9 relies on the standard SHA-256 collision-resistance assumption, not proven experimentally | Noted; P9 unchanged |
+
+Unchanged by the audit: P1–P6, P8–P13 dispositions; no N/J/D selection;
+production implementation NO; new discriminating evidence YES.
+
+Independence note: the author of R1 is the author of R0. The corrections come
+from an independent auditor; their application here is not independently
+re-audited.
