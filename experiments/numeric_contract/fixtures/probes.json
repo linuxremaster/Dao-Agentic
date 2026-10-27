@@ -1,0 +1,253 @@
+{
+  "scope": "WO-003A only; raw_event_json is source evidence, never preparse natively",
+  "probes": [
+    {
+      "name": "sequence_one",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "sequence_lexical_float",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1.0,\"kind\":\"TASK_ADMITTED\",\"payload\":{}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "sequence_safe_max",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":9007199254740991,\"kind\":\"TASK_ADMITTED\",\"payload\":{}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "sequence_above_safe",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":9007199254740992,\"kind\":\"TASK_ADMITTED\",\"payload\":{}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "payload_integer",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":42}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "payload_dyadic",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1.5}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "payload_lexical_one",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1.0}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "payload_integer_one",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "payload_negative_zero",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":-0.0}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "payload_zero",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":0}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "payload_exponent",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1e20}}",
+      "hold_candidates": [
+        "J"
+      ]
+    },
+    {
+      "name": "payload_unsafe_integer",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":9007199254740993}}",
+      "hold_candidates": [
+        "J"
+      ]
+    },
+    {
+      "name": "payload_high_precision",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1.0000000000000000000001}}",
+      "hold_candidates": [
+        "J"
+      ]
+    },
+    {
+      "name": "payload_nested",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"values\":[42,1.5,{\"large\":9007199254740993,\"precise\":1.0000000000000000000001}]}}",
+      "hold_candidates": [
+        "J"
+      ]
+    },
+    {
+      "name": "payload_unicode",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1.5,\"text\":\"\u00e9 \ud83d\ude00 \u4e2d\",\"\ue000\":42,\"\ud800\udc00\":1}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "raw_lexical_a",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{ \"value\" : 1e0 }}",
+      "hold_candidates": []
+    },
+    {
+      "name": "raw_lexical_b",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1.00}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "payload_inexact_tenth",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":0.1}}",
+      "hold_candidates": [
+        "J"
+      ]
+    },
+    {
+      "name": "payload_exact_small",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":0.0001220703125}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "payload_subnormal",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":5e-324}}",
+      "hold_candidates": [
+        "J"
+      ]
+    },
+    {
+      "name": "payload_overflow",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1e400}}",
+      "hold_candidates": [
+        "J"
+      ]
+    },
+    {
+      "name": "payload_safe_max",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":9007199254740991}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "explicit_integer",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":{\"$numeric\":{\"kind\":\"integer\",\"text\":\"9007199254740993\"}}}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "explicit_decimal",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":{\"$numeric\":{\"kind\":\"decimal\",\"text\":\"1.0000000000000000000001\"}}}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "explicit_nested",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"values\":[{\"$numeric\":{\"kind\":\"decimal\",\"text\":\"-0.0\"}},{\"deep\":{\"$numeric\":{\"kind\":\"integer\",\"text\":\"9007199254740993\"}}}]}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "reserved_tag_collision",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"$numeric\":\"ordinary user data\"}}",
+      "hold_candidates": [
+        "N",
+        "J"
+      ]
+    },
+    {
+      "name": "duplicate_payload_key",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1,\"value\":2}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "sequence_boolean",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":true,\"kind\":\"TASK_ADMITTED\",\"payload\":{}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "sequence_zero",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":0,\"kind\":\"TASK_ADMITTED\",\"payload\":{}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "sequence_negative",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":-1,\"kind\":\"TASK_ADMITTED\",\"payload\":{}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "sequence_exponent",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1e0,\"kind\":\"TASK_ADMITTED\",\"payload\":{}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "lone_surrogate",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"text\":\"\\ud800\",\"value\":1}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "nonfinite_literal",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":NaN}}",
+      "hold_candidates": [
+        "N",
+        "J",
+        "D"
+      ]
+    },
+    {
+      "name": "proto_key",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"__proto__\":{\"value\":1.0}}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "long_exact_spelling",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":1.500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "unicode_key_order_minimal",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"\\ue000\":0,\"\\ud800\\udc00\":0}}",
+      "hold_candidates": []
+    },
+    {
+      "name": "explicit_tag_trailing_newline",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":{\"$numeric\":{\"kind\":\"decimal\",\"text\":\"1\\n\"}}}}",
+      "hold_candidates": [
+        "N",
+        "J"
+      ]
+    },
+    {
+      "name": "payload_exact_binary64_outside_subset",
+      "raw_event_json": "{\"event_id\":\"n1\",\"sequence\":1,\"kind\":\"TASK_ADMITTED\",\"payload\":{\"value\":0.1000000000000000055511151231257827021181583404541015625}}",
+      "hold_candidates": [
+        "J"
+      ]
+    }
+  ]
+}
