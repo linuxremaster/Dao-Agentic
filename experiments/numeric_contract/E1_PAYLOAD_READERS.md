@@ -2,8 +2,9 @@
 
 Status: **INVENTORY / no candidate selected / no implementation**
 
-Revision: **R1**. Corrects the central conclusion after blind audit `AUDIT-RESULT-003C-001`
-(verdict DISPUTED). See §9. R0 was commit `89fba452`.
+Revision: **R2**. R1 corrected the central conclusion after blind audit
+`AUDIT-RESULT-003C-001`; R2 corrects one evidence class after review
+`AUDIT-RESULT-003C-002`. See §9–§10. R0 `89fba452`, R1 `8ef2cc0b`.
 
 Work order: issue #8 (author `linuxremaster`). Baseline: `main` at
 `17af45699a2a597bde75dc81347bdb5b35cfea52`. Branch: `wo-003c-payload-reader-inventory`.
@@ -125,8 +126,9 @@ which **new** representation (N, J or D) should replace it.
 - [PROPOSED] WO-002 journal byte requirement, CONTRACTION.md propositions, all relay
   material.
 - Existing-reader requirement (issue #8 OBJECTIVE path 1; R1): payload **parsed/canonical
-  value** is history-identity-bearing (R1→R2, R3→R4), independent of key order (T1) and
-  of source whitespace (readers receive parsed objects).
+  value** is history-identity-bearing (R1→R2, R3→R4), independent of key order (T1).
+  Source whitespace also never reaches the readers (they receive parsed objects), but that
+  is **behavior**; no test or frozen requirement pins it (R2).
 - [MISSING] Nothing establishes, consistently across the existing readers or by authority,
   whether payload numeric **spelling**, numeric **type** (`1` vs `1.0`) or sign of zero, or
   **source bytes**, are identity-bearing in a cross-runtime representation.
@@ -144,8 +146,9 @@ What the existing readers establish:
   R1 and R3 recursively validate the parsed payload and serialize it into canonical bytes.
   R2 and R4 commit those bytes to `history_hash`. Predicates still do not use payload to
   select transitions.
-- **That identity ignores payload key order and source whitespace.** T1 pins key-order
-  insensitivity. The readers receive parsed objects, so source whitespace never reaches them.
+- **That identity ignores payload key order.** T1 pins key-order insensitivity.
+  (Source whitespace never reaches the readers either, because they receive parsed objects.
+  That is current **behavior**; no test or frozen requirement pins it. R2.)
 
 What they do **not** establish:
 
@@ -155,13 +158,18 @@ What they do **not** establish:
   so the existing readers disagree on exactly these properties. They cannot establish
   them as a requirement either way. [MISSING]
 
-Bearing on N/J/D [OBS, executed in this session; added by the builder after the audit and
-not yet audited]: for the same event with payload `{"a":1,"b":2}`, then `{"b":2,"a":1}`,
-then `{"a": 1, "b": 2}`, the event hash is unchanged under P, N and J, and changes under D
-for both key order and whitespace. D's payload digest is over the exact source substring
-(WO-003A design). **D therefore conflicts with the existing key-order/whitespace-insensitive
-payload identity.** N and J do not conflict on that property. The existing readers do not
-separate N from J (previous bullet).
+Bearing on N/J/D [OBS, executed by the builder; reproduced by AUDIT-RESULT-003C-002]: for
+the same event with payload `{"a":1,"b":2}`, then `{"b":2,"a":1}`, then `{"a": 1, "b": 2}`,
+the event hash is unchanged under P, N and J, and changes under D for both key order and
+whitespace. D's payload digest is over the exact source substring (WO-003A design).
+
+| D property | Classification (R2) | Basis |
+|---|---|---|
+| Key order changes D identity | **REQUIREMENT CONFLICT** | T1 (`tests/test_reducer.py::test_canonical_payload_order`) pins key-order-invariant history hashes |
+| Source whitespace changes D identity | **BEHAVIOR DIFFERENCE** | Current readers never see whitespace; no test or frozen requirement establishes whitespace equivalence |
+
+N and J match current behavior on both. The existing readers do not separate N from J
+(previous bullet).
 
 - F1 rules out silently changing the **existing** WO-001 hashes, which all of N, J and D
   would change (WO-003A: Python bytes equal P on N 9/38, J 12/38, D 0/38 probes). That is
@@ -202,15 +210,15 @@ flips. Per issue #8's file restriction this record does not edit `CONTRACTION.md
 4. **R1 vs R3 int/float behavior.** R1 distinguishes `1` from `1.0` and `-0.0` from `0`;
    R3 does not. The existing readers disagree, and no requirement says which is intended.
    [MISSING]
-5. **The D conflict is builder-observed after the audit** and has not been independently
-   checked.
+5. **Whitespace equivalence is unpinned.** It is current behavior only. Whether it should
+   be a requirement is an operator decision, not established here. [MISSING]
 
 ## 8. Effect on N/J/D and whether another experiment is justified
 
 - **N / J / D: HOLD.** Every candidate changes some current identity behavior (F1, P10),
   so the existing-reader requirement does not select a replacement.
-  - **D:** carries a recorded conflict with existing key-order/whitespace-insensitive
-    payload identity (§5, unaudited).
+  - **D:** a REQUIREMENT CONFLICT on key order (T1) and a BEHAVIOR DIFFERENCE on source
+    whitespace (§5).
   - **N vs J:** not discriminated, because the existing readers disagree on int/float and
     sign of zero.
   - No candidate is promoted (issue #8 DO NOT).
@@ -232,6 +240,19 @@ findings.
 | F3: PR #1 does not satisfy the AUTHORITY RULE as written | F3 marked not frozen (§4, §7) |
 | N/J/D remain HOLD, no further experiment | Unchanged |
 
-Builder addition, not from the audit and **not audited**: the executed key-order/whitespace
-check and the resulting D conflict (§5). The author of R1 is the author of R0. R1 needs
-review before merge.
+Builder addition in R1, not from the audit: the executed key-order/whitespace check and
+the resulting D classification (§5). It was reviewed in R2 (§10). The author of R1 and R2
+is the author of R0.
+
+## 10. Revision R2: correction-review fix
+
+Source: `AUDIT-RESULT-003C-002` (review of R1; verdict DISPUTED). It confirmed the R1
+authority-path, wording and F3 fixes, and reproduced the D check.
+
+| Review finding | R2 change |
+|---|---|
+| D key order: REQUIREMENT CONFLICT (T1) | Kept, now stated alone (§5, §8) |
+| D whitespace: BEHAVIOR DIFFERENCE, not a requirement conflict; R1 §5 and §8 grouped it with key order | Split out and reclassified in §4, §5 and §8; whitespace equivalence added to §7 as [MISSING] |
+| N/J/D HOLD; no promotion; no experiment | Unchanged |
+
+Requested by: GPT-AUDITOR, message `AUDIT-RESULT-003C-002` (self-declared sender).
