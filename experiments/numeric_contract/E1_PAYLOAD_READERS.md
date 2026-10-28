@@ -2,6 +2,9 @@
 
 Status: **INVENTORY / no candidate selected / no implementation**
 
+Revision: **R1**. Corrects the central conclusion after blind audit `AUDIT-RESULT-003C-001`
+(verdict DISPUTED). See §9. R0 was commit `89fba452`.
+
 Work order: issue #8 (author `linuxremaster`). Baseline: `main` at
 `17af45699a2a597bde75dc81347bdb5b35cfea52`. Branch: `wo-003c-payload-reader-inventory`.
 Author: CLAUDE-BUILDER (claude.ai/code session). **Not independent:** the author wrote
@@ -117,30 +120,57 @@ which **new** representation (N, J or D) should replace it.
   resulting bytes to `history_hash`. None consumes source spelling or source bytes.
 - [READER] tests T1–T4: key-order insensitivity, content sensitivity, rejection of
   non-JSON values, exact hashes for representable cases.
-- [FROZEN] F1, F2. F3 unresolved (PR vs issue).
+- [FROZEN] F1, F2. F3 **not frozen**: under issue #8's AUTHORITY RULE as written, PR #1 is not
+  "a WO issue" (R1; it was left unresolved in R0).
 - [PROPOSED] WO-002 journal byte requirement, CONTRACTION.md propositions, all relay
   material.
-- [MISSING] No authoritative requirement states whether payload numeric **spelling**,
-  numeric **type** (`1` vs `1.0`), sign of zero, or **source bytes** are identity-bearing in
-  a cross-runtime representation.
+- Existing-reader requirement (issue #8 OBJECTIVE path 1; R1): payload **parsed/canonical
+  value** is history-identity-bearing (R1→R2, R3→R4), independent of key order (T1) and
+  of source whitespace (readers receive parsed objects).
+- [MISSING] Nothing establishes, consistently across the existing readers or by authority,
+  whether payload numeric **spelling**, numeric **type** (`1` vs `1.0`) or sign of zero, or
+  **source bytes**, are identity-bearing in a cross-runtime representation.
 
 ## 5. Discriminating requirement
 
-**None found.**
+**YES, limited to existing parsed/canonical-value dependence (R1).** R0 said "None found".
+That applied the AUTHORITY RULE, which governs only issue #8's path 2 (consumer
+requirements), to path 1 (existing payload readers). Issue #8 lets an existing reader
+establish a requirement on its own.
 
-- N vs J (spelling/type preserved vs value-normalized): no reader or frozen requirement
-  needs spelling. R1's int/float and `-0.0` distinctions are **current behavior**. No
-  WO issue names them as a requirement. [MISSING]
-- J vs D (payload value interpreted vs opaque bytes): no production reader interprets
-  payload values, so nothing needs a cross-runtime payload *value*. Nothing needs source
-  bytes either. [MISSING]
+What the existing readers establish:
+
+- **Payload is part of history identity through its parsed, canonicalized value.**
+  R1 and R3 recursively validate the parsed payload and serialize it into canonical bytes.
+  R2 and R4 commit those bytes to `history_hash`. Predicates still do not use payload to
+  select transitions.
+- **That identity ignores payload key order and source whitespace.** T1 pins key-order
+  insensitivity. The readers receive parsed objects, so source whitespace never reaches them.
+
+What they do **not** establish:
+
+- **Original lexical spelling or original source bytes.** No production reader consumes
+  either.
+- **The `1` vs `1.0` and `-0.0` vs `0` distinctions.** R1 keeps them and R3 does not (§2.1),
+  so the existing readers disagree on exactly these properties. They cannot establish
+  them as a requirement either way. [MISSING]
+
+Bearing on N/J/D [OBS, executed in this session; added by the builder after the audit and
+not yet audited]: for the same event with payload `{"a":1,"b":2}`, then `{"b":2,"a":1}`,
+then `{"a": 1, "b": 2}`, the event hash is unchanged under P, N and J, and changes under D
+for both key order and whitespace. D's payload digest is over the exact source substring
+(WO-003A design). **D therefore conflicts with the existing key-order/whitespace-insensitive
+payload identity.** N and J do not conflict on that property. The existing readers do not
+separate N from J (previous bullet).
+
 - F1 rules out silently changing the **existing** WO-001 hashes, which all of N, J and D
   would change (WO-003A: Python bytes equal P on N 9/38, J 12/38, D 0/38 probes). That is
   WO-003B P10 (versioning), not a discriminator among candidates. Versioning and migration
   policy are out of scope here (issue #8 DO NOT).
 
-No fixtures were added. DO item 5 permits them only when an authoritative requirement needs
-them, and none was found.
+No fixtures were added. The executed check above used the existing WO-003A candidate code
+in memory; no file was written. Existing fixtures already expose the int/float and sign-of-zero
+divergence, and DO item 5 permits new fixtures only when existing evidence cannot answer.
 
 ## 6. Correction to a WO-003B premise
 
@@ -159,27 +189,49 @@ flips. Per issue #8's file restriction this record does not edit `CONTRACTION.md
 
 ## 7. Remaining uncertainty
 
-1. **F3 authority.** WO-001 exists on GitHub only as PR #1. Whether it counts as a "WO
-   issue" is an operator decision.
+1. **F3 authority.** WO-001 exists on GitHub only as PR #1, which does not satisfy the
+   AUTHORITY RULE as written (R1). Counting it would take an operator amendment to the rule.
 2. **Authorship is not authentication.** [READER-adjacent observation] PR #7 was opened
    by CLAUDE-BUILDER through this session's GitHub credential, yet GitHub lists its author
    as `linuxremaster`. The AUTHORITY RULE's "authored by `linuxremaster`" test therefore
    cannot, by itself, tell operator-written work orders from builder-written ones. Every
    issue #1–#8 shows the same author. DECLARED SENDER != AUTHENTICATED SENDER.
 3. **Scope limits.** Only in-repository readers were inventoried. Future readers (relay
-   ingress, verifiers, persistence) are excluded by rule. The finding "none requires
-   spelling, bytes or value" holds for the baseline only.
-4. **R1 int/float behavior.** R1 distinguishes `1` from `1.0` and `-0.0` from `0.0`. No
-   requirement says whether that is intended semantics or incidental Python behavior.
+   ingress, verifiers, persistence) are excluded by rule. The finding "no reader consumes
+   original spelling or source bytes" holds for the baseline only.
+4. **R1 vs R3 int/float behavior.** R1 distinguishes `1` from `1.0` and `-0.0` from `0`;
+   R3 does not. The existing readers disagree, and no requirement says which is intended.
    [MISSING]
+5. **The D conflict is builder-observed after the audit** and has not been independently
+   checked.
 
 ## 8. Effect on N/J/D and whether another experiment is justified
 
-- **N / J / D: HOLD (unchanged).** E1 found no authoritative requirement that discriminates
-  among them. Per issue #8 DO NOT, no candidate is promoted because no reader needs a
-  competing property.
-- **Another experiment: NO.** The missing premise is a **requirement decision**, not an
-  observation another experiment can make. Further fixtures would test candidates against
-  a requirement nobody has stated. The next discriminating step is for the operator to
-  decide, in a WO issue, whether payload numeric type, spelling or source bytes are
+- **N / J / D: HOLD.** Every candidate changes some current identity behavior (F1, P10),
+  so the existing-reader requirement does not select a replacement.
+  - **D:** carries a recorded conflict with existing key-order/whitespace-insensitive
+    payload identity (§5, unaudited).
+  - **N vs J:** not discriminated, because the existing readers disagree on int/float and
+    sign of zero.
+  - No candidate is promoted (issue #8 DO NOT).
+- **Another experiment: NO.** The divergences that matter are already exposed by existing
+  fixtures and the executed check. What remains is normative: an operator decision, in a
+  WO issue, on whether numeric type, sign of zero, spelling or source bytes are
   identity-bearing in a cross-runtime representation, or to leave that HOLD.
+
+## 9. Revision R1: blind-audit corrections
+
+Source: `AUDIT-RESULT-003C-001` (GPT-AUDITOR-002, canary `SOCBLIND_C` = UNKNOWN; its own
+inventory recorded before it read R0). Verdict: DISPUTED. Diff scope and inventory: no
+findings.
+
+| Audit finding | R1 change |
+|---|---|
+| R0 applied the AUTHORITY RULE (path 2) to existing readers (path 1) | §5 now **YES**, limited to parsed/canonical-value dependence; §4 records it as an existing-reader requirement |
+| "No production reader interprets payload values" overstated | Replaced. R1/R3 validate and serialize parsed values. Only original spelling and source bytes are unconsumed. |
+| F3: PR #1 does not satisfy the AUTHORITY RULE as written | F3 marked not frozen (§4, §7) |
+| N/J/D remain HOLD, no further experiment | Unchanged |
+
+Builder addition, not from the audit and **not audited**: the executed key-order/whitespace
+check and the resulting D conflict (§5). The author of R1 is the author of R0. R1 needs
+review before merge.
