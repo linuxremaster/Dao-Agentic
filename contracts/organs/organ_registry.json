@@ -1,0 +1,1200 @@
+{
+  "registry_version": "0.1.1",
+  "status": "PROPOSED_NON_CANONICAL",
+  "authority": "NON_AUTHORITATIVE",
+  "work_order": "WO-004 Phase A",
+  "source": {
+    "registry": "contracts/organs/source/SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json",
+    "registry_sha256": "783c825d22a752fd8312b8dd92a41c1849bdf8301e1ffd2071bff2fe0eacb949",
+    "harness_spec": "SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md",
+    "harness_spec_sha256": "07a97946e62aed2af79fa02af4639e49575cdb3f807e46fccb7fe52f0f54fc5d"
+  },
+  "status_vocabulary": [
+    "REPRODUCED_EXECUTABLE",
+    "INHERITED_REPRODUCED",
+    "SOURCE_REPORTED_EXISTING",
+    "SPECIFIED_IMPLEMENTATION_READY",
+    "PENDING_INTEGRATION",
+    "PROPOSED_CONCEPT",
+    "BLOCKED_OPEN_QUESTION"
+  ],
+  "access_class_vocabulary": [
+    "ACTOR_CALLABLE",
+    "HARNESS_INTERNAL",
+    "EVALUATOR_ONLY",
+    "EFFECTOR_BOUNDARY",
+    "UNSPECIFIED"
+  ],
+  "contract_fields": [
+    "organ_id",
+    "organ_version",
+    "implementation_status",
+    "purpose",
+    "trigger",
+    "accepted_input_types",
+    "required_input_grades",
+    "deterministic_output_types",
+    "side_effect_class",
+    "invariants",
+    "dependencies",
+    "authority_requirement",
+    "failure_modes",
+    "tests",
+    "stop_condition",
+    "trace_fields",
+    "access_class",
+    "runtime_stage",
+    "evidence_refs"
+  ],
+  "runtime_stage_basis": "Builder mapping of harness spec section 7.1 runtime groups to organs [INF]. OFFLINE = outside the per-action run loop.",
+  "substrates": [
+    {
+      "substrate_id": "S00_DETERMINISTIC_CONTROL_SPINE",
+      "name": "Deterministic control spine (WO-001 reference + WO-002R JS candidate)",
+      "class": "substrate",
+      "implementation_status": "REPRODUCED_EXECUTABLE",
+      "purpose": "Strict event admission, lifecycle predicates, pure reducer, replay and history hash. Shared substrate, not an ordinary organ.",
+      "evidence_refs": [
+        "repo linuxremaster/Dao-Agentic main 99819723727259d5b613ad916968e3e687f54ab6: core/, js/core/",
+        "tests re-run 2026-10-30 by CLAUDE-BUILDER (DEGRADED independence: same builder): python -m unittest discover -s tests -> OK; node --test js/tests/*.test.js -> 19/19 pass",
+        "experiments/numeric_contract/E1_PAYLOAD_READERS.md: payload does not select lifecycle transitions but IS part of history identity"
+      ],
+      "notes": "Was represented inside O03 in v0.1 as SOURCE_REPORTED_EXISTING. Cross-runtime identity remains HOLD (WO-003B/WO-003C)."
+    },
+    {
+      "substrate_id": "S01_EVENT_SUBSTRATE",
+      "name": "Primitive append-only event substrate (proposed)",
+      "class": "substrate",
+      "implementation_status": "PROPOSED_CONCEPT",
+      "purpose": "One minimal append-only event record beneath effect verification, ARC, trace and telemetry, so those become views rather than competing truth stores.",
+      "evidence_refs": [
+        "SOC-THREAD-051 MISSING_PIECES.md item 8 (O12/O14 ordering defect and proposed repair)",
+        "SOC-THREAD-066 audit of the 051 corpus (endorses the repair)",
+        "harness spec section 20 item 5 (canonical event substrate unresolved)"
+      ],
+      "notes": "Wire format and persistence intentionally unchosen. Must carry payload as history-identity-bearing (E1)."
+    }
+  ],
+  "organs": [
+    {
+      "organ_id": "O00_SCENARIO_ORACLE",
+      "name": "Scenario / Oracle",
+      "class": "simulation_infrastructure",
+      "organ_version": "0.1.1",
+      "implementation_status": "PROPOSED_CONCEPT",
+      "implementation_note": "not implemented in audited corpus; required new harness substrate",
+      "purpose": "Own simulation truth, permitted observations, fault injection, logical time, and deterministic environment effects. The actor MUST NOT own the oracle.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "scenario_spec",
+        "ground_truth",
+        "exposure_policy",
+        "authority_contract",
+        "logical_clock",
+        "fault_schedule"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "exposed_observation",
+        "oracle_label",
+        "simulated_environment_effect",
+        "expected_invariant_result"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "actor_cannot_read_hidden_ground_truth",
+        "same frozen scenario plus same actor proposal yields same environment result",
+        "ground_truth_is_not_project_authority"
+      ],
+      "dependencies": [],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "oracle leakage",
+        "ambiguous expected behavior",
+        "scenario encodes desired conclusion",
+        "non-deterministic environment transition"
+      ],
+      "tests": [
+        "hidden-state leakage test",
+        "replay equivalence",
+        "oracle-label review",
+        "counterfactual fixture"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "EVALUATOR_ONLY",
+      "runtime_stage": 1,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O01_CONTRACT_AUTHORITY",
+      "name": "External Contract / Authority Boundary",
+      "class": "control",
+      "organ_version": "0.1.1",
+      "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
+      "implementation_note": "strongly specified by Wu Wei / temporal topology; project-specific runtime implementation not reproduced in current ZIP",
+      "purpose": "Make objectives, invariants, permitted actions/probes, consequence classes, validity bounds, recovery rules, and scoped authority externally declared rather than model-defined.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "objective",
+        "invariants",
+        "authority_rules",
+        "validity_bounds",
+        "permitted_actions",
+        "permitted_probes",
+        "recovery_rules",
+        "consequence_classes",
+        "task_scope"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "authority_state",
+        "permitted_action_set",
+        "required_approval",
+        "deny_reason",
+        "expiry_state"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "artifact_content_is_not_authority",
+        "model_estimate_is_not_authority",
+        "approval_is_time_local",
+        "authority_cannot_self_expand"
+      ],
+      "dependencies": [
+        "O02_EVIDENCE_PROVENANCE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "stale approval",
+        "scope aliasing",
+        "self-authorization",
+        "authority inferred from identity"
+      ],
+      "tests": [
+        "expired-privilege test",
+        "scope-boundary test",
+        "identity-not-authority test",
+        "missing-authority HOLD test"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 2,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O02_EVIDENCE_PROVENANCE",
+      "name": "Evidence Snapshot / Provenance",
+      "class": "sensory_integrity",
+      "organ_version": "0.1.1",
+      "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
+      "implementation_note": "specified across Micro-Probe-compatible work, ARC, RC2 and relay methodology; no unified implementation in current ZIP",
+      "purpose": "Preserve what evidence existed at decision time, how it was typed, where it came from, what remained missing, and whether claimed independence is actually established.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "claims",
+        "sources",
+        "writer_class",
+        "epistemic_grade",
+        "provenance",
+        "decision_time"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "typed_evidence_snapshot",
+        "missing_evidence_set",
+        "provenance_break_flag",
+        "independence_status_or_unknown"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "unknown_must_not_become_verified",
+        "repetition_is_not_independent_verification",
+        "missing_evidence_is_not_negative_evidence",
+        "decision_time_evidence_is_preserved"
+      ],
+      "dependencies": [],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "silent provenance upgrade",
+        "summary substituted for primary anchor",
+        "independence inferred from actor labels",
+        "later evidence rewrites prior decision state"
+      ],
+      "tests": [
+        "provenance-loss test",
+        "duplicate-source test",
+        "decision-time freeze test",
+        "missing-evidence test"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 2,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O03_COORDINATION_LIFECYCLE",
+      "name": "Coordination / Relay Lifecycle",
+      "class": "coordination",
+      "organ_version": "0.1.1",
+      "implementation_status": "PENDING_INTEGRATION",
+      "implementation_note": "v0.1.1: spine moved to substrate S00; O03 is the coordination/relay projection over it.",
+      "purpose": "Maintain deterministic workflow/lifecycle state without trusting payload narration.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "event",
+        "current_state",
+        "event_identity",
+        "allowed_transition_set",
+        "history"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "admit_or_reject",
+        "next_state",
+        "duplicate_flag",
+        "transition_receipt",
+        "waiting_state_if_supported"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "created_ne_delivered_ne_read_ne_acted_ne_verified",
+        "payload_claims_do_not_select_lifecycle_transition",
+        "history_is_append_only",
+        "duplicate_event_id_does_not_imply_external_idempotence"
+      ],
+      "dependencies": [
+        "S00_DETERMINISTIC_CONTROL_SPINE",
+        "O01_CONTRACT_AUTHORITY",
+        "O02_EVIDENCE_PROVENANCE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "duplicate execution",
+        "illegal transition",
+        "false delivery/read inference",
+        "WAIT semantics conflated with reducer state"
+      ],
+      "tests": [
+        "transition-table test",
+        "duplicate-admission test",
+        "relay-status separation test",
+        "WAIT semantic compatibility test"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 3,
+      "evidence_refs": [
+        "Drive relay bus protocol v0.1 + Addendum A (operational, not implemented as code)"
+      ]
+    },
+    {
+      "organ_id": "O04_FRICTION_PROBE",
+      "name": "Agentic Friction Probe & Register",
+      "class": "diagnostic",
+      "organ_version": "0.1.1",
+      "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
+      "implementation_note": "v0.1 specification only; strongest implementation-ready new organ in SOC-THREAD-64-66",
+      "purpose": "Deterministically detect mechanically observable orchestration friction from a frozen evidence packet without becoming policy authority.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "frozen_D0_evidence_packet",
+        "probe_catalog",
+        "friction_invariants"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "HIT",
+        "NO_HIT",
+        "NOT_RUN_MISSING_EVIDENCE",
+        "coalesced_friction_event",
+        "friction_register",
+        "advisory_disposition"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "missing_evidence_ne_NO_HIT",
+        "coalesce_only_by_overlap_group_and_locus",
+        "labels_are_not_votes",
+        "ACT_ONCE_is_one_shot",
+        "probe_core_has_no_IO_clock_randomness_or_LLM"
+      ],
+      "dependencies": [
+        "O02_EVIDENCE_PROVENANCE",
+        "O03_COORDINATION_LIFECYCLE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "false HIT from incomplete packet",
+        "missing evidence collapsed to clean result",
+        "label multiplicity amplifies intervention",
+        "probe becomes authority"
+      ],
+      "tests": [
+        "probe fixtures",
+        "reducer fixtures",
+        "negative controls",
+        "projection check",
+        "release inventory/digest check",
+        "correction regression"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 3,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O05_BFP",
+      "name": "Behavioral Fingerprint Instrument v0.2.1",
+      "class": "measurement",
+      "organ_version": "0.1.1",
+      "implementation_status": "REPRODUCED_EXECUTABLE",
+      "implementation_note": "directly executed in latest audit; PASS under release→tests→release and tests→release",
+      "purpose": "Provide descriptive longitudinal behavioral measurement without claiming identity, persona, hidden-state cause, or authority.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "observation_set",
+        "model_configuration_facts",
+        "exposure_facts",
+        "suite_digest"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "behavioral_fingerprint_vector",
+        "drift_comparison",
+        "release_check_result"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "measurement_does_not_establish_identity_or_cause",
+        "rejected_runs_are_preserved",
+        "release_cleanliness_is_not_authority"
+      ],
+      "dependencies": [
+        "O02_EVIDENCE_PROVENANCE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "fingerprint overinterpreted as persona",
+        "selection bias",
+        "baseline drift",
+        "release pollution"
+      ],
+      "tests": [
+        "test_bfp.py",
+        "pre_test_release_check",
+        "post_test_release_check",
+        "negative controls"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": "OFFLINE",
+      "evidence_refs": [
+        "BFP v0.2.1 test suite PASS in SOC-THREAD-64-66 audit; implementation bytes not in this repository"
+      ]
+    },
+    {
+      "organ_id": "O06_CANARY_DRIFT",
+      "name": "Canary / Drift Ledger",
+      "class": "measurement",
+      "organ_version": "0.1.1",
+      "implementation_status": "PROPOSED_CONCEPT",
+      "implementation_note": "proposed in MODEL_FAILURES; not implemented in current corpus",
+      "purpose": "Run matched, hash-bound contrast tests and preserve baseline changes explicitly over time.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "hash_bound_canary_spec",
+        "baseline",
+        "current_run",
+        "comparison_rule"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "matched_contrast_result",
+        "baseline_delta",
+        "append_only_drift_event"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "baseline_changes_are_events",
+        "canary_result_is_not_authority",
+        "incomparable_runs_do_not_silently_compare"
+      ],
+      "dependencies": [
+        "O02_EVIDENCE_PROVENANCE",
+        "O14_TRACE_TELEMETRY"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "silent baseline replacement",
+        "prompt leakage",
+        "incomparable environment",
+        "canary overfitting"
+      ],
+      "tests": [
+        "baseline mutation test",
+        "incomparability test",
+        "repeatability test",
+        "exposure-control test"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": "OFFLINE",
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O07_VERIFICATION_ROUTER",
+      "name": "Mechanical Verification / Semantic-Verification Router",
+      "class": "verification",
+      "organ_version": "0.1.1",
+      "implementation_status": "PENDING_INTEGRATION",
+      "implementation_note": "mechanical checker pattern is established; unified semantic-routing policy is incomplete; DERIVATION premise provenance remains open",
+      "purpose": "Deterministically perform checks that are actually mechanical and route claims requiring semantic review without laundering structural validity into truth.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "claim",
+        "evidence_snapshot",
+        "claim_type",
+        "checkable_contract",
+        "verification_requirement"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "mechanical_PASS",
+        "mechanical_FAIL",
+        "SEMANTIC_REVIEW_REQUIRED",
+        "MISSING_EVIDENCE",
+        "DEGRADED_INDEPENDENCE"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "mechanical_PASS_does_not_equal_semantic_truth",
+        "verifier_identity_difference_does_not_prove_independence",
+        "SOURCE_CHECK_and_DERIVATION_require_explicit_premise_policy"
+      ],
+      "dependencies": [
+        "O02_EVIDENCE_PROVENANCE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "structural validity laundered into truth",
+        "self-verification",
+        "DERIVATION premise laundering",
+        "checker scope overstated"
+      ],
+      "tests": [
+        "known-valid fixture",
+        "known-invalid fixture",
+        "semantic-needed fixture",
+        "shared-premise independence fixture",
+        "DERIVATION premise mutation"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 3,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O08_CHALLENGE_RESEARCH_ROUTER",
+      "name": "Challenge-to-Evidence / Research Router",
+      "class": "epistemic_routing",
+      "organ_version": "0.1.1",
+      "implementation_status": "PROPOSED_CONCEPT",
+      "implementation_note": "new synthesis grounded in RC2 SEEK_DISCRIMINATING_EVIDENCE + RESEARCH and current project discussion; not implemented",
+      "purpose": "Convert a material challenge or UNKNOWN into the smallest productive evidence-bearing route rather than defaulting to fabricated certainty, dead-end abstention, or unlimited research.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "challenge",
+        "claim",
+        "materiality",
+        "current_evidence",
+        "contradictions",
+        "decision_consequence",
+        "scope",
+        "cost_budget"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "NO_RESEARCH_REQUIRED",
+        "VERIFY",
+        "GENERATE",
+        "DECIDE",
+        "OUT_OF_SCOPE",
+        "UNSAFE_UNRESOLVED",
+        "stop_condition",
+        "discriminating_evidence_request"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "UNKNOWN_is_not_terminal_by_default",
+        "challenge_is_not_virtue",
+        "disagreement_is_not_independence",
+        "research_is_decision_bounded",
+        "no_recursive_unbounded_research"
+      ],
+      "dependencies": [
+        "O02_EVIDENCE_PROVENANCE",
+        "O07_VERIFICATION_ROUTER"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "dead_end_UNKNOWN",
+        "performative skepticism",
+        "research explosion",
+        "normative question misrouted as empirical",
+        "irrelevant uncertainty consumes budget"
+      ],
+      "tests": [
+        "resolvable_UNKNOWN_to_VERIFY",
+        "missing_experiment_to_GENERATE",
+        "normative_conflict_to_DECIDE",
+        "irrelevant_UNKNOWN_to_LET_RUN",
+        "research_stop_rule"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 3,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O09_WU_WEI_TEMPORAL",
+      "name": "Wu Wei / Temporal Effective Topology Supervisor",
+      "class": "supervisory_control",
+      "organ_version": "0.1.1",
+      "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
+      "implementation_note": "prototype/specification; empirical advantage pending; not canonical",
+      "purpose": "Expose only transitions justified by current state, history, logical time, authority, constraints, and observations; select the minimum sufficient valid transition.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "runtime_state",
+        "history",
+        "logical_time",
+        "authority_context",
+        "constraints",
+        "observations",
+        "guard_input_grades"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "enabled_edge_set",
+        "blocked_edges_with_reason",
+        "selected_minimum_sufficient_transition",
+        "mode",
+        "G_eff_diff"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "reachable_ne_material",
+        "uncertainty_ne_obligation_to_probe",
+        "model_estimate_cannot_alone_enable_consequential_ACT",
+        "no_material_delta_routes_STOP_or_PRESERVE",
+        "dynamic_topology_ne_self_modifying_governance"
+      ],
+      "dependencies": [
+        "O01_CONTRACT_AUTHORITY",
+        "O02_EVIDENCE_PROVENANCE",
+        "O03_COORDINATION_LIFECYCLE",
+        "O07_VERIFICATION_ROUTER",
+        "O08_CHALLENGE_RESEARCH_ROUTER"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "state flapping",
+        "over-intervention",
+        "over-passivity",
+        "guard poisoning",
+        "history suppression hides new evidence",
+        "opaque topology"
+      ],
+      "tests": [
+        "TT01-TT14 temporal adversarial suite",
+        "replay equivalence",
+        "privilege expiry",
+        "no-delta suppression",
+        "failed recovery"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 4,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O10_CONSEQUENTIAL_AUTHORIZATION",
+      "name": "Consequential Authorization Gate",
+      "class": "control",
+      "organ_version": "0.1.1",
+      "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
+      "implementation_note": "specified across Wu Wei and ARC; exact project runtime integration pending",
+      "purpose": "Intercept a concrete action after proposal and before side effects, applying explicit authority and accountability preconditions.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "concrete_action_proposal",
+        "authority_state",
+        "consequence_class",
+        "required_verification",
+        "prechain_status",
+        "expiry"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "ALLOW",
+        "DENY",
+        "REQUIRE_CONFIRM",
+        "PAUSE_OR_HOLD",
+        "authorization_receipt"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "model_justification_is_not_authorization",
+        "authorization_ne_execution",
+        "check_time_authorization_ne_atomic_execution",
+        "high_consequence_action_requires_external_or_contract_fixed_basis"
+      ],
+      "dependencies": [
+        "O01_CONTRACT_AUTHORITY",
+        "O07_VERIFICATION_ROUTER",
+        "O13_ARC"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "TOCTOU authority drift",
+        "scope bypass",
+        "stale permission",
+        "authorization treats unknown as verified"
+      ],
+      "tests": [
+        "expired_authority",
+        "scope_escape",
+        "prechain_incomplete",
+        "uncertainty_authorized_with_bounds",
+        "confirmation_required"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 6,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O11_ACTUATOR",
+      "name": "Bounded Actuator / Simulated Execution Boundary",
+      "class": "execution",
+      "organ_version": "0.1.1",
+      "implementation_status": "PENDING_INTEGRATION",
+      "implementation_note": "actuator/readback is specified in Operational Determinism Harness; simulation implementation not yet built",
+      "purpose": "Execute only authorized simulated actions and produce an execution receipt distinct from the later observed effect.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "authorized_action",
+        "side_effect_class",
+        "environment_state",
+        "idempotency_key",
+        "recovery_plan"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "attempted",
+        "completed",
+        "rejected",
+        "execution_receipt",
+        "new_environment_state"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "proposal_ne_execution",
+        "safe_plan_ne_safe_execution",
+        "duplicate_event_ne_duplicate_safe_effect",
+        "ACT_ONCE_does_not_recurse"
+      ],
+      "dependencies": [
+        "O10_CONSEQUENTIAL_AUTHORIZATION",
+        "O00_SCENARIO_ORACLE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "double effect",
+        "partial execution",
+        "false success receipt",
+        "unmodeled irreversible effect"
+      ],
+      "tests": [
+        "idempotency fixture",
+        "partial-failure fixture",
+        "one-shot enforcement",
+        "simulated irreversible action denial"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "EFFECTOR_BOUNDARY",
+      "runtime_stage": 7,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O12_EFFECT_VERIFICATION",
+      "name": "Execution Receipt / Observed-Effect Verifier",
+      "class": "verification",
+      "organ_version": "0.1.1",
+      "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
+      "implementation_note": "specified in ARC and Operational Determinism Harness; not reproduced as code in current corpus | v0.1.1: dependency on O14 (runs later) replaced by S01_EVENT_SUBSTRATE.",
+      "purpose": "Prevent \"tool returned success\" from becoming \"desired outcome occurred.\"",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "execution_receipt",
+        "destination_readback",
+        "expected_effect",
+        "oracle_observation",
+        "causal_window"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "EFFECT_CONFIRMED",
+        "EFFECT_NOT_CONFIRMED",
+        "PENDING_OUTCOME",
+        "MISMATCH",
+        "causal_link_status"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "execution_receipt_ne_observed_effect",
+        "tool_success_ne_beneficial_outcome",
+        "outcome_absence_ne_negative_without_adequate_observation"
+      ],
+      "dependencies": [
+        "O11_ACTUATOR",
+        "O00_SCENARIO_ORACLE",
+        "S01_EVENT_SUBSTRATE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "API success mistaken for real-world effect",
+        "premature judgment",
+        "wrong destination readback",
+        "causal attribution overclaim"
+      ],
+      "tests": [
+        "successful-call/no-effect",
+        "delayed-effect",
+        "wrong-target",
+        "effect-without-authorized-action"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 8,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O13_ARC",
+      "name": "Accountability Reconstruction Contract / Ledger",
+      "class": "accountability",
+      "organ_version": "0.1.1",
+      "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
+      "implementation_note": "ARC v0.1 PROPOSED / NON-CANONICAL; logical schema specified, no canonical serialization chosen",
+      "purpose": "Make consequential execution reconstructible to contemporaneous evidence, scoped authority, verification state, decision, authorization, receipt, and observed outcome without pretending the chain proves correctness.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "request",
+        "evidence_snapshot",
+        "authority_binding",
+        "verification_state",
+        "decision",
+        "authorization",
+        "execution_receipt",
+        "outcome_observation"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "PreAuthorizationBasisComplete",
+        "PreChainComplete_after_authorization",
+        "reconstruction_status",
+        "missing_link_set",
+        "accountability_event_chain",
+        "HOLD_if_required"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "valid_record_ne_true_claim",
+        "authorization_ne_execution",
+        "execution_ne_observed_effect",
+        "identity_ne_authority",
+        "minimum_sufficient_provenance",
+        "unknown_may_remain_actionable_if_explicitly_bounded"
+      ],
+      "dependencies": [
+        "O01_CONTRACT_AUTHORITY",
+        "O02_EVIDENCE_PROVENANCE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "complete log mistaken for correct decision",
+        "privacy overcollection",
+        "broken parent links",
+        "recorder unavailability",
+        "authority ambiguity"
+      ],
+      "tests": [
+        "ARC required controls",
+        "broken-link fixture",
+        "sensitive-payload commitment fixture",
+        "duplicate receipt fixture",
+        "emergency route fixture"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 5,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O14_TRACE_TELEMETRY",
+      "name": "Runstate / Tracer / Telemetry Pack",
+      "class": "observability",
+      "organ_version": "0.1.1",
+      "implementation_status": "PROPOSED_CONCEPT",
+      "implementation_note": "tracer described in harness spec; runstate/telemetrypack proposed in MODEL_FAILURES; consolidation needed before implementation | v0.1.1: trace becomes a projection over S01_EVENT_SUBSTRATE.",
+      "purpose": "Preserve enough runtime fact to replay, compare, and diagnose without creating another sovereign state store.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "runtime_events",
+        "tool_exposure",
+        "tool_invocations",
+        "logical_ticks",
+        "hashes",
+        "timings",
+        "explicit_unknowns",
+        "checker_versions"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "runstate",
+        "event_trace",
+        "telemetry_bundle",
+        "comparability_status",
+        "replay_input"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "trace_is_not_truth",
+        "telemetry_is_not_authority",
+        "incomparable_runs_remain_incomparable",
+        "audit_chain_is_not_complete_tamper_proof_without_external_anchor"
+      ],
+      "dependencies": [
+        "O03_COORDINATION_LIFECYCLE",
+        "O13_ARC",
+        "S01_EVENT_SUBSTRATE"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "multiple competing truth stores",
+        "dropped events",
+        "version ambiguity",
+        "telemetry gate becomes ceremonial"
+      ],
+      "tests": [
+        "trace completeness",
+        "version mismatch",
+        "telemetry mutation",
+        "replay input round-trip"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 9,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O15_RECOVERY_STOP",
+      "name": "Recovery / Stop / Fail-Safe",
+      "class": "recovery",
+      "organ_version": "0.1.1",
+      "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
+      "implementation_note": "specified in RC2/Wu Wei/temporal topology and harness architecture; project integration pending",
+      "purpose": "Terminate or recover without deleting unresolved epistemic state.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "mode",
+        "failure_state",
+        "recovery_margin",
+        "open_items",
+        "material_delta",
+        "authorized_recovery_actions"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "RECOVER",
+        "ESCALATE",
+        "STOP",
+        "FAIL_SAFE",
+        "resume_requirements",
+        "preserved_open_state"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "STOP_ne_claim_resolved",
+        "HOLD_preserves_recovery_path",
+        "recovery_failure_blocks_ordinary_ACT",
+        "three_no_delta_passes_is_stop_signal_not_universal_law"
+      ],
+      "dependencies": [
+        "O09_WU_WEI_TEMPORAL",
+        "O13_ARC",
+        "O14_TRACE_TELEMETRY"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "infinite recovery loop",
+        "stop deletes unresolved contradiction",
+        "resume without revalidation",
+        "fail-safe loses provenance"
+      ],
+      "tests": [
+        "failed-recovery fixture",
+        "no-delta loop",
+        "resume-revalidation",
+        "open-state preservation"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 10,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O16_PROMOTION_MUTATION_GATE",
+      "name": "Promotion / Mutation Gate",
+      "class": "change_control",
+      "organ_version": "0.1.1",
+      "implementation_status": "INHERITED_REPRODUCED",
+      "implementation_note": "previously reproduced in project working state (56/56, 15/15, 19/19); not re-supplied/re-executed in SOC-THREAD-64-66 ZIP",
+      "purpose": "Prevent experimental or structurally valid state from silently becoming load-bearing/canonical state and actively test the gate against bypass mutations.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "candidate_record",
+        "load_bearing_use",
+        "source_check_records",
+        "derivation_records",
+        "frozen_set",
+        "mutation_catalog"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "admit_or_reject",
+        "promotion_block_reason",
+        "mutation_test_result"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "agreement_ne_verification",
+        "hash_bound_ne_authorized",
+        "experiment_ne_canonical_mutation",
+        "load_bearing_SOURCE_CHECK_requires_semantic_reader_per_current_policy"
+      ],
+      "dependencies": [
+        "O02_EVIDENCE_PROVENANCE",
+        "O07_VERIFICATION_ROUTER"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "self-declared non-load-bearing bypass",
+        "DERIVATION premise laundering",
+        "path alias bypass",
+        "gate ordering ambiguity"
+      ],
+      "tests": [
+        "relaystate controls",
+        "gate controls",
+        "mutation guards",
+        "cross-branch write",
+        "path canonicalization fixture"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": "OFFLINE",
+      "evidence_refs": [
+        "previous working-state reproduction (56/56, 15/15, 19/19); implementation bytes not in this repository"
+      ]
+    },
+    {
+      "organ_id": "O17_REPLAY_FAULT_ABLATION",
+      "name": "Replay / Fault Injection / Ablation Engine",
+      "class": "simulation_infrastructure",
+      "organ_version": "0.1.1",
+      "implementation_status": "PROPOSED_CONCEPT",
+      "implementation_note": "new integration harness requirement; mutation/replay concepts exist separately but no unified engine",
+      "purpose": "Run deterministic counterfactuals around stochastic actor behavior by freezing scenario state and changing one organ/rule/fault at a time.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "frozen_scenario",
+        "frozen_trace_prefix",
+        "organ_enable_map",
+        "mutation_set",
+        "logical_clock",
+        "actor_seed_or_recorded_output"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "replayed_run",
+        "counterfactual_delta",
+        "organ_marginal_effect",
+        "fault_detection_result"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "same_frozen_inputs_yield_same_deterministic_subsystem_trace",
+        "ablation_does_not_rewrite_baseline",
+        "failed_experiment_does_not_auto_create_policy"
+      ],
+      "dependencies": [
+        "O00_SCENARIO_ORACLE",
+        "O14_TRACE_TELEMETRY"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "counterfactual contamination",
+        "model nondeterminism mistaken for organ effect",
+        "ablation changes multiple variables",
+        "mutation escapes test boundary"
+      ],
+      "tests": [
+        "same-prefix replay",
+        "single-organ ablation",
+        "single-mutation attribution",
+        "baseline preservation"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": "OFFLINE",
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O18_METRICS_SCORER",
+      "name": "Deterministic Metrics / Outcome Scorer",
+      "class": "evaluation",
+      "organ_version": "0.1.1",
+      "implementation_status": "PROPOSED_CONCEPT",
+      "implementation_note": "metrics exist across source specs; unified scorer not implemented",
+      "purpose": "Score predeclared observables and costs without collapsing system quality into one compensatory scalar.",
+      "trigger": "UNSPECIFIED",
+      "accepted_input_types": [
+        "oracle_labels",
+        "run_trace",
+        "organ_outputs",
+        "execution_effects",
+        "cost_counters"
+      ],
+      "required_input_grades": "UNSPECIFIED",
+      "deterministic_output_types": [
+        "task_success",
+        "hard_invariant_violations",
+        "false_HOLD",
+        "false_ACT",
+        "missed_ACT",
+        "unnecessary_probe_rate",
+        "challenge_precision",
+        "challenge_recall",
+        "research_conversion",
+        "accountability_completeness",
+        "cost_metrics"
+      ],
+      "side_effect_class": "UNSPECIFIED",
+      "invariants": [
+        "hard_violation_cannot_be_compensated_by_aggregate_score",
+        "measurement_definition_frozen_before_run",
+        "no_single_scalar_claims_total_system_quality"
+      ],
+      "dependencies": [
+        "O00_SCENARIO_ORACLE",
+        "O12_EFFECT_VERIFICATION",
+        "O13_ARC",
+        "O14_TRACE_TELEMETRY"
+      ],
+      "authority_requirement": "UNSPECIFIED",
+      "failure_modes": [
+        "metric gaming",
+        "post-hoc threshold tuning",
+        "aggregate score hides hard violation",
+        "cost measure omits human burden"
+      ],
+      "tests": [
+        "metric fixture",
+        "threshold freeze check",
+        "hard-constraint non-compensation",
+        "scoring replay"
+      ],
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": 10,
+      "evidence_refs": []
+    },
+    {
+      "organ_id": "O19_WU_WEI_CERTIFICATION_GUARD",
+      "name": "Wu Wei Certification Guard",
+      "class": "root_of_trust_runtime_integrity",
+      "implementation_status": "PROPOSED_CONCEPT",
+      "adoption": "NOT_ADOPTED",
+      "accepted_input_types": [
+        "WW_CERT_RECORD",
+        "WW_ANALOGUE_MANIFEST",
+        "organ_registry",
+        "authority_contract",
+        "protected_test_metadata",
+        "runtime_component_digests",
+        "parent_state_root",
+        "anti_rollback_state",
+        "logical_tick"
+      ],
+      "deterministic_output_types": [
+        "VALID",
+        "INVALID_SIGNATURE",
+        "ROOT_MISMATCH",
+        "COMPONENT_MISMATCH",
+        "MISSING_ANALOGUE",
+        "UNAUTHORIZED_REVISION",
+        "ROLLBACK_DETECTED",
+        "CERTIFICATION_STALE",
+        "RECERTIFICATION_REQUIRED"
+      ],
+      "invariants": [
+        "INVALID != DEGRADED_NORMAL_OPERATION",
+        "MISMATCH -> ordinary ACT blocked",
+        "MISSING WU WEI BASIS -> ordinary runtime unreachable",
+        "RUNTIME CANNOT SELF-CERTIFY",
+        "BREAK_GLASS CANNOT RESTORE NORMAL"
+      ],
+      "dependencies": [],
+      "failure_modes": [
+        "exposes ordinary high-consequence actuator paths on failure"
+      ],
+      "tests": [
+        "UNSPECIFIED"
+      ],
+      "evidence_refs": [
+        "SOCRATES_WU_WEI_CERTIFICATION_STATE_BINDING_SPEC_v0.1_PROPOSED.md section 6 (sha256 ba7c68a4...)"
+      ],
+      "implementation_note": "PROPOSED / NON-CANONICAL / NOT YET IMPLEMENTED (operator clarification, DECISION-AUTH-002). Not adopted or activated; no organ may depend on it. The source spec's requirement that O19 be logically prior to all runtime organs is NOT applied here. Signing, key custody, rollback protection, schema constraints and certification authority are unresolved.",
+      "purpose": "Bind runtime state to a certified Wu Wei functional-analogue basis so tampering blocks ordinary operation (source spec intent; not adopted).",
+      "organ_version": "0.1.1",
+      "trigger": "UNSPECIFIED",
+      "required_input_grades": "UNSPECIFIED",
+      "side_effect_class": "UNSPECIFIED",
+      "authority_requirement": "UNSPECIFIED",
+      "stop_condition": "UNSPECIFIED",
+      "trace_fields": "UNSPECIFIED",
+      "access_class": "UNSPECIFIED",
+      "runtime_stage": "OFFLINE"
+    }
+  ]
+}
