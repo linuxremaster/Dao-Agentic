@@ -141,6 +141,9 @@ def build():
         if oid == "O12_EFFECT_VERIFICATION":
             deps = [d for d in deps if d != "O14_TRACE_TELEMETRY"] + ["S01_EVENT_SUBSTRATE"]
             note += " | v0.1.1: dependency on O14 (runs later) replaced by S01_EVENT_SUBSTRATE."
+        if oid == "O13_ARC":
+            deps = deps + ["S01_EVENT_SUBSTRATE"]
+            note += " | v0.1.1-r1: ARC reads S01_EVENT_SUBSTRATE, matching S01's stated role (AUDIT-RESULT-004-001)."
         if oid == "O14_TRACE_TELEMETRY":
             deps = deps + ["S01_EVENT_SUBSTRATE"]
             note += " | v0.1.1: trace becomes a projection over S01_EVENT_SUBSTRATE."

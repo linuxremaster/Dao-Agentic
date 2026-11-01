@@ -54,7 +54,7 @@ class RegistryTests(unittest.TestCase):
 
     def test_unknown_values_are_explicit_not_invented(self):
         reg = registry()
-        for field in ("trigger", "side_effect_class", "authority_requirement", "stop_condition", "trace_fields"):
+        for field in ("trigger", "required_input_grades", "side_effect_class", "authority_requirement", "stop_condition", "trace_fields"):
             self.assertTrue(all(o[field] == "UNSPECIFIED" for o in reg["organs"]), field)
 
     def test_o19_proposed_not_adopted_and_nothing_depends_on_it(self):
@@ -73,6 +73,12 @@ class RegistryTests(unittest.TestCase):
         self.assertTrue(spine["evidence_refs"])
         self.assertNotIn("S00_DETERMINISTIC_CONTROL_SPINE", [o["organ_id"] for o in reg["organs"]])
         self.assertIn("S00_DETERMINISTIC_CONTROL_SPINE", organ(reg, "O03_COORDINATION_LIFECYCLE")["dependencies"])
+
+    def test_every_s01_reader_depends_on_s01(self):
+        # S01's purpose names effect verification, ARC, trace and telemetry.
+        reg = registry()
+        for oid in ("O12_EFFECT_VERIFICATION", "O13_ARC", "O14_TRACE_TELEMETRY"):
+            self.assertIn("S01_EVENT_SUBSTRATE", organ(reg, oid)["dependencies"], oid)
 
     def test_o12_no_longer_depends_on_later_o14(self):
         self.assertNotIn("O14_TRACE_TELEMETRY", organ(registry(), "O12_EFFECT_VERIFICATION")["dependencies"])
@@ -133,6 +139,27 @@ class NegativeControls(unittest.TestCase):
         reg = registry()
         organ(reg, "O09_WU_WEI_TEMPORAL")["dependencies"].append("O05_BFP")
         self.assert_finds(reg, "E09")
+
+    def test_missing_top_level_key(self):
+        reg = registry()
+        del reg["substrates"]
+        self.assert_finds(reg, "E01")
+
+    def test_invalid_access_class(self):
+        reg = registry()
+        organ(reg, "O11_ACTUATOR")["access_class"] = "ROOT"
+        self.assert_finds(reg, "E11")
+
+    def test_runtime_stage_wrong_type(self):
+        reg = registry()
+        organ(reg, "O09_WU_WEI_TEMPORAL")["runtime_stage"] = "3"
+        self.assert_finds(reg, "E09")
+
+    def test_every_documented_class_has_a_control(self):
+        # Static guard: each checker code E00-E11 is asserted somewhere in this class.
+        documented = {f"E{i:02d}" for i in range(12)}
+        body = Path(__file__).read_text(encoding="utf-8").split("class NegativeControls", 1)[1]
+        self.assertEqual({c for c in documented if f'"{c}"' not in body}, set())
 
     def test_non_object_input(self):
         self.assertEqual(codes(checker.check([])), {"E00"})

@@ -798,7 +798,7 @@
       "class": "accountability",
       "organ_version": "0.1.1",
       "implementation_status": "SPECIFIED_IMPLEMENTATION_READY",
-      "implementation_note": "ARC v0.1 PROPOSED / NON-CANONICAL; logical schema specified, no canonical serialization chosen",
+      "implementation_note": "ARC v0.1 PROPOSED / NON-CANONICAL; logical schema specified, no canonical serialization chosen | v0.1.1-r1: ARC reads S01_EVENT_SUBSTRATE, matching S01's stated role (AUDIT-RESULT-004-001).",
       "purpose": "Make consequential execution reconstructible to contemporaneous evidence, scoped authority, verification state, decision, authorization, receipt, and observed outcome without pretending the chain proves correctness.",
       "trigger": "UNSPECIFIED",
       "accepted_input_types": [
@@ -831,7 +831,8 @@
       ],
       "dependencies": [
         "O01_CONTRACT_AUTHORITY",
-        "O02_EVIDENCE_PROVENANCE"
+        "O02_EVIDENCE_PROVENANCE",
+        "S01_EVENT_SUBSTRATE"
       ],
       "authority_requirement": "UNSPECIFIED",
       "failure_modes": [

@@ -26,6 +26,7 @@ Run: `python3 scripts/organs/check_registry.py` (exit 0 = no findings) and
 | O03 kept as the coordination/relay projection, now depending on S00, status `PENDING_INTEGRATION` | Separates the implemented spine from the proposed relay organ |
 | Proposed substrate `S01_EVENT_SUBSTRATE`. O12 depends on S01 instead of O14; O14 also reads S01 | v0.1 defect: O12 depended on O14, which runs after it (harness §7.1). Repair proposed by 051 (MISSING_PIECES item 8) and endorsed by 066 |
 | `O19_WU_WEI_CERTIFICATION_GUARD` added as `PROPOSED_CONCEPT`, `adoption: NOT_ADOPTED`, no dependencies, nothing depends on it | Operator clarification 1 (DECISION-AUTH-002). The source spec's "O19 logically prior to all runtime organs" is **not** applied |
+| O13 (ARC) also depends on S01 | S01's stated purpose names ARC; v0.1.1 omitted the edge (AUDIT-RESULT-004-001, r1) |
 | `runtime_stage` added, mapping harness §7.1 groups to organs. `OFFLINE` for O05, O06, O16, O17, O19 | Builder mapping **[INF]**. It makes ordering defects checkable; it is not a spec decision |
 | `status` renamed `implementation_status`, matching `ORGAN_CONTRACT`; the v0.1 free-text note kept as `implementation_note` | Contract field naming |
 
@@ -39,6 +40,8 @@ inputs, outputs, invariants, failure modes and tests of O00–O18.
 `E07` dependency on a non-adopted organ · `E08` substrate listed as an organ ·
 `E09` runtime organ depends on a later stage or an OFFLINE organ · `E10`
 `REPRODUCED_EXECUTABLE` without evidence · `E11` access class outside vocabulary.
+
+Every rule E00–E11 has at least one negative control in `tests/test_organ_registry.py`, and a static test fails if a rule loses its control (added in r1 after AUDIT-RESULT-004-001 found E01 and E11 uncovered).
 
 A clean result means the registry is structurally consistent. It does not mean any organ is
 correct, implemented, or useful.
