@@ -20,7 +20,7 @@ Run: `python3 scripts/organs/check_registry.py` (exit 0 = no findings) and
 | Change | Basis |
 |---|---|
 | Every organ carries every common `ORGAN_CONTRACT` field from harness spec §4. Fields the source does not supply are the literal `UNSPECIFIED` | The registry lacked most contract fields (SOC-THREAD-066 audit). Values are not invented. |
-| `access_class` added. Values only where the spec states them: O00 `EVALUATOR_ONLY` (oracle-only ground truth), O11 `EFFECTOR_BOUNDARY`. Others `UNSPECIFIED` | DECISION-AUTH-002 §2 (trust/access class); MISSING_PIECES item 9 |
+| `access_class` added. Two values, both builder inference **[INF]**, not source-stated (the sources define no access-class field or vocabulary): O00 `EVALUATOR_ONLY` (harness: hidden ground truth is oracle/scorer-only), O11 `EFFECTOR_BOUNDARY` (harness name "Bounded Actuator / Simulated Execution Boundary"). Others `UNSPECIFIED` | DECISION-AUTH-002 §2 (trust/access class); MISSING_PIECES item 9 |
 | `evidence_refs` added per entry: every organ cites its v0.1 entry and harness §6, plus implementation evidence or "implementation: none in this repository" | DECISION-AUTH-002 §2; issue #10 Phase A item 2. r2: 16 organs had empty refs (AUDIT-RESULT-004-002) |
 | Deterministic spine moved out of the organs into substrate `S00`, status `REPRODUCED_EXECUTABLE`. Tests re-run on main `9981972`: Python suites OK, JS 19/19 | DECISION-AUTH-002 §2 (spine is not an ordinary organ). v0.1 had it as `SOURCE_REPORTED_EXISTING` inside O03 |
 | O03 kept as the coordination/relay projection, now depending on S00, status `PENDING_INTEGRATION` | Separates the implemented spine from the proposed relay organ |
@@ -57,7 +57,8 @@ correct, implemented, or useful.
 - The runtime-stage mapping is a builder inference and should be reviewed. Known limit: O13 (ARC) is
   multi-phase in harness §6/§7.1 (pre-authorization basis before O10, finalization after O10,
   accountability append after action); its single `runtime_stage` encodes only the first placement.
-- O11 `access_class` `EFFECTOR_BOUNDARY` is an inference from "Bounded Actuator / Simulated Execution
-  Boundary"; the harness defines no access-class vocabulary. O00 `EVALUATOR_ONLY` is directly supported.
+- Both `access_class` values are inferences, not source values (AUDIT-RESULT-004-003). Under a strict
+  source-only rule they would be `UNSPECIFIED`; they are kept, marked [INF], because they make the
+  oracle-isolation and effector-boundary rules checkable.
 - MISSING_PIECES fields beyond access class and evidence (schema revisions, determinism
   domain, idempotency, budgets, privacy class, …) are not added. They need a demonstrated use first.
