@@ -124,7 +124,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "EVALUATOR_ONLY",
       "runtime_stage": 1,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O01_CONTRACT_AUTHORITY",
@@ -181,7 +185,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 2,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O02_EVIDENCE_PROVENANCE",
@@ -232,7 +240,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 2,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O03_COORDINATION_LIFECYCLE",
@@ -288,6 +300,8 @@
       "access_class": "UNSPECIFIED",
       "runtime_stage": 3,
       "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
         "Drive relay bus protocol v0.1 + Addendum A (operational, not implemented as code)"
       ]
     },
@@ -345,7 +359,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 3,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O05_BFP",
@@ -395,6 +413,8 @@
       "access_class": "UNSPECIFIED",
       "runtime_stage": "OFFLINE",
       "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
         "BFP v0.2.1 test suite PASS in SOC-THREAD-64-66 audit; implementation bytes not in this repository"
       ]
     },
@@ -446,7 +466,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": "OFFLINE",
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O07_VERIFICATION_ROUTER",
@@ -499,7 +523,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 3,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O08_CHALLENGE_RESEARCH_ROUTER",
@@ -562,7 +590,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 3,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O09_WU_WEI_TEMPORAL",
@@ -625,7 +657,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 4,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O10_CONSEQUENTIAL_AUTHORIZATION",
@@ -682,7 +718,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 6,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O11_ACTUATOR",
@@ -736,7 +776,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "EFFECTOR_BOUNDARY",
       "runtime_stage": 7,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O12_EFFECT_VERIFICATION",
@@ -790,7 +834,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 8,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O13_ARC",
@@ -853,7 +901,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 5,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O14_TRACE_TELEMETRY",
@@ -911,7 +963,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 9,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O15_RECOVERY_STOP",
@@ -968,7 +1024,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 10,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O16_PROMOTION_MUTATION_GATE",
@@ -1023,6 +1083,8 @@
       "access_class": "UNSPECIFIED",
       "runtime_stage": "OFFLINE",
       "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
         "previous working-state reproduction (56/56, 15/15, 19/19); implementation bytes not in this repository"
       ]
     },
@@ -1077,7 +1139,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": "OFFLINE",
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O18_METRICS_SCORER",
@@ -1138,7 +1204,11 @@
       "trace_fields": "UNSPECIFIED",
       "access_class": "UNSPECIFIED",
       "runtime_stage": 10,
-      "evidence_refs": []
+      "evidence_refs": [
+        "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+        "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+        "implementation: none in this repository"
+      ]
     },
     {
       "organ_id": "O19_WU_WEI_CERTIFICATION_GUARD",

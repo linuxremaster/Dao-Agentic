@@ -16,6 +16,13 @@ OUTPUT = ROOT / "contracts/organs/organ_registry.json"
 
 UNSPECIFIED = "UNSPECIFIED"
 
+# Reference evidence every O00-O18 entry carries (issue #10 Phase A item 2; AUDIT-RESULT-004-002).
+REFERENCE_EVIDENCE = [
+    "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
+    "reference: SOCRATES_EXECUTABLE_ORGAN_SIMULATION_HARNESS_SPEC_v0.1_PROPOSED.md section 6 purpose (sha256 07a97946...)",
+]
+NO_IMPLEMENTATION = "implementation: none in this repository"
+
 # Purpose lines quoted from the harness spec section 6 (sha256 07a97946...).
 PURPOSE = {
     "O00_SCENARIO_ORACLE": "Own simulation truth, permitted observations, fault injection, logical time, and deterministic environment effects. The actor MUST NOT own the oracle.",
@@ -173,7 +180,7 @@ def build():
             "trace_fields": UNSPECIFIED,
             "access_class": ACCESS.get(oid, UNSPECIFIED),
             "runtime_stage": STAGE[oid],
-            "evidence_refs": evidence,
+            "evidence_refs": REFERENCE_EVIDENCE + (evidence or [NO_IMPLEMENTATION]),
         })
     o19 = dict(O19)
     o19.update({"organ_version": "0.1.1", "trigger": UNSPECIFIED, "required_input_grades": UNSPECIFIED,

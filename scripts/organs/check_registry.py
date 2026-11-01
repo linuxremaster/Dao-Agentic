@@ -94,6 +94,8 @@ def check(registry):
             add("E11", oid, "access_class not in access_class_vocabulary")
         if o.get("implementation_status") == "REPRODUCED_EXECUTABLE" and not o.get("evidence_refs"):
             add("E10", oid, "REPRODUCED_EXECUTABLE requires evidence_refs")
+        if not o.get("evidence_refs"):
+            add("E12", oid, "every organ needs reference or implementation evidence_refs")
         for dep in o.get("dependencies", []):
             if dep not in all_ids:
                 add("E05", oid, f"unresolved dependency: {dep}")

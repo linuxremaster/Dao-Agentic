@@ -21,7 +21,7 @@ Run: `python3 scripts/organs/check_registry.py` (exit 0 = no findings) and
 |---|---|
 | Every organ carries every common `ORGAN_CONTRACT` field from harness spec §4. Fields the source does not supply are the literal `UNSPECIFIED` | The registry lacked most contract fields (SOC-THREAD-066 audit). Values are not invented. |
 | `access_class` added. Values only where the spec states them: O00 `EVALUATOR_ONLY` (oracle-only ground truth), O11 `EFFECTOR_BOUNDARY`. Others `UNSPECIFIED` | DECISION-AUTH-002 §2 (trust/access class); MISSING_PIECES item 9 |
-| `evidence_refs` added per entry | DECISION-AUTH-002 §2 (implementation/reference evidence) |
+| `evidence_refs` added per entry: every organ cites its v0.1 entry and harness §6, plus implementation evidence or "implementation: none in this repository" | DECISION-AUTH-002 §2; issue #10 Phase A item 2. r2: 16 organs had empty refs (AUDIT-RESULT-004-002) |
 | Deterministic spine moved out of the organs into substrate `S00`, status `REPRODUCED_EXECUTABLE`. Tests re-run on main `9981972`: Python suites OK, JS 19/19 | DECISION-AUTH-002 §2 (spine is not an ordinary organ). v0.1 had it as `SOURCE_REPORTED_EXISTING` inside O03 |
 | O03 kept as the coordination/relay projection, now depending on S00, status `PENDING_INTEGRATION` | Separates the implemented spine from the proposed relay organ |
 | Proposed substrate `S01_EVENT_SUBSTRATE`. O12 depends on S01 instead of O14; O14 also reads S01 | v0.1 defect: O12 depended on O14, which runs after it (harness §7.1). Repair proposed by 051 (MISSING_PIECES item 8) and endorsed by 066 |
@@ -39,9 +39,10 @@ inputs, outputs, invariants, failure modes and tests of O00–O18.
 `E04` status outside vocabulary · `E05` unresolved dependency · `E06` dependency cycle ·
 `E07` dependency on a non-adopted organ · `E08` substrate listed as an organ ·
 `E09` runtime organ depends on a later stage or an OFFLINE organ · `E10`
-`REPRODUCED_EXECUTABLE` without evidence · `E11` access class outside vocabulary.
+`REPRODUCED_EXECUTABLE` without evidence · `E11` access class outside vocabulary ·
+`E12` organ with no evidence_refs (r2).
 
-Every rule E00–E11 has at least one negative control in `tests/test_organ_registry.py`, and a static test fails if a rule loses its control (added in r1 after AUDIT-RESULT-004-001 found E01 and E11 uncovered).
+Every rule E00–E12 has at least one negative control in `tests/test_organ_registry.py`, and a static test fails if a rule loses its control (added in r1 after AUDIT-RESULT-004-001 found E01 and E11 uncovered).
 
 A clean result means the registry is structurally consistent. It does not mean any organ is
 correct, implemented, or useful.
@@ -53,6 +54,10 @@ correct, implemented, or useful.
   define them.
 - `relaystate.js` (independence tracking) is not in this repository. DECISION-AUTH-002 item 3
   depends on supplying it.
-- The runtime-stage mapping is a builder inference and should be reviewed.
+- The runtime-stage mapping is a builder inference and should be reviewed. Known limit: O13 (ARC) is
+  multi-phase in harness §6/§7.1 (pre-authorization basis before O10, finalization after O10,
+  accountability append after action); its single `runtime_stage` encodes only the first placement.
+- O11 `access_class` `EFFECTOR_BOUNDARY` is an inference from "Bounded Actuator / Simulated Execution
+  Boundary"; the harness defines no access-class vocabulary. O00 `EVALUATOR_ONLY` is directly supported.
 - MISSING_PIECES fields beyond access class and evidence (schema revisions, determinism
   domain, idempotency, budgets, privacy class, …) are not added. They need a demonstrated use first.

@@ -74,6 +74,10 @@ class RegistryTests(unittest.TestCase):
         self.assertNotIn("S00_DETERMINISTIC_CONTROL_SPINE", [o["organ_id"] for o in reg["organs"]])
         self.assertIn("S00_DETERMINISTIC_CONTROL_SPINE", organ(reg, "O03_COORDINATION_LIFECYCLE")["dependencies"])
 
+    def test_every_organ_has_reference_evidence(self):
+        for o in registry()["organs"]:
+            self.assertTrue(o["evidence_refs"], o["organ_id"])
+
     def test_every_s01_reader_depends_on_s01(self):
         # S01's purpose names effect verification, ARC, trace and telemetry.
         reg = registry()
@@ -140,6 +144,11 @@ class NegativeControls(unittest.TestCase):
         organ(reg, "O09_WU_WEI_TEMPORAL")["dependencies"].append("O05_BFP")
         self.assert_finds(reg, "E09")
 
+    def test_organ_without_evidence(self):
+        reg = registry()
+        organ(reg, "O07_VERIFICATION_ROUTER")["evidence_refs"] = []
+        self.assert_finds(reg, "E12")
+
     def test_missing_top_level_key(self):
         reg = registry()
         del reg["substrates"]
@@ -156,8 +165,8 @@ class NegativeControls(unittest.TestCase):
         self.assert_finds(reg, "E09")
 
     def test_every_documented_class_has_a_control(self):
-        # Static guard: each checker code E00-E11 is asserted somewhere in this class.
-        documented = {f"E{i:02d}" for i in range(12)}
+        # Static guard: each checker code E00-E12 is asserted somewhere in this class.
+        documented = {f"E{i:02d}" for i in range(13)}
         body = Path(__file__).read_text(encoding="utf-8").split("class NegativeControls", 1)[1]
         self.assertEqual({c for c in documented if f'"{c}"' not in body}, set())
 
