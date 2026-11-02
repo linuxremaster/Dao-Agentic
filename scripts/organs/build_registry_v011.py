@@ -65,11 +65,12 @@ STAGE = {
     "O19_WU_WEI_CERTIFICATION_GUARD": "OFFLINE",
 }
 
-# Access classes only where the harness spec states them; everything else UNSPECIFIED.
-ACCESS = {
-    "O00_SCENARIO_ORACLE": "EVALUATOR_ONLY",   # spec: hidden ground truth is oracle-only
-    "O11_ACTUATOR": "EFFECTOR_BOUNDARY",       # spec: bounded actuator / execution boundary
-}
+# Access classes only where a source states them. Neither source defines an access-class
+# field or vocabulary, so every organ is UNSPECIFIED (issue #10 Phase A item 2).
+# r4: the earlier inferred values O00=EVALUATOR_ONLY and O11=EFFECTOR_BOUNDARY were removed
+# (AUDIT-RESULT-004-003, RESULT-REPO-RELAY-AUDIT-001). They remain candidates in
+# docs/organ-registry.md and are not applied.
+ACCESS = {}
 
 SPINE_EVIDENCE = [
     "repo linuxremaster/Dao-Agentic main 99819723727259d5b613ad916968e3e687f54ab6: core/, js/core/",

@@ -122,7 +122,7 @@
       ],
       "stop_condition": "UNSPECIFIED",
       "trace_fields": "UNSPECIFIED",
-      "access_class": "EVALUATOR_ONLY",
+      "access_class": "UNSPECIFIED",
       "runtime_stage": 1,
       "evidence_refs": [
         "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",
@@ -774,7 +774,7 @@
       ],
       "stop_condition": "UNSPECIFIED",
       "trace_fields": "UNSPECIFIED",
-      "access_class": "EFFECTOR_BOUNDARY",
+      "access_class": "UNSPECIFIED",
       "runtime_stage": 7,
       "evidence_refs": [
         "reference: SOCRATES_ORGAN_REGISTRY_v0.1_PROPOSED.json organ entry (sha256 783c825d...)",

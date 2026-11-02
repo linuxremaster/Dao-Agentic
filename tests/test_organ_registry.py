@@ -57,6 +57,12 @@ class RegistryTests(unittest.TestCase):
         for field in ("trigger", "required_input_grades", "side_effect_class", "authority_requirement", "stop_condition", "trace_fields"):
             self.assertTrue(all(o[field] == "UNSPECIFIED" for o in reg["organs"]), field)
 
+    def test_access_class_unspecified_unless_source_stated(self):
+        # Neither source defines an access class, so none may be set (issue #10 Phase A item 2).
+        reg = registry()
+        self.assertEqual({o["organ_id"]: o["access_class"] for o in reg["organs"] if o["access_class"] != "UNSPECIFIED"}, {})
+        self.assertEqual(builder.ACCESS, {})
+
     def test_o19_proposed_not_adopted_and_nothing_depends_on_it(self):
         reg = registry()
         o19 = organ(reg, "O19_WU_WEI_CERTIFICATION_GUARD")
