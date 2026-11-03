@@ -1,0 +1,66 @@
+{
+  "description": "Frozen packets built from established project incidents. Facts were observed by CLAUDE-BUILDER on 2026-11-03 (Drive bus listing and file reads; git merge-base --is-ancestor). The relay_policy single-response expectation for AUDIT-REQ-003C-004 is a fixture assumption, stated here, not a protocol rule.",
+  "cases": [
+    {
+      "name": "R1 duplicate AUDIT-RESULT-003C-004 (two outbox files, same message_id and parent)",
+      "provenance": "Bus outbox files 20261028T160427Z__GPT-AUDITOR__CLAUDE-BUILDER__WO-003C__AUDIT-RESULT-003C-004.md (Drive id 18iLJyQbhcdItRQn7JGakSdA_AH6lZbho) and 20261028T160447Z__GPT-AUDITOR__CLAUDE-BUILDER__WO-003C__AUDIT-RESULT-003C-004.md (Drive id 1C-VbqPZ3bgOlDot2WOHT7vzQqSrgTZzp); both declare parent_message_id AUDIT-REQ-003C-004. Cited as an example incident in issue #10 Phase B acceptance.",
+      "packet": {
+        "packet_id": "REAL-R1",
+        "schema_version": "1.0",
+        "scope": {"project": "linuxremaster/Dao-Agentic", "thread": "WO-003C"},
+        "available_evidence": ["relay_snapshot", "relay_policy"],
+        "evidence": {
+          "relay_snapshot": {
+            "messages": [
+              {"message_id": "AUDIT-RESULT-003C-004", "parent_message_id": "AUDIT-REQ-003C-004", "file": "20261028T160427Z__GPT-AUDITOR__CLAUDE-BUILDER__WO-003C__AUDIT-RESULT-003C-004.md"},
+              {"message_id": "AUDIT-RESULT-003C-004", "parent_message_id": "AUDIT-REQ-003C-004", "file": "20261028T160447Z__GPT-AUDITOR__CLAUDE-BUILDER__WO-003C__AUDIT-RESULT-003C-004.md"}
+            ]
+          },
+          "relay_policy": {"single_response_parents": ["AUDIT-REQ-003C-004"]}
+        },
+        "provenance": ["bus outbox listing on 2026-11-03 by CLAUDE-BUILDER (see fixture provenance)"]
+      },
+      "expected": [
+        {"target_id": "FP01", "locus": "packet:REAL-R1", "verdict": "NOT_RUN_MISSING_EVIDENCE"},
+        {"target_id": "FP03", "locus": "packet:REAL-R1", "verdict": "NOT_RUN_MISSING_EVIDENCE"},
+        {"target_id": "FP07", "locus": "relay:AUDIT-REQ-003C-004", "verdict": "HIT"}
+      ]
+    },
+    {
+      "name": "R2 stale source branch: wo-004b-friction-probe-sources does not contain current main",
+      "provenance": "git merge-base --is-ancestor cda063d5f1ed820f926b7104e7688c16d97e88f6 a8232b0fbbdc6252a7af3af8a4c3d03847f08381 -> false. Issue #10 comment 6591837070 states the branch is divergent and work must start from current main. Second locus: the Phase A branch head b531ed2 contains the WO-004 baseline 9981972 (git merge-base --is-ancestor -> true).",
+      "packet": {
+        "packet_id": "REAL-R2",
+        "schema_version": "1.0",
+        "scope": {"project": "linuxremaster/Dao-Agentic", "work_order": "WO-004"},
+        "available_evidence": ["repository_snapshot", "work_order"],
+        "evidence": {
+          "repository_snapshot": {
+            "refs": {
+              "wo-004b-friction-probe-sources": "a8232b0fbbdc6252a7af3af8a4c3d03847f08381",
+              "wo-004-organ-registry-friction-probe@phase-a": "b531ed263b7184d84e83d2c99dbf126e4d018364"
+            },
+            "ancestry": [
+              {"ancestor": "cda063d5f1ed820f926b7104e7688c16d97e88f6", "descendant": "a8232b0fbbdc6252a7af3af8a4c3d03847f08381", "is_ancestor": false},
+              {"ancestor": "99819723727259d5b613ad916968e3e687f54ab6", "descendant": "b531ed263b7184d84e83d2c99dbf126e4d018364", "is_ancestor": true}
+            ]
+          },
+          "work_order": {
+            "work_order_id": "WO-004",
+            "branches": [
+              {"branch": "wo-004b-friction-probe-sources", "required_base": "cda063d5f1ed820f926b7104e7688c16d97e88f6"},
+              {"branch": "wo-004-organ-registry-friction-probe@phase-a", "required_base": "99819723727259d5b613ad916968e3e687f54ab6"}
+            ]
+          }
+        },
+        "provenance": ["git observations by CLAUDE-BUILDER 2026-11-03 (see fixture provenance)"]
+      },
+      "expected": [
+        {"target_id": "FP01", "locus": "packet:REAL-R2", "verdict": "NOT_RUN_MISSING_EVIDENCE"},
+        {"target_id": "FP03", "locus": "git-ref:wo-004-organ-registry-friction-probe@phase-a", "verdict": "NO_HIT"},
+        {"target_id": "FP03", "locus": "git-ref:wo-004b-friction-probe-sources", "verdict": "HIT"},
+        {"target_id": "FP07", "locus": "packet:REAL-R2", "verdict": "NOT_RUN_MISSING_EVIDENCE"}
+      ]
+    }
+  ]
+}
