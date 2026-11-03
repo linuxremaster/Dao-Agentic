@@ -39,7 +39,7 @@ for (const c of [...real.cases, ...synthetic.cases]) {
 test("determinism: repeated identical input gives identical output", () => {
   for (const c of [...real.cases, ...synthetic.cases]) {
     const a = JSON.stringify(screen(c.packet, catalog));
-    const b = JSON.stringify(screen(JSON.parse(JSON.stringify(c.packet)), catalog));
+    const b = JSON.stringify(screen(parseInert(JSON.stringify(c.packet)), catalog));
     assert.equal(a, b);
   }
 });
@@ -81,34 +81,34 @@ test("ingress: getter is rejected without being executed", () => {
     get() { runs += 1; return ["SYN-REQ-A"]; },
     enumerable: true,
   });
-  assert.throws(() => screen(packet, catalog), (e) => e instanceof AdmissionError && /accessor/.test(e.message));
+  assert.throws(() => screen(packet, catalog), (e) => e instanceof AdmissionError && /untrusted in-memory/.test(e.message));
   assert.equal(runs, 0);
 });
 
 test("ingress: setter-only accessor is rejected", () => {
   const value = {};
   Object.defineProperty(value, "x", { set() {}, enumerable: true });
-  assert.throws(() => assertInert(value), /accessor/);
+  assert.throws(() => assertInert(value), /untrusted in-memory/);
 });
 
 test("ingress: symbol-keyed property is rejected", () => {
   const packet = basePacket();
   packet.evidence.relay_snapshot[Symbol("hidden")] = "x";
-  assert.throws(() => screen(packet, catalog), (e) => e instanceof AdmissionError && /symbol/.test(e.message));
+  assert.throws(() => screen(packet, catalog), (e) => e instanceof AdmissionError && /untrusted in-memory/.test(e.message));
 });
 
 test("ingress: non-enumerable, class instance, function, undefined, NaN, cycle, sparse array are rejected", () => {
   const ne = {};
   Object.defineProperty(ne, "x", { value: 1, enumerable: false });
-  assert.throws(() => assertInert(ne), /non-enumerable/);
-  assert.throws(() => assertInert(new Date(0)), /non-plain/);
-  assert.throws(() => assertInert({ f() {} }), /non-JSON/);
-  assert.throws(() => assertInert({ u: undefined }), /non-JSON/);
-  assert.throws(() => assertInert({ n: Number.NaN }), /non-finite/);
+  assert.throws(() => assertInert(ne), /untrusted in-memory/);
+  assert.throws(() => assertInert(new Date(0)), /untrusted in-memory/);
+  assert.throws(() => assertInert({ f() {} }), /untrusted in-memory/);
+  assert.throws(() => assertInert({ u: undefined }), /untrusted in-memory/);
+  assert.throws(() => assertInert({ n: Number.NaN }), /untrusted in-memory/);
   const cyc = {};
   cyc.self = cyc;
-  assert.throws(() => assertInert(cyc), /cycle/);
-  assert.throws(() => assertInert([1, , 3]), /sparse/);
+  assert.throws(() => assertInert(cyc), /untrusted in-memory/);
+  assert.throws(() => assertInert([1, , 3]), /untrusted in-memory/);
 });
 
 test("ingress: JSON text entry is inert by construction", () => {
@@ -120,10 +120,10 @@ test("ingress: JSON text entry is inert by construction", () => {
 test("ingress: unknown evidence source and extra packet field are rejected", () => {
   const p1 = basePacket();
   p1.available_evidence.push("model_recollection");
-  assert.throws(() => screen(p1, catalog), /unknown evidence source/);
+  assert.throws(() => screen(parseInert(JSON.stringify(p1)), catalog), /unknown evidence source/);
   const p2 = basePacket();
   p2.extra = 1;
-  assert.throws(() => screen(p2, catalog), /packet must contain exactly/);
+  assert.throws(() => screen(parseInert(JSON.stringify(p2)), catalog), /packet must contain exactly/);
 });
 
 // ---- catalog negative controls (each fails for its own reason) -------------
@@ -143,9 +143,97 @@ for (const [name, mutate, reason] of mutations) {
   test(`catalog negative control: ${name}`, () => {
     const c = freshCatalog();
     mutate(c);
-    const errors = checkCatalog(c);
+    const errors = checkCatalog(parseInert(JSON.stringify(c)));
     assert.ok(errors.length >= 1);
     assert.match(errors[0], reason);
-    assert.throws(() => screen(basePacket(), c), /invalid catalog/);
+    assert.throws(() => screen(parseInert(JSON.stringify(basePacket())), parseInert(JSON.stringify(c))), /invalid catalog/);
   });
 }
+
+// AUDIT-RESULT-004B-001 regression controls, written before the fixes.
+test("audit: untrusted Proxy ingress rejects without executing traps", () => {
+  let traps = 0;
+  const proxy = new Proxy(basePacket(), {
+    getPrototypeOf(target) { traps += 1; return Reflect.getPrototypeOf(target); },
+    ownKeys(target) { traps += 1; return Reflect.ownKeys(target); },
+    get(target, key) { traps += 1; return Reflect.get(target, key); },
+    getOwnPropertyDescriptor(target, key) { traps += 1; return Reflect.getOwnPropertyDescriptor(target, key); },
+  });
+  assert.throws(() => screen(proxy, catalog), AdmissionError);
+  assert.equal(traps, 0);
+});
+
+test("audit: inherited evidence source names reject in packet and catalog", () => {
+  for (const name of ["toString", "constructor", "__proto__"]) {
+    const packet = basePacket();
+    packet.available_evidence.push(name);
+    assert.throws(() => screen(parseInert(JSON.stringify(packet)), catalog), /unknown evidence source/);
+    const c = freshCatalog();
+    c.targets[0].modes[0].requires_all.push(name);
+    assert.ok(checkCatalog(parseInert(JSON.stringify(c))).some((e) => e.includes("unknown evidence source")));
+  }
+});
+
+test("audit: FP07 counts active replies, not correction-chain history", () => {
+  const packet = basePacket();
+  const parent = packet.evidence.relay_policy.single_response_parents[0];
+  packet.evidence.relay_snapshot.messages = [
+    { message_id: "a", parent_message_id: parent },
+    { message_id: "b", parent_message_id: parent, supersedes: "a" },
+    { message_id: "c", parent_message_id: parent, supersedes: "b" },
+  ];
+  const finding = screen(parseInert(JSON.stringify(packet)), catalog).findings.find((f) => f.target_id === "FP07");
+  assert.equal(finding.verdict, "NO_HIT");
+  assert.equal(finding.observed.reply_count, 1);
+  assert.deepEqual(finding.observed.replies.map((m) => m.message_id), ["c"]);
+});
+
+test("audit: Proxy wrappers, nested inputs and revoked Proxies never run traps", () => {
+  let runs = 0;
+  const handler = Object.fromEntries(["get", "getPrototypeOf", "ownKeys", "getOwnPropertyDescriptor"]
+    .map((name) => [name, () => { runs += 1; throw new Error("trap executed"); }]));
+  const wrapper = new Proxy(parseInert(JSON.stringify(basePacket())), handler);
+  const nested = basePacket();
+  nested.evidence.relay_snapshot = new Proxy({}, handler);
+  const revoked = Proxy.revocable({}, handler);
+  revoked.revoke();
+  for (const value of [wrapper, nested, revoked.proxy]) {
+    assert.throws(() => assertInert(value), AdmissionError);
+    assert.throws(() => screen(value, catalog), AdmissionError);
+    assert.throws(() => checkCatalog(value), AdmissionError);
+    assert.throws(() => screen(parseInert(JSON.stringify(basePacket())), value), AdmissionError);
+    assert.throws(() => parseInert(value), AdmissionError);
+  }
+  assert.equal(runs, 0);
+});
+
+test("audit: parsed provenance cannot be invalidated by mutation or forged by freezing", () => {
+  const packet = parseInert(JSON.stringify(basePacket()));
+  assert.ok(Object.isFrozen(packet));
+  assert.ok(Object.isFrozen(packet.evidence.relay_snapshot.messages));
+  assert.throws(() => { packet.evidence.relay_snapshot = new Proxy({}, {}); }, TypeError);
+  assert.throws(() => assertInert(Object.freeze(basePacket())), AdmissionError);
+  assertInert(packet.evidence.relay_snapshot);
+  screen(packet, catalog);
+});
+
+test("audit: FP07 correction order is irrelevant and independent active replies still HIT", () => {
+  const packet = basePacket();
+  const parent = packet.evidence.relay_policy.single_response_parents[0];
+  const messages = [
+    { message_id: "a", parent_message_id: parent },
+    { message_id: "b", parent_message_id: parent, supersedes: "a" },
+    { message_id: "c", parent_message_id: parent, supersedes: "b" },
+    { message_id: "independent", parent_message_id: parent },
+  ];
+  const results = [];
+  for (const order of [messages, [...messages].reverse()]) {
+    packet.evidence.relay_snapshot.messages = order;
+    const f = screen(parseInert(JSON.stringify(packet)), catalog).findings.find((f) => f.target_id === "FP07");
+    assert.equal(f.verdict, "HIT");
+    assert.equal(f.observed.reply_count, 2);
+    results.push(f);
+  }
+  // Membership/count is independent of snapshot order even when file keys are absent.
+  assert.deepEqual(results.map((f) => f.observed.replies.map((r) => r.message_id).sort()), [["c", "independent"], ["c", "independent"]]);
+});

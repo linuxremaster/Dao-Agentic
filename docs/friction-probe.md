@@ -53,28 +53,37 @@ Findings are sorted by `target_id`, then `locus`; counts are derived.
 |---|---|---|---|---|
 | FP01 Action/Authority Channel Mismatch | `channel_authority_check` | `authority_policy`, `relay_snapshot` | `action:<class>:<request_id>` | the request's host-observed channel is not in the policy's permitted channels for its action class, or the class is not established by the policy |
 | FP03 Baseline/Head Drift (base-ancestry variant) | `base_ancestry_check` | `repository_snapshot`, `work_order` | `git-ref:<branch>` | a supplied ancestry observation says the branch head does not contain the work order's required base |
-| FP07 Duplicate Single-Response Pickup | `single_response_check` | `relay_snapshot`, `relay_policy` | `relay:<parent_id>` | more than one reply exists for a parent the supplied policy marks single-response |
+| FP07 Duplicate Single-Response Pickup | `single_response_check` | `relay_snapshot`, `relay_policy` | `relay:<parent_id>` | more than one active (non-superseded) reply exists for a parent the supplied policy marks single-response |
 
 Evidence shapes used:
 
 - `authority_policy.action_classes.<class>.permitted_channels: string[]`
-- `relay_snapshot.requests: [{request_id, action_class, channel}]`, `relay_snapshot.messages: [{message_id, parent_message_id, file}]`
+- `relay_snapshot.requests: [{request_id, action_class, channel}]`, `relay_snapshot.messages: [{message_id, parent_message_id, file, supersedes?}]`
 - `relay_policy.single_response_parents: string[]` (not in spec §8.3; added because FP07 requires a supplied expectation)
 - `repository_snapshot.refs: {branch: sha}`, `repository_snapshot.ancestry: [{ancestor, descendant, is_ancestor}]` (the core cannot run git; ancestry is a provider observation)
 - `work_order.branches: [{branch, required_base}]`
 
-FP07 records reply count, reply files and shared message_ids. It states `cause: NOT ESTABLISHED`;
+FP07 first excludes every message whose `message_id` is named by a nonempty string
+`supersedes` in the supplied snapshot, including intermediate members of correction chains.
+It then records active reply count, reply files and shared message_ids. Independent active
+replies and duplicate deliveries still count separately. No original message is changed.
+FP07 records diagnostic observations only. It states `cause: NOT ESTABLISHED`;
 it does not infer one.
 
 ## Ingress (bus VERIFY-066-ACCESSOR-MUSE-001)
 
-Preferred entry is JSON text through `parseInert`. In-memory objects pass `assertInert`, which reads
-property descriptors (never `[[Get]]`) and rejects accessors (getter or setter), symbol keys,
-non-enumerable properties, non-plain prototypes, non-JSON values, non-finite numbers, cycles and
-sparse arrays. A getter is rejected without running (tested). Known limit: a `Proxy` cannot be
-detected from JavaScript, so hosts that cannot exclude proxies must use the JSON-text entry.
+Input must come from JSON text through `parseInert`. It validates JSON-derived values,
+deeply freezes all parsed objects/arrays and registers their identities in a private WeakSet.
+`assertInert`, `screen` and `checkCatalog` accept only those registered object identities;
+arbitrary in-memory objects reject **before** reflection or property reads. This includes
+Proxies, Proxy wrappers of registered values, accessors and symbol-bearing objects. There
+is no portable, trap-free Proxy detector. Freezing a caller-owned object does not establish
+parsed provenance. Do not stringify an untrusted object to bypass this boundary: stringification
+can execute its getters, `toJSON` or Proxy traps. Obtain the original JSON text at the host.
+Parsed values are immutable, so callers constructing or editing test/host packets must parse
+fresh JSON text before screening. No Node-specific APIs or dependencies are introduced.
 
-`assertInert` reuses `AdmissionError` and the plain-object / finite / acyclic rules of
+`parseInert` reuses `AdmissionError` and the plain-object / finite / acyclic rules of
 `js/core/events.js`. `js/core` is unchanged. Observed, not fixed here: `canonicalEventText` in
 `js/core/events.js` runs payload getters (via `Object.values`) and silently drops symbol-keyed
 properties.

@@ -1,16 +1,8 @@
 // Inert-input boundary for the Friction Probe (WO-004 Phase B).
 //
-// Preferred entry: JSON text, parsed with JSON.parse, which yields inert data by construction.
-// In-memory entry: accepted only if every node is inert JSON-derived data. The check reads
-// property descriptors and never reads a property through [[Get]], so a getter is detected
-// without being run. Rejected: accessor properties, symbol-keyed properties, non-enumerable
-// properties, non-plain prototypes, non-finite numbers, undefined/functions/bigint, cycles.
-//
-// Known limit: a Proxy cannot be detected from JavaScript; its descriptor traps run during the
-// check. Hosts that cannot exclude Proxies must use the JSON-text entry.
-//
-// Reuses AdmissionError and the plain-object / finite-number / no-cycle rules of
-// js/core/events.js (validateJson); js/core is not modified.
+// Only JSON text parsed here establishes inert provenance. Parsed nodes are deeply frozen
+// and registered privately; arbitrary in-memory objects (including Proxies) reject before
+// reflection or property reads. Portable JavaScript cannot safely identify arbitrary Proxies.
 
 import { AdmissionError } from "../core/events.js";
 
@@ -50,8 +42,25 @@ function check(value, ancestors, path) {
   }
 }
 
+const parsedNodes = new WeakSet();
+
+function retain(value) {
+  if (value !== null && typeof value === "object") {
+    for (const child of Object.values(value)) retain(child);
+    Object.freeze(value);
+    parsedNodes.add(value);
+  }
+  return value;
+}
+
 export function assertInert(value) {
-  check(value, new Set(), "$");
+  if (value !== null && typeof value === "object") {
+    if (!parsedNodes.has(value)) {
+      throw new AdmissionError("untrusted in-memory input; use parseInert with JSON text");
+    }
+  } else {
+    check(value, new Set(), "$");
+  }
   return value;
 }
 
@@ -63,5 +72,6 @@ export function parseInert(text) {
   } catch {
     throw new AdmissionError("packet text is not valid JSON");
   }
-  return assertInert(value);
+  check(value, new Set(), "$");
+  return retain(value);
 }

@@ -28,6 +28,7 @@ function sameSet(a, b) {
 // ---- catalog checker ------------------------------------------------------
 
 export function checkCatalog(catalog) {
+  assertInert(catalog);
   const errors = [];
   if (!isObj(catalog)) return ["catalog must be an object"];
   if (catalog.schema_version !== "1.0") errors.push("unsupported schema_version");
@@ -47,7 +48,7 @@ export function checkCatalog(catalog) {
     for (const m of t.modes || []) {
       const req = [...(m.requires_all || []), ...(m.requires_any || [])];
       if (req.length === 0) errors.push(`${t.target_id}/${m.mode}: no evidence requirements`);
-      for (const s of req) if (!(s in sources)) errors.push(`${t.target_id}/${m.mode}: unknown evidence source ${s}`);
+      for (const s of req) if (!Object.hasOwn(sources, s)) errors.push(`${t.target_id}/${m.mode}: unknown evidence source ${s}`);
       if (t.status === "IMPLEMENTED_UNVALIDATED" && !(PROBES[t.target_id] && PROBES[t.target_id][m.mode])) {
         errors.push(`${t.target_id}/${m.mode}: no implementation`);
       }
@@ -70,7 +71,7 @@ function admitPacket(packet, catalog) {
   if (!Array.isArray(packet.available_evidence)) throw new AdmissionError("available_evidence must be an array");
   if (!isObj(packet.evidence)) throw new AdmissionError("evidence must be an object");
   for (const s of [...packet.available_evidence, ...Object.keys(packet.evidence)]) {
-    if (!(s in catalog.evidence_sources)) throw new AdmissionError(`unknown evidence source ${s}`);
+    if (!Object.hasOwn(catalog.evidence_sources, s)) throw new AdmissionError(`unknown evidence source ${s}`);
   }
 }
 
@@ -143,9 +144,12 @@ function fp07SingleResponse(ev, packetLocus) {
   const messages = ev.relay_snapshot.messages;
   if (!Array.isArray(parents) || parents.length === 0) return [notRun(packetLocus, "relay_policy.single_response_parents")];
   if (!Array.isArray(messages)) return [notRun(packetLocus, "relay_snapshot.messages")];
+  const superseded = new Set(messages
+    .filter((m) => typeof m.supersedes === "string" && m.supersedes !== "")
+    .map((m) => m.supersedes));
   return parents.map((parent) => {
     const replies = messages
-      .filter((m) => m.parent_message_id === parent)
+      .filter((m) => m.parent_message_id === parent && !superseded.has(m.message_id))
       .map((m) => ({ message_id: m.message_id, file: m.file === undefined ? null : m.file }))
       .sort((a, b) => (String(a.file) < String(b.file) ? -1 : String(a.file) > String(b.file) ? 1 : 0));
     const ids = replies.map((r) => r.message_id);
