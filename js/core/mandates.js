@@ -119,7 +119,23 @@ function trustedKey(trustStore, kid) {
   nonempty(key.public_key_pem, "public_key_pem");
   return key;
 }
-function failure(reason, details = {}) { return Object.freeze({ ok: false, disposition: "HOLD", reason, ...details }); }
+function defaultChecks() {
+  return {
+    signature_result: "NOT_CHECKED",
+    key_result: "NOT_CHECKED",
+    algorithm_result: "NOT_CHECKED",
+    issuer_result: "NOT_CHECKED",
+    freshness_result: "NOT_CHECKED",
+    audience_result: "NOT_CHECKED",
+    scope_result: "NOT_CHECKED",
+    replay_result: "NOT_CHECKED",
+    payload_integrity_result: "NOT_CHECKED",
+    canonicalization_result: "NOT_CHECKED",
+  };
+}
+function failure(reason, details = {}, checks = defaultChecks()) {
+  return Object.freeze({ ok: false, disposition: "HOLD", reason, checks: Object.freeze({ ...checks }), ...details });
+}
 
 export function signMandate(mandate, { kid, privateKeyPem }) {
   const valid = validateMandate(mandate);
@@ -131,38 +147,120 @@ export function signMandate(mandate, { kid, privateKeyPem }) {
   return `${h}.${p}.${b64url(sig)}`;
 }
 
-export function verifyMandate(jws, { trustStore, expectedAudience, now = new Date(), replayState = { mandateIds: new Set(), nonces: new Set() }, clockSkewSeconds = 0 } = {}) {
+export function verifyMandate(jws, {
+  trustStore,
+  expectedAudience,
+  expectedIssuer,
+  now = new Date(),
+  replayState = { mandateIds: new Set(), nonces: new Set() },
+  clockSkewSeconds = 0,
+} = {}) {
+  const checks = defaultChecks();
+  const fail = (reason, details = {}) => failure(reason, details, checks);
   try {
-    if (typeof jws !== "string") return failure("MISSING_SIGNATURE");
+    if (typeof jws !== "string" || jws.trim() === "") return fail("MISSING_SIGNATURE");
     const parts = jws.trim().split(".");
-    if (parts.length !== 3 || parts.some((p) => p.length === 0)) return failure("MALFORMED_JWS");
+    if (parts.length !== 3 || parts.some((p) => p.length === 0)) return fail("MALFORMED_JWS");
     const [h64, p64, s64] = parts;
+
     const header = validateHeader(parseJson(unb64url(h64), "protected header"));
-    const key = trustedKey(trustStore, header.kid);
+    checks.algorithm_result = "ALLOWED";
+    if (b64url(Buffer.from(canonicalJson(header), "utf8")) !== h64) {
+      checks.canonicalization_result = "NON_CANONICAL";
+      return fail("NON_CANONICAL_JWS", { kid: header.kid });
+    }
+
+    let key;
+    try {
+      key = trustedKey(trustStore, header.kid);
+      checks.key_result = "VALID";
+    } catch (err) {
+      if (err instanceof MandateError) {
+        checks.key_result = err.code === "KEY_REVOKED" ? "REVOKED" : "INVALID";
+        if (err.code === "ALGORITHM_NOT_ALLOWED") checks.algorithm_result = "NOT_ALLOWED";
+        return fail(err.code || "INVALID_MANDATE", { error: err.message, kid: header.kid });
+      }
+      throw err;
+    }
+
     const input = Buffer.from(`${h64}.${p64}`, "ascii");
     const signature = unb64url(s64);
     let publicKey;
     try { publicKey = createPublicKey(key.public_key_pem); }
-    catch { return failure("TRUST_STORE_INVALID"); }
-    if (!cryptoVerify(null, input, publicKey, signature)) return failure("INVALID_SIGNATURE", { kid: header.kid });
+    catch {
+      checks.key_result = "INVALID";
+      return fail("TRUST_STORE_INVALID", { kid: header.kid });
+    }
+    if (!cryptoVerify(null, input, publicKey, signature)) {
+      checks.signature_result = "INVALID";
+      checks.payload_integrity_result = "INVALID";
+      return fail("INVALID_SIGNATURE", { kid: header.kid });
+    }
+    checks.signature_result = "VALID";
+    checks.payload_integrity_result = "VALID";
 
     const mandate = validateMandate(parseJson(unb64url(p64), "mandate payload"));
+    if (b64url(Buffer.from(canonicalJson(mandate), "utf8")) !== p64) {
+      checks.canonicalization_result = "NON_CANONICAL";
+      return fail("NON_CANONICAL_JWS", { kid: header.kid, mandate_id: mandate.mandate_id });
+    }
+    checks.canonicalization_result = "VALID";
+    checks.scope_result = "SIGNED_EXPLICIT_GRANT";
+
+    explicit(expectedIssuer, "expectedIssuer");
+    if (mandate.issuer !== expectedIssuer) {
+      checks.issuer_result = "MISMATCH";
+      return fail("WRONG_ISSUER", { kid: header.kid, mandate_id: mandate.mandate_id });
+    }
+    checks.issuer_result = "MATCH";
+
     explicit(expectedAudience, "expectedAudience");
-    if (!mandate.audience.includes(expectedAudience)) return failure("WRONG_AUDIENCE", { kid: header.kid, mandate_id: mandate.mandate_id });
+    if (!mandate.audience.includes(expectedAudience)) {
+      checks.audience_result = "MISMATCH";
+      return fail("WRONG_AUDIENCE", { kid: header.kid, mandate_id: mandate.mandate_id });
+    }
+    checks.audience_result = "MATCH";
+
     const nowMs = now instanceof Date ? now.getTime() : Date.parse(now);
     if (!Number.isFinite(nowMs)) throw new MandateError("now is invalid");
     const skew = clockSkewSeconds * 1000;
-    const issued = Date.parse(mandate.issued_at), nbf = Date.parse(mandate.not_before), exp = Date.parse(mandate.expires_at);
-    if (issued > nowMs + skew) return failure("FUTURE_ISSUED", { kid: header.kid, mandate_id: mandate.mandate_id });
-    if (nowMs + skew < nbf) return failure("NOT_YET_VALID", { kid: header.kid, mandate_id: mandate.mandate_id });
-    if (nowMs - skew >= exp) return failure("EXPIRED", { kid: header.kid, mandate_id: mandate.mandate_id });
-    if (replayState.mandateIds?.has(mandate.mandate_id) || replayState.nonces?.has(mandate.nonce)) {
-      return failure("REPLAY", { kid: header.kid, mandate_id: mandate.mandate_id });
+    const issued = Date.parse(mandate.issued_at);
+    const nbf = Date.parse(mandate.not_before);
+    const exp = Date.parse(mandate.expires_at);
+    if (issued > nowMs + skew) {
+      checks.freshness_result = "FUTURE_ISSUED";
+      return fail("FUTURE_ISSUED", { kid: header.kid, mandate_id: mandate.mandate_id });
     }
-    return Object.freeze({ ok: true, disposition: "AUTHENTICATED_OPERATOR_INSTRUCTION", reason: "VALID_MANDATE", kid: header.kid, mandate });
+    if (nowMs + skew < nbf) {
+      checks.freshness_result = "NOT_YET_VALID";
+      return fail("NOT_YET_VALID", { kid: header.kid, mandate_id: mandate.mandate_id });
+    }
+    if (nowMs - skew >= exp) {
+      checks.freshness_result = "EXPIRED";
+      return fail("EXPIRED", { kid: header.kid, mandate_id: mandate.mandate_id });
+    }
+    checks.freshness_result = "VALID";
+
+    if (replayState.mandateIds?.has(mandate.mandate_id) || replayState.nonces?.has(mandate.nonce)) {
+      checks.replay_result = "REPLAY";
+      return fail("REPLAY", { kid: header.kid, mandate_id: mandate.mandate_id });
+    }
+    checks.replay_result = "FRESH";
+
+    return Object.freeze({
+      ok: true,
+      disposition: "AUTHENTICATED_OPERATOR_INSTRUCTION",
+      reason: "VALID_MANDATE",
+      kid: header.kid,
+      mandate,
+      checks: Object.freeze({ ...checks }),
+    });
   } catch (err) {
-    if (err instanceof MandateError) return failure(err.code || "INVALID_MANDATE", { error: err.message });
-    return failure("INVALID_MANDATE", { error: String(err?.message || err) });
+    if (err instanceof MandateError) {
+      if (err.code === "ALGORITHM_NOT_ALLOWED") checks.algorithm_result = "NOT_ALLOWED";
+      return fail(err.code || "INVALID_MANDATE", { error: err.message });
+    }
+    return fail("INVALID_MANDATE", { error: String(err?.message || err) });
   }
 }
 
