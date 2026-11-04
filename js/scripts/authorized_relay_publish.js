@@ -54,11 +54,14 @@ function sha256(bytes) { return createHash("sha256").update(bytes).digest("hex")
 
 const a = parseArgs(process.argv.slice(2));
 if (a._[0] !== "publish") {
-  die("usage: authorized_relay_publish.js publish --lease-ledger FILE --receipt-log FILE --source FILE --outbox DIR --message-id ID --subject ID --event-id ID --request-id ID [--evidence ID]");
+  die("usage: authorized_relay_publish.js publish --lease-ledger FILE --receipt-log FILE --source FILE --message-id ID --subject ID --event-id ID --request-id ID [--evidence ID] (DAO_RELAY_OUTBOX must be set by deployment)");
 }
-for (const key of ["lease-ledger", "receipt-log", "source", "outbox", "message-id", "subject", "event-id", "request-id"]) {
+for (const key of ["lease-ledger", "receipt-log", "source", "message-id", "subject", "event-id", "request-id"]) {
   if (!a[key]) die(`--${key} is required`);
 }
+
+const outbox = process.env.DAO_RELAY_OUTBOX;
+if (!outbox || !path.isAbsolute(outbox)) die("DAO_RELAY_OUTBOX must be an absolute deployment-controlled path");
 
 const source = fs.readFileSync(a.source);
 const digest = sha256(source);
@@ -97,8 +100,8 @@ try {
     appendDecision: async (event) => appendJsonl(a["lease-ledger"], event),
     appendEvidenceEntry: async (entry) => appendJsonl(a["receipt-log"], entry),
     execute: async () => {
-      fs.mkdirSync(a.outbox, { recursive: true });
-      const destination = path.join(a.outbox, path.basename(a.source));
+      fs.mkdirSync(outbox, { recursive: true });
+      const destination = path.join(outbox, path.basename(a.source));
       fs.copyFileSync(a.source, destination, fs.constants.COPYFILE_EXCL);
       const written = fs.readFileSync(destination);
       const writtenHash = sha256(written);
