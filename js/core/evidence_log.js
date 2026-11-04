@@ -48,6 +48,11 @@ export function verifyEvidenceChain(entries) {
     if (entry === null || typeof entry !== "object" || Array.isArray(entry)) {
       throw new EvidenceLogError(`entry ${i + 1} must be an object`);
     }
+    const keys = Object.keys(entry).sort();
+    const expectedKeys = ["entry_hash", "previous_hash", "record", "sequence"];
+    if (keys.length !== expectedKeys.length || expectedKeys.some((key, j) => keys[j] !== key)) {
+      throw new EvidenceLogError(`entry ${i + 1} fields do not match contract`);
+    }
     const expectedSequence = previous ? previous.sequence + 1 : 1;
     const expectedPrevious = previous ? previous.entry_hash : EMPTY_EVIDENCE_HASH;
     if (entry.sequence !== expectedSequence) throw new EvidenceLogError(`entry ${i + 1} sequence mismatch`);
