@@ -74,15 +74,20 @@ The private key is intentionally absent from the repository and must remain unde
 Run on the operator-controlled machine, not in an agent runtime:
 
 ```sh
+mkdir -p ~/.config/dao-agentic
+chmod 700 ~/.config/dao-agentic
+
 node js/scripts/operator_mandate.js keygen \
   --kid operator-2026-01 \
-  --private operator-private.pem \
+  --private ~/.config/dao-agentic/operator-private.pem \
   --public operator-public.pem \
   --trust-store operator-trust.json
 
+chmod 600 ~/.config/dao-agentic/operator-private.pem
+
 node js/scripts/operator_mandate.js sign \
   --kid operator-2026-01 \
-  --private operator-private.pem \
+  --private ~/.config/dao-agentic/operator-private.pem \
   --mandate mandate.json \
   --out mandate.jws
 ```
@@ -146,5 +151,6 @@ Current code-enforced boundary:
 
 Deployment boundary that code in this repository cannot guarantee by itself:
 
-- OS/filesystem permissions must prevent untrusted processes from directly rewriting ledgers/logs or bypassing the supported action adapters.
-- A concrete side-effect adapter must persist the external action result after an `ALLOW` decision; the generic policy primitive records the authorization decision, not the outcome of every possible external system.
+- `deployment_guard.js` detects operator-private-key files inside the runtime tree and group/world-writable protected state, but this is a preflight rather than proof of privilege separation.
+- Action receipts can be hash-chained and verified, but same-privilege rewrite/recomputation still requires OS/storage separation or an external immutable anchor to prevent.
+- `authorized_relay_publish.js` is a concrete reference adapter that derives an exact `message_id@sha256:<digest>` target, executes only after `ALLOW`, and persists pending/final receipts. Every other external action surface needs an equivalent trusted adapter or provider-side enforcement.
