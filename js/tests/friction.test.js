@@ -279,9 +279,9 @@ test("audit004 C2: a foreign parent's supersedes link cannot hide active replies
   assert.equal(target.verdict, "HIT");
   assert.equal(target.observed.reply_count, 2);
   assert.deepEqual(target.observed.replies.map((r) => r.message_id).sort(), ["a", "b"]);
+  // "other" only holds a link to a message outside its own replies: invalid supersession evidence (C2-R).
   const other = findings.find((f) => f.locus === "relay:other");
-  assert.equal(other.verdict, "NO_HIT");
-  assert.equal(other.observed.reply_count, 1);
+  assert.equal(other.verdict, "NOT_RUN_MISSING_EVIDENCE");
 });
 
 
@@ -333,7 +333,7 @@ test("audit004 C2-R: invalid links do not contaminate a different parent", () =>
 
 test("audit004 C2-R: empty request and message IDs are missing evidence", () => {
   const packet = JSON.parse(JSON.stringify(synthetic.cases[0].packet));
-  packet.evidence.relay_snapshot.requests[0].request_id = "";
+  packet.evidence.relay_snapshot.requests = [{ ...packet.evidence.relay_snapshot.requests[0], request_id: "" }];
   const fp01 = screen(parseInert(JSON.stringify(packet)), catalog).findings.find((f) => f.target_id === "FP01");
   assert.equal(fp01.verdict, "NOT_RUN_MISSING_EVIDENCE");
   const msgPacket = basePacket();
