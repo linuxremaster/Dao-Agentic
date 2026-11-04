@@ -20,8 +20,8 @@ This document maps the normative requirements to executable repository controls.
 | Failed state cannot be promoted by model interpretation | CODE | Gate/policy outputs are deterministic and denial exits non-zero. |
 | Truth remains separate from authority | DESIGN INVARIANT | Signature authenticates origin/scope only; evidence remains separately required. |
 | Verification/action logs cannot be silently rewritten | CODE + DEPLOYMENT BOUNDARY | Action receipts are hash-chained and verified before the next reference action, so ordinary modification is detected. A same-privilege process can still rewrite/recompute the chain; separate OS/storage permissions or an external immutable anchor remain required. |
-| Execute only if authorized | CODE FOR REFERENCE ADAPTER + ADAPTER BOUNDARY | `authorized_relay_publish.js` derives an exact content-bound target, persists the authority decision and does not copy bytes on denial. Other external systems require equivalent trusted adapters/provider integration. |
-| Persist external action result | CODE FOR REFERENCE ADAPTER + ADAPTER BOUNDARY | The reference relay adapter writes `AUTHORIZED_PENDING` before execution and a hash-chained success/error receipt afterward. Other external adapters must do the same. |
+| Execute only if authorized | CODE FOR REGISTERED ADAPTERS + DEPLOYMENT BOUNDARY | The broker accepts only statically registered adapters, not caller-supplied execution callbacks. Relay publish and GitHub merge derive exact targets and perform no provider side effect on policy denial. Direct connector/provider access outside the broker remains a deployment boundary. |
+| Persist external action result | CODE FOR REGISTERED ADAPTERS + ADAPTER BOUNDARY | Registered actions write `AUTHORIZED_PENDING` before execution and a hash-chained success/error receipt afterward. Provider-side preflight failures are also recorded. External surfaces not routed through the broker remain outside this guarantee. |
 
 ## Signed-envelope terminology
 
@@ -37,4 +37,4 @@ Changing these names would invalidate existing signed artifacts without improvin
 
 ## No overclaim
 
-Whole-environment conformance remains **PARTIAL**. The repository now demonstrates one end-to-end policy-gated side effect with tamper-evident receipts, but production still requires privilege separation/immutable anchoring and equivalent trusted adapters for every external action surface.
+Whole-environment conformance remains **PARTIAL**. The repository now demonstrates registered, policy-gated relay and GitHub-merge action paths with tamper-evident receipts, but production still requires privilege separation/immutable anchoring and removal or equivalent enforcement of any direct provider/connector bypass path.
