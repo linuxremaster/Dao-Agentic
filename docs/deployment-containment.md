@@ -127,3 +127,66 @@ chmod 700 "$DAO_RELAY_OUTBOX"
 ```
 
 An untrusted caller must not be allowed to choose or rewrite this mapping in production; a supervisor/service configuration should own it.
+
+
+## Trusted adapter registry
+
+Protected actions now enter through a static trusted adapter registry.
+
+The broker accepts:
+
+```text
+adapter_id
+subject
+request_id
+adapter input
+evidence IDs
+```
+
+It does **not** accept an arbitrary execution callback from the caller.
+
+The selected registered adapter fixes the action type, derives the exact target/scope from validated input plus deployment-owned configuration, and owns execution. Unknown adapter IDs fail before an authority decision is created.
+
+Current registered adapters:
+
+```text
+relay-publish-v1
+github-merge-v1
+```
+
+## GitHub merge provider adapter
+
+`github-merge-v1` derives:
+
+```text
+action = MERGE
+target = PR-<number>@<expected-head-sha>
+scope  = DAO_GITHUB_REPOSITORY
+```
+
+Deployment owns:
+
+```text
+DAO_GITHUB_REPOSITORY
+DAO_GITHUB_TOKEN
+DAO_GITHUB_MERGE_METHOD   # merge | squash | rebase
+```
+
+The caller cannot provide the repository or API URL as action input.
+
+Execution performs a provider preflight read and requires the pull request to remain open at the exact signed/authorized head SHA before issuing the merge request with the same SHA. A changed provider head produces a persisted error receipt and no merge request.
+
+The provider token is never included in the action receipt.
+
+This adapter is a repository reference implementation. A production service should supply these environment values through a supervisor/secret store unavailable to the untrusted agent process.
+
+## Important product/runtime boundary
+
+This repository cannot intercept ChatGPT connector calls merely by existing locally. A ChatGPT GitHub/Drive/mail tool call made outside the protected adapter process bypasses this local enforcement path.
+
+Therefore a deployment claiming enforced governance must either:
+
+1. expose protected provider credentials **only** to the trusted adapter service and deny the agent direct provider credentials/tools, or
+2. implement equivalent authorization enforcement in the provider/connector layer itself.
+
+Until one of those is true, connector-level containment remains a deployment integration boundary rather than a repository property.
