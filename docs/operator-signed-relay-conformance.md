@@ -19,9 +19,9 @@ This document maps the normative requirements to executable repository controls.
 | Raw unsigned grant admission rejected | CODE | Generic lease-ledger append refuses `AUTHORITY_GRANTED`. |
 | Failed state cannot be promoted by model interpretation | CODE | Gate/policy outputs are deterministic and denial exits non-zero. |
 | Truth remains separate from authority | DESIGN INVARIANT | Signature authenticates origin/scope only; evidence remains separately required. |
-| Verification log cannot be silently rewritten | DEPLOYMENT BOUNDARY | Repository appends only; OS/storage permissions or immutable logging are still required against direct file rewrite. |
-| Execute only if authorized | ADAPTER BOUNDARY | Side-effect adapters must invoke policy gate and stop on non-zero. |
-| Persist external action result | ADAPTER BOUNDARY | Concrete side-effect adapters must persist their external-system result; the generic policy primitive persists the authorization decision. |
+| Verification/action logs cannot be silently rewritten | CODE + DEPLOYMENT BOUNDARY | Action receipts are hash-chained and verified before the next reference action, so ordinary modification is detected. A same-privilege process can still rewrite/recompute the chain; separate OS/storage permissions or an external immutable anchor remain required. |
+| Execute only if authorized | CODE FOR REFERENCE ADAPTER + ADAPTER BOUNDARY | `authorized_relay_publish.js` derives an exact content-bound target, persists the authority decision and does not copy bytes on denial. Other external systems require equivalent trusted adapters/provider integration. |
+| Persist external action result | CODE FOR REFERENCE ADAPTER + ADAPTER BOUNDARY | The reference relay adapter writes `AUTHORIZED_PENDING` before execution and a hash-chained success/error receipt afterward. Other external adapters must do the same. |
 
 ## Signed-envelope terminology
 
@@ -37,4 +37,4 @@ Changing these names would invalidate existing signed artifacts without improvin
 
 ## No overclaim
 
-Whole-environment conformance remains **PARTIAL** until deployment prevents direct ledger/log rewrites and each concrete side-effect adapter both gates execution and persists its actual outcome.
+Whole-environment conformance remains **PARTIAL**. The repository now demonstrates one end-to-end policy-gated side effect with tamper-evident receipts, but production still requires privilege separation/immutable anchoring and equivalent trusted adapters for every external action surface.
