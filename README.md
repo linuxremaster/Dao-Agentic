@@ -28,7 +28,9 @@ inputs to the authority decision.
 The Python and JavaScript lease reducers reject wildcards, expired/released grants,
 missing required evidence, authority-shaped extra fields, and forged
 `AUTHORITY_DECIDED` events. `scripts/lease_ledger.py` provides append-only JSONL
-persistence and replay for grants, releases and decisions.
+persistence and replay, but rejects raw `AUTHORITY_GRANTED` admission. New authority
+must enter through the operator-signed mandate gate. `js/scripts/policy_gate.js` emits
+and persists an exact policy decision and exits non-zero on denial.
 
 The existing lifecycle conformance work still has unresolved Python/JavaScript numeric
 serialization differences. Those remain `HOLD` evidence rather than being hidden
