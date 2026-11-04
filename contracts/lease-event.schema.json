@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dao-Agentic leased role/authority event",
+  "type": "object",
+  "required": ["event_id", "sequence", "kind", "payload"],
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "sequence": {"type": "integer", "minimum": 1},
+    "kind": {
+      "enum": [
+        "ROLE_LEASE_GRANTED",
+        "ROLE_LEASE_RELEASED",
+        "AUTHORITY_GRANTED",
+        "AUTHORITY_RELEASED",
+        "AUTHORITY_DECIDED"
+      ]
+    },
+    "payload": {"type": "object"}
+  }
+}
