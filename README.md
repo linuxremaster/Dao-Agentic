@@ -30,7 +30,9 @@ missing required evidence, authority-shaped extra fields, and forged
 `AUTHORITY_DECIDED` events. `scripts/lease_ledger.py` provides append-only JSONL
 persistence and replay, but rejects raw `AUTHORITY_GRANTED` admission. New authority
 must enter through the operator-signed mandate gate. `js/scripts/policy_gate.js` emits
-and persists an exact policy decision and exits non-zero on denial.
+and persists an exact policy decision and exits non-zero on denial. The reference
+`authorized_relay_publish.js` adapter binds a publish to exact content bytes, executes
+only after authorization, and writes a tamper-evident pending/final action receipt.
 
 The existing lifecycle conformance work still has unresolved Python/JavaScript numeric
 serialization differences. Those remain `HOLD` evidence rather than being hidden
