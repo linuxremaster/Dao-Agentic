@@ -133,8 +133,21 @@ function defaultChecks() {
     canonicalization_result: "NOT_CHECKED",
   };
 }
+function authorizationState(reason) {
+  if (reason === "MISSING_SIGNATURE" || reason === "MALFORMED_JWS") return "UNAUTHENTICATED";
+  if (reason === "REPLAY") return "REJECT";
+  if (reason === "WRONG_AUDIENCE" || reason === "WRONG_ISSUER") return "NOT_AUTHORIZED";
+  return "INVALID";
+}
 function failure(reason, details = {}, checks = defaultChecks()) {
-  return Object.freeze({ ok: false, disposition: "HOLD", reason, checks: Object.freeze({ ...checks }), ...details });
+  return Object.freeze({
+    ok: false,
+    authorization_state: authorizationState(reason),
+    disposition: "HOLD",
+    reason,
+    checks: Object.freeze({ ...checks }),
+    ...details,
+  });
 }
 
 export function signMandate(mandate, { kid, privateKeyPem }) {
@@ -249,6 +262,7 @@ export function verifyMandate(jws, {
 
     return Object.freeze({
       ok: true,
+      authorization_state: "AUTHENTICATED_OPERATOR_INSTRUCTION",
       disposition: "AUTHENTICATED_OPERATOR_INSTRUCTION",
       reason: "VALID_MANDATE",
       kid: header.kid,
