@@ -64,9 +64,15 @@ Evidence shapes used:
 - `work_order.branches: [{branch, required_base}]`
 
 FP07 first excludes every message whose `message_id` is named by a nonempty string
-`supersedes` in the supplied snapshot, including intermediate members of correction chains.
+`supersedes` by a message replying to the **same parent** in the supplied snapshot,
+including intermediate members of correction chains. Links from other parents do not
+suppress replies.
 It then records active reply count, reply files and shared message_ids. Independent active
 replies and duplicate deliveries still count separately. No original message is changed.
+FP01 requests lacking a string `request_id`, or null/non-object request entries, yield
+`NOT_RUN_MISSING_EVIDENCE` at the packet locus. If any FP07 message lacks a string
+`message_id` or is null/non-object, FP07 yields `NOT_RUN_MISSING_EVIDENCE` at the
+packet locus: an incomplete snapshot cannot establish active-reply multiplicity.
 FP07 records diagnostic observations only. It states `cause: NOT ESTABLISHED`;
 it does not infer one.
 

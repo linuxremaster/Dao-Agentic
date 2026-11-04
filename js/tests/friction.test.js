@@ -237,3 +237,49 @@ test("audit: FP07 correction order is irrelevant and independent active replies 
   // Membership/count is independent of snapshot order even when file keys are absent.
   assert.deepEqual(results.map((f) => f.observed.replies.map((r) => r.message_id).sort()), [["c", "independent"], ["c", "independent"]]);
 });
+
+// AUDIT-RESULT-004B-003: these controls precede the corresponding fixes.
+test("audit004 C1: FP01 malformed requests yield missing evidence without exceptions", () => {
+  const invalid = [null, false, 42, "request", [], {}, { request_id: null }, { request_id: 7 }];
+  for (const value of invalid) {
+    const packet = JSON.parse(JSON.stringify(synthetic.cases[0].packet));
+    packet.evidence.relay_snapshot.requests = [value !== null && typeof value === "object" && !Array.isArray(value)
+      ? { action_class: "branch_commit", channel: "bus", ...value } : value];
+    const findings = screen(parseInert(JSON.stringify(packet)), catalog).findings.filter((f) => f.target_id === "FP01");
+    assert.equal(findings.length, 1);
+    assert.equal(findings[0].verdict, "NOT_RUN_MISSING_EVIDENCE", JSON.stringify(value));
+  }
+});
+
+test("audit004 C1: FP07 malformed messages yield missing evidence without exceptions", () => {
+  for (const value of [null, false, 42, "message", [], {}, { message_id: null }, { message_id: 7 }]) {
+    const packet = basePacket();
+    const parent = packet.evidence.relay_policy.single_response_parents[0];
+    const entry = value !== null && typeof value === "object" && !Array.isArray(value)
+      ? { parent_message_id: parent, ...value } : value;
+    // An invalid entry must not be ignored even alongside otherwise usable evidence.
+    packet.evidence.relay_snapshot.messages.push(entry);
+    const findings = screen(parseInert(JSON.stringify(packet)), catalog).findings.filter((f) => f.target_id === "FP07");
+    assert.equal(findings.length, 1);
+    assert.equal(findings[0].verdict, "NOT_RUN_MISSING_EVIDENCE", JSON.stringify(value));
+  }
+});
+
+test("audit004 C2: a foreign parent's supersedes link cannot hide active replies", () => {
+  const packet = basePacket();
+  const parent = packet.evidence.relay_policy.single_response_parents[0];
+  packet.evidence.relay_policy.single_response_parents.push("other");
+  packet.evidence.relay_snapshot.messages = [
+    { message_id: "a", parent_message_id: parent },
+    { message_id: "b", parent_message_id: parent },
+    { message_id: "foreign", parent_message_id: "other", supersedes: "a" },
+  ];
+  const findings = screen(parseInert(JSON.stringify(packet)), catalog).findings.filter((f) => f.target_id === "FP07");
+  const target = findings.find((f) => f.locus === `relay:${parent}`);
+  assert.equal(target.verdict, "HIT");
+  assert.equal(target.observed.reply_count, 2);
+  assert.deepEqual(target.observed.replies.map((r) => r.message_id).sort(), ["a", "b"]);
+  const other = findings.find((f) => f.locus === "relay:other");
+  assert.equal(other.verdict, "NO_HIT");
+  assert.equal(other.observed.reply_count, 1);
+});

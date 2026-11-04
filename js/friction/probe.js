@@ -97,8 +97,13 @@ function fp01ChannelAuthority(ev, packetLocus) {
     return [{ locus: packetLocus, verdict: "NO_HIT", observed: { requests: 0 }, expected: null, evidence_refs: ["relay_snapshot"] }];
   }
   return requests.map((r) => {
+    if (!isObj(r) || typeof r.request_id !== "string") {
+      return notRun(packetLocus, "request object/string request_id");
+    }
+    if (typeof r.channel !== "string" || typeof r.action_class !== "string") {
+      return notRun(packetLocus, "request channel/action_class");
+    }
     const locus = `action:${r.action_class}:${r.request_id}`;
-    if (typeof r.channel !== "string" || typeof r.action_class !== "string") return notRun(locus, "request channel/action_class");
     const rule = classes[r.action_class];
     const permitted = isObj(rule) && Array.isArray(rule.permitted_channels) ? rule.permitted_channels : null;
     const hit = permitted === null || !permitted.includes(r.channel);
@@ -144,12 +149,16 @@ function fp07SingleResponse(ev, packetLocus) {
   const messages = ev.relay_snapshot.messages;
   if (!Array.isArray(parents) || parents.length === 0) return [notRun(packetLocus, "relay_policy.single_response_parents")];
   if (!Array.isArray(messages)) return [notRun(packetLocus, "relay_snapshot.messages")];
-  const superseded = new Set(messages
-    .filter((m) => typeof m.supersedes === "string" && m.supersedes !== "")
-    .map((m) => m.supersedes));
+  if (messages.some((m) => !isObj(m) || typeof m.message_id !== "string")) {
+    return [notRun(packetLocus, "relay_snapshot.messages entry/string message_id")];
+  }
   return parents.map((parent) => {
-    const replies = messages
-      .filter((m) => m.parent_message_id === parent && !superseded.has(m.message_id))
+    const sameParent = messages.filter((m) => m.parent_message_id === parent);
+    const superseded = new Set(sameParent
+      .filter((m) => typeof m.supersedes === "string" && m.supersedes !== "")
+      .map((m) => m.supersedes));
+    const replies = sameParent
+      .filter((m) => !superseded.has(m.message_id))
       .map((m) => ({ message_id: m.message_id, file: m.file === undefined ? null : m.file }))
       .sort((a, b) => (String(a.file) < String(b.file) ? -1 : String(a.file) > String(b.file) ? 1 : 0));
     const ids = replies.map((r) => r.message_id);
