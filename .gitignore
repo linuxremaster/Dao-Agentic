@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+# Operator signing secrets: public trust material may be committed; private keys must not.
+operator-private.pem
+*.private.pem
+*.operator-private.pem
