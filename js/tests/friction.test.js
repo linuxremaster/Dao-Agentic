@@ -283,3 +283,62 @@ test("audit004 C2: a foreign parent's supersedes link cannot hide active replies
   assert.equal(other.verdict, "NO_HIT");
   assert.equal(other.observed.reply_count, 1);
 });
+
+
+test("audit004 C2-R: invalid same-parent supersession returns missing evidence", () => {
+  const cases = [
+    ["self-supersession", [
+      { message_id: "a", parent_message_id: "P" },
+      { message_id: "b", parent_message_id: "P", supersedes: "b" },
+    ]],
+    ["two-message cycle", [
+      { message_id: "a", parent_message_id: "P", supersedes: "b" },
+      { message_id: "b", parent_message_id: "P", supersedes: "a" },
+    ]],
+    ["unknown target", [
+      { message_id: "a", parent_message_id: "P" },
+      { message_id: "b", parent_message_id: "P", supersedes: "not-a-reply" },
+    ]],
+    ["empty supersedes", [
+      { message_id: "a", parent_message_id: "P" },
+      { message_id: "b", parent_message_id: "P", supersedes: "" },
+    ]],
+    ["nonstring supersedes", [
+      { message_id: "a", parent_message_id: "P" },
+      { message_id: "b", parent_message_id: "P", supersedes: 7 },
+    ]],
+  ];
+  for (const [name, messages] of cases) {
+    const packet = basePacket();
+    packet.evidence.relay_policy.single_response_parents = ["P"];
+    packet.evidence.relay_snapshot.messages = messages;
+    const finding = screen(parseInert(JSON.stringify(packet)), catalog).findings.find((f) => f.target_id === "FP07");
+    assert.equal(finding.verdict, "NOT_RUN_MISSING_EVIDENCE", name);
+    assert.equal(finding.locus, "relay:P", name);
+  }
+});
+
+test("audit004 C2-R: invalid links do not contaminate a different parent", () => {
+  const packet = basePacket();
+  packet.evidence.relay_policy.single_response_parents = ["P", "Q"];
+  packet.evidence.relay_snapshot.messages = [
+    { message_id: "a", parent_message_id: "P", supersedes: "a" },
+    { message_id: "q1", parent_message_id: "Q" },
+    { message_id: "q2", parent_message_id: "Q" },
+  ];
+  const findings = screen(parseInert(JSON.stringify(packet)), catalog).findings.filter((f) => f.target_id === "FP07");
+  assert.equal(findings.find((f) => f.locus === "relay:P").verdict, "NOT_RUN_MISSING_EVIDENCE");
+  assert.equal(findings.find((f) => f.locus === "relay:Q").verdict, "HIT");
+});
+
+test("audit004 C2-R: empty request and message IDs are missing evidence", () => {
+  const packet = JSON.parse(JSON.stringify(synthetic.cases[0].packet));
+  packet.evidence.relay_snapshot.requests[0].request_id = "";
+  const fp01 = screen(parseInert(JSON.stringify(packet)), catalog).findings.find((f) => f.target_id === "FP01");
+  assert.equal(fp01.verdict, "NOT_RUN_MISSING_EVIDENCE");
+  const msgPacket = basePacket();
+  const parent = msgPacket.evidence.relay_policy.single_response_parents[0];
+  msgPacket.evidence.relay_snapshot.messages = [{ message_id: "", parent_message_id: parent }];
+  const fp07 = screen(parseInert(JSON.stringify(msgPacket)), catalog).findings.find((f) => f.target_id === "FP07");
+  assert.equal(fp07.verdict, "NOT_RUN_MISSING_EVIDENCE");
+});
