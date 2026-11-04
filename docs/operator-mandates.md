@@ -1,6 +1,6 @@
 # Operator-signed action mandates
 
-Status: implementation candidate. This adds authenticated operator provenance to the existing exact action-scoped authority path. It does not make signed claims true and does not create standing authority.
+Status: implemented on `main`. This adds authenticated operator provenance to the existing exact action-scoped authority path. It does not make signed claims true and does not create standing authority.
 
 ## Boundary
 
@@ -57,23 +57,17 @@ No wildcard subject/action/target/scope is accepted. Extra fields are rejected. 
 
 ## Bootstrap
 
-The repository does **not** contain an operator public key. Activation requires an authenticated bootstrap of a trust store such as:
+The public operator trust root is pinned in `config/operator-trust.json`.
 
-```json
-{
-  "version": "0.1",
-  "keys": [
-    {
-      "kid": "operator-2026-01",
-      "alg": "EdDSA",
-      "status": "ACTIVE",
-      "public_key_pem": "-----BEGIN PUBLIC KEY-----\\n...\\n-----END PUBLIC KEY-----\\n"
-    }
-  ]
-}
+The current active key is:
+
+```text
+kid: operator-2026-01
+alg: EdDSA
+status: ACTIVE
 ```
 
-Until that trust root is independently established, authority-dependent relay instructions remain unauthenticated.
+The private key is intentionally absent from the repository and must remain under operator control. A verifier should load the pinned public trust store from `config/operator-trust.json`; changing that trust root is itself a security-sensitive operation and must not be inferred from relay content.
 
 ## Operator-side example
 
@@ -100,7 +94,7 @@ Transfer only the public trust store and the signed mandate to the verifier envi
 ```sh
 node js/scripts/mandate_gate.js apply \
   --mandate mandate.jws \
-  --trust-store operator-trust.json \
+  --trust-store config/operator-trust.json \
   --audience SOC-THREAD-070 \
   --lease-ledger state/leases.jsonl \
   --replay-ledger state/mandate-replay.jsonl \
