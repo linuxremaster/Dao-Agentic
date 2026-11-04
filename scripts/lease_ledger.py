@@ -57,6 +57,11 @@ def main():
     state = load(args.ledger)
     if args.command == "append":
         event = json.loads(args.event.read_text(encoding="utf-8"))
+        if event.get("kind") == "AUTHORITY_GRANTED":
+            raise SystemExit(
+                "raw AUTHORITY_GRANTED admission is forbidden; "
+                "use js/scripts/mandate_gate.js with an authenticated operator mandate"
+            )
         state = append(args.ledger, state, event)
         print(json.dumps({"accepted": True, "sequence": state.last_sequence, "history_hash": state.history_hash}, sort_keys=True))
     elif args.command == "decide":
