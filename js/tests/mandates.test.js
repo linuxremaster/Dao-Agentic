@@ -86,3 +86,48 @@ test("validly signed non-canonical payload is rejected", () => {
   assert.equal(v.reason, "NON_CANONICAL_JWS");
   assert.equal(v.checks.canonicalization_result, "NON_CANONICAL");
 });
+
+
+test("mandatory HOLD classifications are explicit", () => {
+  const missing = verifyMandate("", {
+    trustStore, expectedIssuer: "operator", expectedAudience: "SOC-THREAD-070", now,
+  });
+  assert.equal(missing.authorization_state, "UNAUTHENTICATED");
+  assert.equal(missing.disposition, "HOLD");
+
+  const replay = verify(signed(), {
+    replayState: { mandateIds: new Set(["m-001"]), nonces: new Set() },
+  });
+  assert.equal(replay.authorization_state, "REJECT");
+  assert.equal(replay.disposition, "HOLD");
+
+  const wrongAudience = verifyMandate(signed(), {
+    trustStore, expectedIssuer: "operator", expectedAudience: "OTHER", now,
+  });
+  assert.equal(wrongAudience.authorization_state, "NOT_AUTHORIZED");
+  assert.equal(wrongAudience.disposition, "HOLD");
+});
+
+test("key rotation supports a new active kid while an old kid is revoked", () => {
+  const rotated = generateKeyPairSync("ed25519");
+  const rotatedPrivatePem = rotated.privateKey.export({ type: "pkcs8", format: "pem" });
+  const rotatedPublicPem = rotated.publicKey.export({ type: "spki", format: "pem" });
+  const rotatedStore = {
+    version: "0.1",
+    keys: [
+      { ...trustStore.keys[0], status: "REVOKED" },
+      { kid: "operator-2026-02", alg: "EdDSA", status: "ACTIVE", public_key_pem: rotatedPublicPem },
+    ],
+  };
+  const jws = signMandate(mandate({ mandate_id: "m-rotated", nonce: "n-rotated" }), {
+    kid: "operator-2026-02", privateKeyPem: rotatedPrivatePem,
+  });
+  const v = verifyMandate(jws, {
+    trustStore: rotatedStore,
+    expectedIssuer: "operator",
+    expectedAudience: "SOC-THREAD-070",
+    now,
+  });
+  assert.equal(v.ok, true);
+  assert.equal(v.kid, "operator-2026-02");
+});
