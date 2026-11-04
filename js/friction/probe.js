@@ -97,7 +97,7 @@ function fp01ChannelAuthority(ev, packetLocus) {
     return [{ locus: packetLocus, verdict: "NO_HIT", observed: { requests: 0 }, expected: null, evidence_refs: ["relay_snapshot"] }];
   }
   return requests.map((r) => {
-    if (!isObj(r) || typeof r.request_id !== "string") {
+    if (!isObj(r) || typeof r.request_id !== "string" || r.request_id.trim() === "") {
       return notRun(packetLocus, "request object/string request_id");
     }
     if (typeof r.channel !== "string" || typeof r.action_class !== "string") {
@@ -149,14 +149,32 @@ function fp07SingleResponse(ev, packetLocus) {
   const messages = ev.relay_snapshot.messages;
   if (!Array.isArray(parents) || parents.length === 0) return [notRun(packetLocus, "relay_policy.single_response_parents")];
   if (!Array.isArray(messages)) return [notRun(packetLocus, "relay_snapshot.messages")];
-  if (messages.some((m) => !isObj(m) || typeof m.message_id !== "string")) {
+  if (messages.some((m) => !isObj(m) || typeof m.message_id !== "string" || m.message_id.trim() === "")) {
     return [notRun(packetLocus, "relay_snapshot.messages entry/string message_id")];
   }
   return parents.map((parent) => {
     const sameParent = messages.filter((m) => m.parent_message_id === parent);
-    const superseded = new Set(sameParent
-      .filter((m) => typeof m.supersedes === "string" && m.supersedes !== "")
-      .map((m) => m.supersedes));
+    const replyIds = new Set(sameParent.map((m) => m.message_id));
+    const links = new Map();
+    for (const m of sameParent) {
+      if (!Object.hasOwn(m, "supersedes")) continue;
+      if (typeof m.supersedes !== "string" || m.supersedes.trim() === "" ||
+          m.supersedes === m.message_id || !replyIds.has(m.supersedes) ||
+          links.has(m.message_id)) {
+        return notRun(`relay:${parent}`, "invalid supersession link");
+      }
+      links.set(m.message_id, m.supersedes);
+    }
+    for (const start of links.keys()) {
+      const seen = new Set();
+      let id = start;
+      while (links.has(id)) {
+        if (seen.has(id)) return notRun(`relay:${parent}`, "supersession cycle");
+        seen.add(id);
+        id = links.get(id);
+      }
+    }
+    const superseded = new Set(links.values());
     const replies = sameParent
       .filter((m) => !superseded.has(m.message_id))
       .map((m) => ({ message_id: m.message_id, file: m.file === undefined ? null : m.file }))
