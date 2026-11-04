@@ -59,7 +59,7 @@ for (const key of ["lease-ledger", "event-id", "request-id", "subject", "action"
   if (!a[key]) die(`--${key} is required`);
 }
 
-const lockPath = a.lock || `${a["lease-ledger"]}.policy.lock`;
+const lockPath = a.lock || `${a["lease-ledger"]}.lock`;
 const release = acquireLock(lockPath);
 try {
   const records = readJsonl(a["lease-ledger"]);
