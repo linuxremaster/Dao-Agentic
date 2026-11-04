@@ -46,8 +46,8 @@ function mandateHash(jws) { return createHash("sha256").update(jws, "utf8").dige
 
 const a = args(process.argv.slice(2));
 const command = a._[0];
-if (command !== "apply") die("usage: mandate_gate.js apply --mandate FILE --trust-store FILE --audience ID --lease-ledger FILE --replay-ledger FILE --verification-log FILE [--now ISO] [--lock FILE]");
-for (const k of ["mandate", "trust-store", "audience", "lease-ledger", "replay-ledger", "verification-log"]) if (!a[k]) die(`--${k} is required`);
+if (command !== "apply") die("usage: mandate_gate.js apply --mandate FILE --trust-store FILE --issuer ID --audience ID --lease-ledger FILE --replay-ledger FILE --verification-log FILE [--now ISO] [--lock FILE]");
+for (const k of ["mandate", "trust-store", "issuer", "audience", "lease-ledger", "replay-ledger", "verification-log"]) if (!a[k]) die(`--${k} is required`);
 const lockPath = a.lock || `${a["lease-ledger"]}.mandate.lock`;
 const release = acquireLock(lockPath);
 try {
@@ -58,14 +58,50 @@ try {
   const state = await replayLeases(leaseEvents);
   const now = a.now ? new Date(a.now) : new Date();
   const verification = verifyMandate(jws, {
-    trustStore, expectedAudience: a.audience, now, replayState: replayState(replays),
+    trustStore,
+    expectedIssuer: a.issuer,
+    expectedAudience: a.audience,
+    now,
+    replayState: replayState(replays),
   });
   const hash = mandateHash(jws);
+  const checks = verification.checks || {};
+  const mandate = verification.mandate || null;
   const baseRecord = {
-    record_version: "0.1", mandate_hash: hash, verifier: "dao-mandate-gate/0.1",
-    verified_at: now.toISOString(), audience: a.audience,
-    disposition: verification.disposition, reason: verification.reason,
-    kid: verification.kid ?? null, mandate_id: verification.mandate?.mandate_id ?? verification.mandate_id ?? null,
+    record_version: "0.1",
+    message_id: mandate?.mandate_id ?? verification.mandate_id ?? null,
+    mandate_id: mandate?.mandate_id ?? verification.mandate_id ?? null,
+    payload_hash: hash,
+    mandate_hash: hash,
+    operator_key_id: verification.kid ?? null,
+    signature_algorithm: checks.algorithm_result === "ALLOWED" ? "EdDSA" : null,
+    verifier_version: "dao-mandate-gate/0.2",
+    verification_timestamp: now.toISOString(),
+    verified_at: now.toISOString(),
+    expected_issuer: a.issuer,
+    expected_audience: a.audience,
+    signature_result: checks.signature_result ?? "NOT_CHECKED",
+    key_result: checks.key_result ?? "NOT_CHECKED",
+    algorithm_result: checks.algorithm_result ?? "NOT_CHECKED",
+    issuer_result: checks.issuer_result ?? "NOT_CHECKED",
+    freshness_result: checks.freshness_result ?? "NOT_CHECKED",
+    audience_result: checks.audience_result ?? "NOT_CHECKED",
+    scope_result: checks.scope_result ?? "NOT_CHECKED",
+    replay_result: checks.replay_result ?? "NOT_CHECKED",
+    payload_integrity_result: checks.payload_integrity_result ?? "NOT_CHECKED",
+    canonicalization_result: checks.canonicalization_result ?? "NOT_CHECKED",
+    authorization_state: verification.authorization_state,
+    final_authorization_disposition: verification.disposition,
+    disposition: verification.disposition,
+    reason: verification.reason,
+    action_attempted: mandate ? {
+      kind: "AUTHORITY_GRANT_ADMISSION",
+      subject: mandate.grant.subject,
+      action: mandate.grant.action,
+      target: mandate.grant.target,
+      scope: mandate.grant.scope,
+    } : { kind: "AUTHORITY_GRANT_ADMISSION" },
+    action_result: verification.ok ? "AUTHORIZED_FOR_ADMISSION" : "NOT_ADMITTED",
   };
   if (!verification.ok) {
     appendJsonl(a["verification-log"], baseRecord);
@@ -76,8 +112,15 @@ try {
     await reduceLease(state, event);
     appendJsonl(a["verification-log"], baseRecord);
     appendJsonl(a["replay-ledger"], {
-      mandate_id: verification.mandate.mandate_id, nonce: verification.mandate.nonce,
-      mandate_hash: hash, consumed_at: now.toISOString(), event_id: event.event_id,
+      message_id: mandate.mandate_id,
+      mandate_id: mandate.mandate_id,
+      nonce: mandate.nonce,
+      operator_key_id: verification.kid,
+      verification_time: now.toISOString(),
+      authorization_disposition: verification.disposition,
+      mandate_hash: hash,
+      consumed_at: now.toISOString(),
+      event_id: event.event_id,
     });
     appendJsonl(a["lease-ledger"], event);
     console.log(JSON.stringify({ verification: baseRecord, authority_event: event }));

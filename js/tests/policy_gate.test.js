@@ -51,6 +51,7 @@ test("policy gate allows only an exact live grant and records decision", () => {
   assert.equal(result.status, 0, result.stderr);
   const output = JSON.parse(result.stdout);
   assert.equal(output.enforcement, "ALLOW");
+  assert.equal(output.authorization_state, "AUTHORIZED");
   assert.equal(output.decision.grant_id, "grant-1");
   const records = fs.readFileSync(ledger, "utf8").trim().split(/\r?\n/).map(JSON.parse);
   assert.equal(records.at(-1).kind, "AUTHORITY_DECIDED");
@@ -67,6 +68,7 @@ test("policy gate fails closed with exit 3 when scope does not match", () => {
   assert.equal(result.status, 3, result.stderr);
   const output = JSON.parse(result.stdout);
   assert.equal(output.enforcement, "DENY");
+  assert.equal(output.authorization_state, "NOT_AUTHORIZED");
   assert.equal(output.decision.allowed, false);
   assert.equal(output.decision.reason, "NO_VALID_GRANT");
 });
