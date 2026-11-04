@@ -47,12 +47,11 @@ function publish(dir, targetOverride = null) {
     "--lease-ledger", ledger,
     "--receipt-log", receipts,
     "--source", source,
-    "--outbox", outbox,
     "--message-id", messageId,
     "--subject", "SOC-THREAD-070",
     "--event-id", "decision-1",
     "--request-id", "request-1",
-  ], { encoding: "utf8" });
+  ], { encoding: "utf8", env: { ...process.env, DAO_RELAY_OUTBOX: outbox } });
 
   return { result, source, ledger, receipts, outbox, target, messageId };
 }
@@ -116,12 +115,11 @@ test("tampered prior action receipt blocks later execution", () => {
     "--lease-ledger", fx.ledger,
     "--receipt-log", fx.receipts,
     "--source", secondSource,
-    "--outbox", fx.outbox,
     "--message-id", "MSG-002",
     "--subject", "SOC-THREAD-070",
     "--event-id", "decision-2",
     "--request-id", "request-2",
-  ], { encoding: "utf8" });
+  ], { encoding: "utf8", env: { ...process.env, DAO_RELAY_OUTBOX: fx.outbox } });
 
   assert.equal(result.status, 4);
   assert.match(result.stderr, /hash mismatch/);
