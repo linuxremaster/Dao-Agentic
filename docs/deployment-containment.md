@@ -72,7 +72,7 @@ This removes the previous local-process race where mandate and policy writers us
 
 ## Trusted side-effect adapter
 
-`js/scripts/authorized_relay_publish.js` is the first concrete reference adapter.
+`js/scripts/authorized_relay_publish.js` is the first concrete reference adapter. Its destination is not caller-supplied; deployment must set an absolute `DAO_RELAY_OUTBOX` path before launching the adapter.
 
 It:
 
@@ -116,3 +116,14 @@ DERIVE EXACT ACTION
 → PERSIST ACTUAL RESULT
 → VERIFY / STOP
 ```
+
+
+Example deployment-controlled destination:
+
+```sh
+export DAO_RELAY_OUTBOX="$HOME/dao-relay-outbox"
+mkdir -p "$DAO_RELAY_OUTBOX"
+chmod 700 "$DAO_RELAY_OUTBOX"
+```
+
+An untrusted caller must not be allowed to choose or rewrite this mapping in production; a supervisor/service configuration should own it.
