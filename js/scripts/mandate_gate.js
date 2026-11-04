@@ -48,7 +48,7 @@ const a = args(process.argv.slice(2));
 const command = a._[0];
 if (command !== "apply") die("usage: mandate_gate.js apply --mandate FILE --trust-store FILE --issuer ID --audience ID --lease-ledger FILE --replay-ledger FILE --verification-log FILE [--now ISO] [--lock FILE]");
 for (const k of ["mandate", "trust-store", "issuer", "audience", "lease-ledger", "replay-ledger", "verification-log"]) if (!a[k]) die(`--${k} is required`);
-const lockPath = a.lock || `${a["lease-ledger"]}.mandate.lock`;
+const lockPath = a.lock || `${a["lease-ledger"]}.lock`;
 const release = acquireLock(lockPath);
 try {
   const jws = fs.readFileSync(a.mandate, "utf8").trim();
