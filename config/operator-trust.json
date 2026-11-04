@@ -1,0 +1,11 @@
+{
+  "version": "0.1",
+  "keys": [
+    {
+      "kid": "operator-2026-01",
+      "alg": "EdDSA",
+      "status": "ACTIVE",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAiupOv3vsZ+cMpZ7Wm/oAJto4albwo/sw3c+g2jqXEng=\n-----END PUBLIC KEY-----\n"
+    }
+  ]
+}
