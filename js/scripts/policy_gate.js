@@ -77,7 +77,8 @@ try {
   appendJsonl(a["lease-ledger"], event);
 
   const enforcement = event.payload.allowed ? "ALLOW" : "DENY";
-  console.log(JSON.stringify({ enforcement, decision: event.payload }));
+  const authorization_state = event.payload.allowed ? "AUTHORIZED" : "NOT_AUTHORIZED";
+  console.log(JSON.stringify({ enforcement, authorization_state, decision: event.payload }));
   if (!event.payload.allowed) process.exitCode = 3;
 } finally {
   release();
