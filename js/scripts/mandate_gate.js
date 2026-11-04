@@ -90,6 +90,7 @@ try {
     replay_result: checks.replay_result ?? "NOT_CHECKED",
     payload_integrity_result: checks.payload_integrity_result ?? "NOT_CHECKED",
     canonicalization_result: checks.canonicalization_result ?? "NOT_CHECKED",
+    authorization_state: verification.authorization_state,
     final_authorization_disposition: verification.disposition,
     disposition: verification.disposition,
     reason: verification.reason,
