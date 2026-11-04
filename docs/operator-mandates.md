@@ -109,7 +109,7 @@ Success durably records verification/replay state and emits/appends the exact ex
 - `VALID SIGNATURE != UNBOUNDED AUTHORITY`.
 - A compromised operator private key defeats origin authentication until revoked/rotated.
 - File locking is local-process cooperative locking, not a distributed consensus mechanism.
-- The raw reducer remains a deterministic state machine; production ingress should route authority-bearing grants through the mandate gate rather than accepting unsigned grant events from relay content.
+- The raw reducer remains a deterministic replay state machine. The supported ledger CLI now rejects raw `AUTHORITY_GRANTED` admission; new grants enter through the signed mandate gate. Direct file writes outside the supported ingress still require deployment-level filesystem controls.
 - Cross-runtime byte canonicalization remains outside this v0.1 mandate gate; signing and verification are both performed by the JS implementation.
 
 ## Evidence basis
