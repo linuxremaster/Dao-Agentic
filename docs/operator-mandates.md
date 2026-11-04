@@ -22,7 +22,7 @@ The v0.1 implementation uses compact JWS-style signing with Ed25519 (`alg=EdDSA`
 {"alg":"EdDSA","kid":"<operator-key-id>","typ":"dao-action-mandate+jws"}
 ```
 
-The signed payload is exactly:
+The signed payload is exactly (the environment-requirements term `message_id` maps to `mandate_id`; `body` maps to the signed exact `grant`; `operator_key_id` maps to protected-header `kid`):
 
 ```json
 {
@@ -46,7 +46,7 @@ The signed payload is exactly:
 }
 ```
 
-No wildcard subject/action/target/scope is accepted. Extra fields are rejected. The gate checks signature, active pinned key, audience, UTC validity window, mandate ID/nonce replay, and logical grant expiry before emitting an `AUTHORITY_GRANTED` event.
+No wildcard subject/action/target/scope is accepted. Extra fields are rejected. The gate checks signature, active pinned key, allowed algorithm, expected issuer, audience, UTC validity window, deterministic canonical serialization, mandate ID/nonce replay, payload integrity, and logical grant expiry before emitting an `AUTHORITY_GRANTED` event. Exact requested-action scope is then enforced by the deterministic policy gate before a side-effect adapter may act.
 
 ## Files
 
@@ -95,13 +95,14 @@ Transfer only the public trust store and the signed mandate to the verifier envi
 node js/scripts/mandate_gate.js apply \
   --mandate mandate.jws \
   --trust-store config/operator-trust.json \
+  --issuer operator \
   --audience SOC-THREAD-070 \
   --lease-ledger state/leases.jsonl \
   --replay-ledger state/mandate-replay.jsonl \
   --verification-log state/mandate-verification.jsonl
 ```
 
-Success durably records verification/replay state and emits/appends the exact existing `AUTHORITY_GRANTED` event. Failure is fail-closed and emits no grant.
+Success durably records verification/replay state and emits/appends the exact existing `AUTHORITY_GRANTED` event. Failure is fail-closed and emits no grant. Verification records expose signature, key, algorithm, issuer, freshness, audience, signed scope, replay, payload-integrity, canonicalization, disposition, attempted admission action, and admission result fields.
 
 ## Security limits
 
@@ -127,3 +128,23 @@ https://www.rfc-editor.org/rfc/rfc9421.html
 https://ap2-protocol.org/ap2/agent_authorization/
 
 https://ap2-protocol.org/ap2/specification/
+
+
+## Environment-requirements conformance boundary
+
+The repository carries the operator-signed relay environment requirements as a normative implementation checklist.
+
+Current code-enforced boundary:
+
+- Relay/carrier identity is not an authority input.
+- Operator provenance requires a valid Ed25519 signature under the pinned trust root.
+- Issuer and audience are explicit verifier inputs.
+- Signed mandates must use deterministic canonical serialization.
+- New authority grants cannot enter through the generic lease-ledger append CLI.
+- Exact requested actions are evaluated by `policy_gate.js`; denial is non-zero/fail-closed.
+- Replay identifiers and detailed verification evidence are persisted outside model memory.
+
+Deployment boundary that code in this repository cannot guarantee by itself:
+
+- OS/filesystem permissions must prevent untrusted processes from directly rewriting ledgers/logs or bypassing the supported action adapters.
+- A concrete side-effect adapter must persist the external action result after an `ALLOW` decision; the generic policy primitive records the authorization decision, not the outcome of every possible external system.
