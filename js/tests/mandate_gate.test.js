@@ -98,7 +98,7 @@ test("accepted mandate persists complete verification and replay evidence", () =
   assert.equal(replay.message_id, "m-integration-001");
   assert.equal(replay.nonce, "nonce-integration-001");
   assert.equal(replay.operator_key_id, "operator-test");
-  assert.equal(replay.verification_time, NOW);
+  assert.equal(replay.verification_time, new Date(NOW).toISOString());
   assert.equal(replay.authorization_disposition, "AUTHENTICATED_OPERATOR_INSTRUCTION");
 });
 
