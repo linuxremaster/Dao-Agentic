@@ -30,7 +30,13 @@ function writeLedger(file, target) {
   }) + "\n");
 }
 
-function fixture(targetOverride = null) {
+function noClaimTrace() {
+  return JSON.stringify({
+    version: "0.1", mode: "NO_SUBSTANTIVE_CLAIM", claims: [], sources: [], failures: [],
+  });
+}
+
+function fixture(targetOverride = null, { includeTrace = true } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "dao-gateway-"));
   const source = path.join(dir, "message.md");
   const ledger = path.join(dir, "leases.jsonl");
@@ -38,7 +44,8 @@ function fixture(targetOverride = null) {
   const outbox = path.join(dir, "outbox");
   const socket = path.join(dir, "gateway.sock");
   const messageId = "MSG-001";
-  const body = Buffer.from(`message_id: ${messageId}\nkind: TEST\nbody: exact bytes\n`, "utf8");
+  const trace = includeTrace ? `epistemic_trace_json: ${noClaimTrace()}\n` : "";
+  const body = Buffer.from(`message_id: ${messageId}\nkind: TEST\n${trace}body: exact bytes\n`, "utf8");
   fs.writeFileSync(source, body);
   const target = `${messageId}@sha256:${sha256(body)}`;
   writeLedger(ledger, targetOverride ?? target);
@@ -123,11 +130,24 @@ test("credential-free client routes relay mutation through gateway", async (t) =
   assert.equal(output.authorization_state, "AUTHORIZED");
   assert.equal(output.target, fx.target);
   assert.equal(output.action_result.status, "PUBLISHED");
+  assert.equal(output.action_result.epistemic_trace.mode, "NO_SUBSTANTIVE_CLAIM");
+  assert.match(output.action_result.epistemic_trace_sha256, /^[0-9a-f]{64}$/);
   assert.deepEqual(fs.readFileSync(path.join(fx.outbox, path.basename(fx.source))), fs.readFileSync(fx.source));
 
   const receipts = fs.readFileSync(fx.receipts, "utf8").trim().split(/\r?\n/).map(JSON.parse);
   assert.equal(receipts.length, 2);
   assert.equal(verifyEvidenceChain(receipts).ok, true);
+});
+
+test("relay publisher rejects a missing epistemic trace before side effect", async (t) => {
+  const fx = fixture(null, { includeTrace: false });
+  await withGateway(t, fx);
+  const result = publish(fx);
+
+  assert.equal(result.status, 4);
+  assert.match(result.stderr, /epistemic_trace_json/);
+  assert.equal(fs.existsSync(path.join(fx.outbox, path.basename(fx.source))), false);
+  assert.equal(fs.existsSync(fx.receipts), false);
 });
 
 test("gateway denial performs no relay side effect", async (t) => {
