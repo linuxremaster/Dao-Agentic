@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
+import { extractEpistemicTrace } from "../core/epistemic_trace.js";
 
 function sha256(bytes) { return createHash("sha256").update(bytes).digest("hex"); }
 function explicit(value, name) {
@@ -23,19 +24,30 @@ export const relayPublishAdapter = Object.freeze({
 
     const bytes = fs.readFileSync(source);
     const digest = sha256(bytes);
-    const declared = bytes.toString("utf8").split(/\r?\n/).find((line) => line.startsWith("message_id:"));
+    const text = bytes.toString("utf8");
+    const declared = text.split(/\r?\n/).find((line) => line.startsWith("message_id:"));
     if (!declared || declared.slice("message_id:".length).trim() !== messageId) {
       throw new TypeError("source message_id does not match input.message_id");
     }
+    const epistemicTrace = extractEpistemicTrace(text, { messageId });
+    const epistemicDigest = sha256(Buffer.from(JSON.stringify(epistemicTrace), "utf8"));
 
     return Object.freeze({
       target: `${messageId}@sha256:${digest}`,
       scope: "dao-agentic-relay/outbox",
-      evidence_ids: Object.freeze([...new Set([...evidenceIds, `content-sha256:${digest}`])]),
+      evidence_ids: Object.freeze([...new Set([
+        ...evidenceIds,
+        `content-sha256:${digest}`,
+        `epistemic-trace-sha256:${epistemicDigest}`,
+        `epistemic-claims:${epistemicTrace.claims.length}`,
+        `epistemic-sources:${epistemicTrace.sources.length}`,
+      ])]),
       execution_input: Object.freeze({
         source,
         message_id: messageId,
         digest,
+        epistemic_trace: epistemicTrace,
+        epistemic_trace_sha256: epistemicDigest,
         outbox,
       }),
     });
@@ -58,6 +70,8 @@ export const relayPublishAdapter = Object.freeze({
       destination: path.basename(destination),
       sha256: executionInput.digest,
       bytes: written.length,
+      epistemic_trace_sha256: executionInput.epistemic_trace_sha256,
+      epistemic_trace: executionInput.epistemic_trace,
     });
   },
 });
