@@ -5,13 +5,15 @@ import path from "node:path";
 function die(message, code = 2) { console.error(message); process.exit(code); }
 
 function parseArgs(argv) {
-  const out = { _: [] };
+  const out = { _: [], "forbidden-env": [], "forbidden-write-path": [] };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (!arg.startsWith("--")) { out._.push(arg); continue; }
     const key = arg.slice(2);
     if (i + 1 >= argv.length) die(`missing value for --${key}`);
-    out[key] = argv[++i];
+    const value = argv[++i];
+    if (key === "forbidden-env" || key === "forbidden-write-path") out[key].push(value);
+    else out[key] = value;
   }
   return out;
 }
@@ -31,11 +33,17 @@ function walk(root, out = []) {
   return out;
 }
 
+function writable(pathname) {
+  try { fs.accessSync(pathname, fs.constants.W_OK); return true; }
+  catch { return false; }
+}
+
 const a = parseArgs(process.argv.slice(2));
 if (a._[0] !== "check") {
-  die("usage: deployment_guard.js check --repo-root DIR --state-dir DIR --trust-store FILE");
+  die("usage: deployment_guard.js check --repo-root DIR --state-dir DIR --trust-store FILE [--runtime-role agent|gateway] [--forbidden-env NAME] [--forbidden-write-path PATH]");
 }
 for (const key of ["repo-root", "state-dir", "trust-store"]) if (!a[key]) die(`--${key} is required`);
+if (a["runtime-role"] && !new Set(["agent", "gateway"]).has(a["runtime-role"])) die("--runtime-role must be agent or gateway");
 
 const findings = [];
 const repoRoot = path.resolve(a["repo-root"]);
@@ -86,11 +94,27 @@ if (fs.existsSync(stateDir)) {
   }
 }
 
+if (a["runtime-role"] === "agent") {
+  const forbiddenEnv = new Set(["DAO_GITHUB_TOKEN", "DAO_RELAY_OUTBOX", ...a["forbidden-env"]]);
+  for (const name of [...forbiddenEnv].sort()) {
+    if (process.env[name]) {
+      findings.push({ severity: "HOLD", code: "MUTATION_CAPABILITY_EXPOSED_TO_AGENT", environment_variable: name });
+    }
+  }
+  for (const raw of a["forbidden-write-path"]) {
+    const p = path.resolve(raw);
+    if (fs.existsSync(p) && writable(p)) {
+      findings.push({ severity: "HOLD", code: "MUTATION_PATH_WRITABLE_BY_AGENT", path: p });
+    }
+  }
+}
+
 const holds = findings.filter((x) => x.severity === "HOLD");
 const result = {
   disposition: holds.length ? "HOLD" : "PASS_WITH_DEPLOYMENT_BOUNDARY",
+  runtime_role: a["runtime-role"] ?? "unspecified",
   findings,
-  boundary: "This preflight detects local key placement and weak POSIX permissions; it does not prove separate-OS-user containment or immutable storage.",
+  boundary: "This preflight detects local key placement, weak POSIX permissions, and configured agent-side mutation capabilities. Mandatory routing still requires credential/filesystem separation at the OS, app, container, or remote-service boundary.",
 };
 console.log(JSON.stringify(result));
 if (holds.length) process.exitCode = 3;
