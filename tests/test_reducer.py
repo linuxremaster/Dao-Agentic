@@ -117,5 +117,34 @@ class ReducerTests(unittest.TestCase):
         self.assertEqual(state, replay(original[:1]))
 
 
+    def test_forged_materialized_state_rejected(self):
+        forged = State(status="VERIFIED", last_sequence=0)
+        checkpoint = dict(
+            event_id="forged-checkpoint",
+            sequence=1,
+            kind="CHECKPOINTED",
+            payload={},
+        )
+        with self.assertRaises(AdmissionError):
+            reduce(forged, checkpoint)
+
+    def test_hand_built_copy_of_legitimate_state_rejected(self):
+        legitimate = reduce(State(), events()[0])
+        copied = State(
+            status=legitimate.status,
+            last_sequence=legitimate.last_sequence,
+            event_ids=legitimate.event_ids,
+            history_hash=legitimate.history_hash,
+        )
+        with self.assertRaises(AdmissionError):
+            reduce(copied, events()[1])
+
+    def test_reducer_produced_state_still_reduces_normally(self):
+        state = State()
+        for event in events():
+            state = reduce(state, event)
+        self.assertEqual(state, replay(events()))
+
+
 if __name__ == "__main__":
     unittest.main()
