@@ -1,51 +1,109 @@
-# Leased roles and authority
+# Universal leases and action authority
 
-This runtime deliberately has **no standing authority roles**.
+This runtime deliberately has **no standing authority roles** and treats permanence as the exception.
 
-- A role lease is temporary descriptive state used for routing/coordination only.
+```text
+PERMANENCE = EXCEPTION
+LEASE = DEFAULT
+```
+
+## Two different things called "permission"
+
+The runtime keeps generic leases separate from action authority.
+
+- A generic lease is temporary scoped state for an explicit subject, lease class, resource, scope and purpose.
 - An authority grant is temporary permission for one exact `subject + action + target + scope`.
-- Every role lease and authority grant has mandatory logical-sequence expiry and can be released earlier.
-- Authority checks never read role, title, seniority, confidence, sender rhetoric, or consensus.
-- Wildcard subjects/actions/targets/scopes are rejected.
-- Optional evidence IDs are matched mechanically before a grant is valid.
-- `AUTHORITY_DECIDED` events are recomputed during replay; a forged `allowed=true` record is rejected.
+- A generic lease never makes `decide_authority()` / `decideAuthority()` return `ALLOW`.
+- Role names, titles, task ownership, tool-access labels, seniority, confidence, rhetoric, consensus and identity labels are not authority inputs.
 
-The persistent reference path is `scripts/lease_ledger.py`, an append-only JSONL ledger. The ledger records grants, releases and decisions. A record does not make its payload true; it proves only what the deterministic lease reducer admitted. The supported CLI ingress rejects raw `AUTHORITY_GRANTED` appends; new authority grants must enter through `js/scripts/mandate_gate.js` after operator-signature verification. Historical ledgers remain replayable.
+Generic leases can represent things such as `ROLE`, `TASK`, `CAPABILITY`, `TOOL_ACCESS`, `BUS_ACCESS`, `WAKE_RIGHT`, `RESOURCE_LOCK`, `CREDENTIAL_USE`, `AUDIENCE_MEMBERSHIP`, or a new explicit lease class introduced by a subsystem. The class is intentionally extensible; the reducer does not silently assign semantics to unknown classes.
+
+A universal lease is exactly:
+
+```json
+{
+  "lease_id": "task-17-holder-002",
+  "subject": "SOC-THREAD-DEV-003",
+  "lease_class": "TASK",
+  "resource": "TASK-17",
+  "scope": "linuxremaster/Dao-Agentic",
+  "purpose": "implement-and-test",
+  "expires_sequence": 40
+}
+```
+
+No wildcard subject/class/resource/scope/purpose is accepted. Every lease has mandatory logical-sequence expiry and can be released earlier.
+
+## Rotation
+
+Rotation is **release old, then grant new**. The rotation helper preserves lease class, resource and scope. It may change the holder, purpose and expiry. Changing the meaning or scope of a lease is a fresh lease, not a rotation.
+
+```text
+old lease
+  -> LEASE_RELEASED
+  -> LEASE_GRANTED with a new lease_id
+```
+
+This prevents a rotation operation from becoming a privilege-expansion shortcut.
+
+Legacy `ROLE_LEASE_GRANTED` records remain replayable. A legacy role can rotate into the universal form as `lease_class=ROLE` with the role name in `resource`.
+
+Authority rotation remains separate: release/expire the old authority grant, then admit a new exact grant through the authenticated operator-mandate path. Generic lease rotation cannot create `AUTHORITY_GRANTED`.
 
 ## Event kinds
 
-`ROLE_LEASE_GRANTED`, `ROLE_LEASE_RELEASED`, `AUTHORITY_GRANTED`, `AUTHORITY_RELEASED`, `AUTHORITY_DECIDED`.
+`LEASE_GRANTED`, `LEASE_RELEASED`, `ROLE_LEASE_GRANTED`, `ROLE_LEASE_RELEASED`, `AUTHORITY_GRANTED`, `AUTHORITY_RELEASED`, `AUTHORITY_DECIDED`.
 
-## Minimal example
+The role-specific events are retained for historical replay compatibility. New non-authority assignments should normally use the universal lease events.
 
-Grant `agent-a` permission to merge one exact commit in one repository until logical sequence 10:
+## Administrative CLI
 
-```json
-{"event_id":"g1","sequence":1,"kind":"AUTHORITY_GRANTED","payload":{"grant_id":"merge-1","subject":"agent-a","action":"MERGE","target":"abc123","scope":"owner/repo","expires_sequence":10,"required_evidence":["audit-pass"]}}
+`scripts/lease_ledger.py` can grant, release, rotate, replay and inspect generic leases:
+
+```sh
+python scripts/lease_ledger.py lease state/leases.jsonl \
+  --event-id lease-event-001 \
+  --lease-id task-17-holder-001 \
+  --subject SOC-THREAD-DEV-003 \
+  --lease-class TASK \
+  --resource TASK-17 \
+  --scope linuxremaster/Dao-Agentic \
+  --purpose implement-and-test \
+  --expires-sequence 40
+
+python scripts/lease_ledger.py rotate state/leases.jsonl \
+  --lease-id task-17-holder-001 \
+  --release-event-id release-001 \
+  --grant-event-id lease-event-002 \
+  --new-lease-id task-17-holder-002 \
+  --new-subject SOC-THREAD-DEV-001 \
+  --expires-sequence 60
 ```
 
-Then the decision command emits and persists an `AUTHORITY_DECIDED` event from current state. Roles are not inputs to that decision.
+This CLI is an administrative persistence surface, **not an authentication boundary**. If an agent runtime can write the lease ledger, it can forge non-authority lease state. Production deployment must therefore make the ledger writable only by the trusted gateway/operator side before any subsystem treats generic lease classes as enforceable access control.
 
+Raw `AUTHORITY_GRANTED` append remains forbidden by the supported ledger CLI. New action authority enters through `js/scripts/mandate_gate.js` after operator-signature verification.
 
 ## Enforcement boundary
 
-Authority admission and action enforcement are separate fail-closed steps.
+A subsystem that wants lease-controlled behavior must explicitly query an exact active lease. Examples:
 
-1. `js/scripts/mandate_gate.js` authenticates an operator-signed mandate and is the supported path for admitting a new `AUTHORITY_GRANTED` event.
-2. `js/scripts/policy_gate.js decide` evaluates an exact subject/action/target/scope/evidence request against current state, persists the self-checking `AUTHORITY_DECIDED` event, prints `ALLOW` or `DENY`, and exits non-zero on denial.
-3. Side-effect adapters must treat a non-zero policy-gate exit as a hard stop. The generic reducer cannot itself prevent a process with direct filesystem or external-system access from bypassing the reference ingress; deployment permissions must prevent out-of-band writes/actions.
-
-Example:
-
-```sh
-node js/scripts/policy_gate.js decide \
-  --lease-ledger state/leases.jsonl \
-  --event-id decision-001 \
-  --request-id request-001 \
-  --subject SOC-THREAD-070 \
-  --action RELAY_PUBLISH \
-  --target OPERATOR-TRUST-BOOTSTRAP-070-001 \
-  --scope dao-agentic-relay/outbox
+```text
+scheduler -> require WAKE_RIGHT lease
+bus       -> require BUS_ACCESS lease
+router    -> require TASK or ROLE lease
+adapter   -> may require TOOL_ACCESS lease
 ```
 
-Exit status `0` means an exact live grant allowed the request. Exit status `3` means policy denied it.
+For consequential side effects, the lease check is additive, not a replacement for exact action authority:
+
+```text
+required lease (if subsystem defines one)
+AND
+valid exact authority grant
+AND
+registered action adapter
+-> side effect
+```
+
+No consequential capability exists merely because it existed previously. Historical leases remain evidence; only a currently active lease has current lease meaning.

@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from core.leases import make_decision_event
+from core.leases import has_active_lease, make_decision_event
 from scripts.lease_ledger import append, load
 
 
@@ -31,6 +31,22 @@ class LedgerTests(unittest.TestCase):
             self.assertTrue(replayed.decisions[-1]["allowed"])
             lines = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual([e["kind"] for e in lines], ["AUTHORITY_GRANTED", "AUTHORITY_DECIDED"])
+
+    def test_generic_lease_persists_and_replays(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "leases.jsonl"
+            event = {
+                "event_id": "l1", "sequence": 1, "kind": "LEASE_GRANTED",
+                "payload": {
+                    "lease_id": "task-lease", "subject": "agent-a", "lease_class": "TASK",
+                    "resource": "task-17", "scope": "owner/repo", "purpose": "audit",
+                    "expires_sequence": 10,
+                },
+            }
+            state = append(path, load(path), event)
+            replayed = load(path)
+            self.assertEqual(state, replayed)
+            self.assertTrue(has_active_lease(replayed, "agent-a", "TASK", "task-17", "owner/repo"))
 
     def test_invalid_event_is_not_appended(self):
         with tempfile.TemporaryDirectory() as tmp:
