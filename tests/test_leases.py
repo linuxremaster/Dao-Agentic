@@ -2,8 +2,9 @@ import copy
 import unittest
 
 from core.leases import (
-    LeaseError, LeaseState, active_roles, decide_authority,
-    make_decision_event, reduce_lease, replay_leases,
+    LeaseError, LeaseState, active_leases, active_roles, decide_authority,
+    has_active_lease, make_decision_event, make_lease_rotation_events,
+    reduce_lease, replay_leases,
 )
 
 
@@ -16,6 +17,16 @@ def role(seq=1, expires=10):
         "lease_id": "role-1", "subject": "agent-a", "role": "AUDITOR",
         "scope": "repo-x", "expires_sequence": expires,
     })
+
+
+def lease(seq=1, expires=10, **overrides):
+    payload = {
+        "lease_id": "lease-1", "subject": "agent-a", "lease_class": "TASK",
+        "resource": "task-17", "scope": "repo-x", "purpose": "perform-assigned-task",
+        "expires_sequence": expires,
+    }
+    payload.update(overrides)
+    return ev(seq, "LEASE_GRANTED", payload)
 
 
 def grant(seq=1, expires=10, evidence=None):
@@ -39,6 +50,65 @@ class LeaseTests(unittest.TestCase):
         state = replay_leases([role()])
         self.assertEqual([r.role for r in active_roles(state, "agent-a", "repo-x")], ["AUDITOR"])
         self.assertFalse(decide_authority(state, request()).allowed)
+
+    def test_universal_role_lease_is_visible_but_never_grants_authority(self):
+        state = replay_leases([lease(lease_class="ROLE", resource="AUDITOR", purpose="routing")])
+        self.assertEqual([r.role for r in active_roles(state, "agent-a", "repo-x")], ["AUDITOR"])
+        self.assertTrue(has_active_lease(state, "agent-a", "ROLE", "AUDITOR", "repo-x"))
+        self.assertFalse(decide_authority(state, request()).allowed)
+
+    def test_generic_task_tool_and_wake_leases_expire_and_release(self):
+        state = replay_leases([
+            lease(1, 8, lease_id="task-lease", lease_class="TASK", resource="task-17"),
+            lease(2, 8, lease_id="tool-lease", lease_class="TOOL_ACCESS", resource="github-read", purpose="inspect-repository"),
+            lease(3, 8, lease_id="wake-lease", lease_class="WAKE_RIGHT", resource="scheduled-wake", purpose="periodic-check"),
+        ])
+        self.assertTrue(has_active_lease(state, "agent-a", "TASK", "task-17", "repo-x", sequence=7))
+        self.assertTrue(has_active_lease(state, "agent-a", "TOOL_ACCESS", "github-read", "repo-x", sequence=7))
+        self.assertEqual(len(active_leases(state, "agent-a", "WAKE_RIGHT", "repo-x", sequence=7)), 1)
+        self.assertFalse(has_active_lease(state, "agent-a", "TASK", "task-17", "repo-x", sequence=8))
+        state = reduce_lease(state, ev(4, "LEASE_RELEASED", {"lease_id": "tool-lease"}))
+        self.assertFalse(has_active_lease(state, "agent-a", "TOOL_ACCESS", "github-read", "repo-x", sequence=7))
+
+    def test_generic_capability_lease_never_satisfies_authority(self):
+        state = replay_leases([lease(lease_class="CAPABILITY", resource="MERGE", purpose="candidate-capability")])
+        self.assertTrue(has_active_lease(state, "agent-a", "CAPABILITY", "MERGE", "repo-x"))
+        self.assertFalse(decide_authority(state, request()).allowed)
+
+    def test_rotation_releases_old_before_new_and_preserves_meaning(self):
+        first = lease(expires=20, lease_class="TASK", resource="task-17", purpose="audit")
+        state = replay_leases([first])
+        release, replacement = make_lease_rotation_events(
+            state, "lease-1",
+            release_event_id="rotate-release",
+            grant_event_id="rotate-grant",
+            new_lease_id="lease-2",
+            new_subject="agent-b",
+            expires_sequence=30,
+        )
+        self.assertEqual((release["sequence"], replacement["sequence"]), (2, 3))
+        self.assertEqual(replacement["payload"]["lease_class"], "TASK")
+        self.assertEqual(replacement["payload"]["resource"], "task-17")
+        self.assertEqual(replacement["payload"]["scope"], "repo-x")
+        rotated = replay_leases([first, release, replacement])
+        self.assertFalse(has_active_lease(rotated, "agent-a", "TASK", "task-17", "repo-x", sequence=4))
+        self.assertTrue(has_active_lease(rotated, "agent-b", "TASK", "task-17", "repo-x", sequence=4))
+
+    def test_legacy_role_rotates_without_authority_inheritance(self):
+        first = role(expires=20)
+        state = replay_leases([first])
+        release, replacement = make_lease_rotation_events(
+            state, "role-1",
+            release_event_id="role-release",
+            grant_event_id="role-grant",
+            new_lease_id="role-2",
+            new_subject="agent-b",
+            expires_sequence=30,
+        )
+        rotated = replay_leases([first, release, replacement])
+        self.assertEqual(active_roles(rotated, "agent-a", "repo-x", sequence=4), ())
+        self.assertEqual([r.role for r in active_roles(rotated, "agent-b", "repo-x", sequence=4)], ["AUDITOR"])
+        self.assertFalse(decide_authority(rotated, request(subject="agent-b")).allowed)
 
     def test_valid_exact_grant_allows(self):
         state = replay_leases([grant()])
@@ -90,6 +160,11 @@ class LeaseTests(unittest.TestCase):
             payload[field] = "*"
             with self.subTest(field=field), self.assertRaises(LeaseError):
                 replay_leases([grant() | {"payload": payload}])
+        for field in ("subject", "lease_class", "resource", "scope", "purpose"):
+            payload = lease()["payload"].copy()
+            payload[field] = "*"
+            with self.subTest(field=field), self.assertRaises(LeaseError):
+                replay_leases([lease() | {"payload": payload}])
 
     def test_forged_decision_event_rejected(self):
         state = LeaseState()

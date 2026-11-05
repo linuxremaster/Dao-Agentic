@@ -3,7 +3,7 @@ export class LeaseError extends Error {
 }
 
 const EVENT_KINDS = new Set([
-  "ROLE_LEASE_GRANTED", "ROLE_LEASE_RELEASED", "AUTHORITY_GRANTED",
+  "LEASE_GRANTED", "LEASE_RELEASED", "ROLE_LEASE_GRANTED", "ROLE_LEASE_RELEASED", "AUTHORITY_GRANTED",
   "AUTHORITY_RELEASED", "AUTHORITY_DECIDED",
 ]);
 const EVENT_FIELDS = ["event_id", "sequence", "kind", "payload"];
@@ -51,10 +51,14 @@ async function hash(previousHex, event) {
   return bytesToHex(new Uint8Array(await globalThis.crypto.subtle.digest("SHA-256", material)));
 }
 
+function allLeaseIds(state) {
+  return new Set([...state.leases.map((x) => x.lease_id), ...state.roleLeases.map((x) => x.lease_id)]);
+}
+
 export function initialLeaseState() {
   return Object.freeze({
-    lastSequence: 0, eventIds: Object.freeze([]), roleLeases: Object.freeze([]),
-    authorityGrants: Object.freeze([]), releasedRoleLeases: Object.freeze([]),
+    lastSequence: 0, eventIds: Object.freeze([]), leases: Object.freeze([]), roleLeases: Object.freeze([]),
+    authorityGrants: Object.freeze([]), releasedLeases: Object.freeze([]), releasedRoleLeases: Object.freeze([]),
     releasedAuthorityGrants: Object.freeze([]), decisions: Object.freeze([]), historyHash: EMPTY_SHA256,
   });
 }
@@ -67,12 +71,118 @@ export function validateRequest(request) {
   return Object.freeze({ ...request, evidence_ids: Object.freeze(stringList(request.evidence_ids, "evidence_ids")) });
 }
 
+export function activeLeases(state, subject, leaseClass, scope, resource = null, sequence = state.lastSequence + 1) {
+  nonempty(subject, "subject"); nonempty(leaseClass, "lease_class"); nonempty(scope, "scope");
+  if (resource !== null) nonempty(resource, "resource");
+  if (!Number.isInteger(sequence) || sequence < 1) throw new LeaseError("sequence must be an integer >= 1");
+  return state.leases.filter((lease) => lease.subject === subject && lease.lease_class === leaseClass && lease.scope === scope
+    && (resource === null || lease.resource === resource)
+    && !state.releasedLeases.includes(lease.lease_id)
+    && lease.issued_sequence <= sequence && sequence < lease.expires_sequence);
+}
+
+export function hasActiveLease(state, subject, leaseClass, resource, scope, sequence = state.lastSequence + 1) {
+  return activeLeases(state, subject, leaseClass, scope, resource, sequence).length > 0;
+}
+
 export function activeRoles(state, subject, scope, sequence = state.lastSequence + 1) {
   nonempty(subject, "subject"); nonempty(scope, "scope");
   if (!Number.isInteger(sequence) || sequence < 1) throw new LeaseError("sequence must be an integer >= 1");
-  return state.roleLeases.filter((lease) => lease.subject === subject && lease.scope === scope
+  const legacy = state.roleLeases.filter((lease) => lease.subject === subject && lease.scope === scope
     && !state.releasedRoleLeases.includes(lease.lease_id)
     && lease.issued_sequence <= sequence && sequence < lease.expires_sequence);
+  const universal = activeLeases(state, subject, "ROLE", scope, null, sequence).map((lease) => ({
+    lease_id: lease.lease_id,
+    subject: lease.subject,
+    role: lease.resource,
+    scope: lease.scope,
+    issued_sequence: lease.issued_sequence,
+    expires_sequence: lease.expires_sequence,
+  }));
+  return [...legacy, ...universal].sort((a, b) => a.lease_id < b.lease_id ? -1 : a.lease_id > b.lease_id ? 1 : 0);
+}
+
+function activeGenericLeaseById(state, leaseId, sequence) {
+  nonempty(leaseId, "lease_id");
+  const lease = state.leases.find((x) => x.lease_id === leaseId);
+  if (!lease || state.releasedLeases.includes(leaseId)) return null;
+  return lease.issued_sequence <= sequence && sequence < lease.expires_sequence ? lease : null;
+}
+
+function activeLegacyRoleById(state, leaseId, sequence) {
+  nonempty(leaseId, "lease_id");
+  const lease = state.roleLeases.find((x) => x.lease_id === leaseId);
+  if (!lease || state.releasedRoleLeases.includes(leaseId)) return null;
+  return lease.issued_sequence <= sequence && sequence < lease.expires_sequence ? lease : null;
+}
+
+export function makeLeaseRotationEvents(state, oldLeaseId, {
+  releaseEventId,
+  grantEventId,
+  newLeaseId,
+  newSubject,
+  expiresSequence,
+  purpose = null,
+}) {
+  nonempty(oldLeaseId, "old_lease_id");
+  nonempty(releaseEventId, "release_event_id");
+  nonempty(grantEventId, "grant_event_id");
+  nonempty(newLeaseId, "new_lease_id");
+  nonempty(newSubject, "new_subject");
+  if (releaseEventId === grantEventId) throw new LeaseError("rotation event ids must be distinct");
+  if (newLeaseId === oldLeaseId || allLeaseIds(state).has(newLeaseId)) {
+    throw new LeaseError("new_lease_id must be unused and different from old_lease_id");
+  }
+
+  const releaseSequence = state.lastSequence + 1;
+  const grantSequence = state.lastSequence + 2;
+  validateExpiry(expiresSequence, grantSequence);
+
+  const current = activeGenericLeaseById(state, oldLeaseId, releaseSequence);
+  if (current) {
+    const nextPurpose = purpose === null ? current.purpose : nonempty(purpose, "purpose");
+    return Object.freeze([
+      Object.freeze({ event_id: releaseEventId, sequence: releaseSequence, kind: "LEASE_RELEASED", payload: { lease_id: oldLeaseId } }),
+      Object.freeze({
+        event_id: grantEventId,
+        sequence: grantSequence,
+        kind: "LEASE_GRANTED",
+        payload: {
+          lease_id: newLeaseId,
+          subject: newSubject,
+          lease_class: current.lease_class,
+          resource: current.resource,
+          scope: current.scope,
+          purpose: nextPurpose,
+          expires_sequence: expiresSequence,
+        },
+      }),
+    ]);
+  }
+
+  const legacy = activeLegacyRoleById(state, oldLeaseId, releaseSequence);
+  if (legacy) {
+    const nextPurpose = purpose === null ? "role-rotation" : nonempty(purpose, "purpose");
+    return Object.freeze([
+      Object.freeze({ event_id: releaseEventId, sequence: releaseSequence, kind: "ROLE_LEASE_RELEASED", payload: { lease_id: oldLeaseId } }),
+      Object.freeze({
+        event_id: grantEventId,
+        sequence: grantSequence,
+        kind: "LEASE_GRANTED",
+        payload: {
+          lease_id: newLeaseId,
+          subject: newSubject,
+          lease_class: "ROLE",
+          resource: legacy.role,
+          scope: legacy.scope,
+          purpose: nextPurpose,
+          expires_sequence: expiresSequence,
+        },
+      }),
+    ]);
+  }
+
+  throw new LeaseError("old lease is unknown, released, or expired");
 }
 
 export function decideAuthority(state, request, sequence = state.lastSequence + 1) {
@@ -113,17 +223,42 @@ function validateExpiry(expires, issued) {
 
 export async function reduceLease(state, event) {
   validateEnvelope(state, event);
+  const leases = state.leases.map((x) => ({ ...x }));
   const roles = state.roleLeases.map((x) => ({ ...x }));
   const grants = state.authorityGrants.map((x) => ({ ...x, required_evidence: [...x.required_evidence] }));
+  const releasedLeases = [...state.releasedLeases];
   const releasedRoles = [...state.releasedRoleLeases];
   const releasedGrants = [...state.releasedAuthorityGrants];
   const decisions = state.decisions.map((x) => ({ ...x, evidence_ids: [...x.evidence_ids] }));
   const p = event.payload;
 
-  if (event.kind === "ROLE_LEASE_GRANTED") {
+  if (event.kind === "LEASE_GRANTED") {
+    if (!exactKeys(p, ["lease_id", "subject", "lease_class", "resource", "scope", "purpose", "expires_sequence"])) {
+      throw new LeaseError("payload fields do not match event kind");
+    }
+    const leaseId = nonempty(p.lease_id, "lease_id");
+    if (allLeaseIds(state).has(leaseId)) throw new LeaseError("duplicate lease_id");
+    validateExpiry(p.expires_sequence, event.sequence);
+    leases.push({
+      lease_id: leaseId,
+      subject: nonempty(p.subject, "subject"),
+      lease_class: nonempty(p.lease_class, "lease_class"),
+      resource: nonempty(p.resource, "resource"),
+      scope: nonempty(p.scope, "scope"),
+      purpose: nonempty(p.purpose, "purpose"),
+      issued_sequence: event.sequence,
+      expires_sequence: p.expires_sequence,
+    });
+  } else if (event.kind === "LEASE_RELEASED") {
+    if (!exactKeys(p, ["lease_id"])) throw new LeaseError("payload fields do not match event kind");
+    const id = nonempty(p.lease_id, "lease_id");
+    if (!leases.some((x) => x.lease_id === id)) throw new LeaseError("unknown lease_id");
+    if (releasedLeases.includes(id)) throw new LeaseError("lease already released");
+    releasedLeases.push(id);
+  } else if (event.kind === "ROLE_LEASE_GRANTED") {
     if (!exactKeys(p, ["lease_id", "subject", "role", "scope", "expires_sequence"])) throw new LeaseError("payload fields do not match event kind");
     const leaseId = nonempty(p.lease_id, "lease_id");
-    if (roles.some((x) => x.lease_id === leaseId)) throw new LeaseError("duplicate lease_id");
+    if (allLeaseIds(state).has(leaseId)) throw new LeaseError("duplicate lease_id");
     validateExpiry(p.expires_sequence, event.sequence);
     roles.push({ lease_id: leaseId, subject: nonempty(p.subject, "subject"), role: nonempty(p.role, "role"),
       scope: nonempty(p.scope, "scope"), issued_sequence: event.sequence, expires_sequence: p.expires_sequence });
@@ -163,7 +298,8 @@ export async function reduceLease(state, event) {
 
   return Object.freeze({
     lastSequence: event.sequence, eventIds: Object.freeze([...state.eventIds, event.event_id]),
-    roleLeases: Object.freeze(roles.map(Object.freeze)), authorityGrants: Object.freeze(grants.map(Object.freeze)),
+    leases: Object.freeze(leases.map(Object.freeze)), roleLeases: Object.freeze(roles.map(Object.freeze)),
+    authorityGrants: Object.freeze(grants.map(Object.freeze)), releasedLeases: Object.freeze(releasedLeases),
     releasedRoleLeases: Object.freeze(releasedRoles), releasedAuthorityGrants: Object.freeze(releasedGrants),
     decisions: Object.freeze(decisions.map(Object.freeze)), historyHash: await hash(state.historyHash, event),
   });

@@ -68,6 +68,45 @@ class LeaseLedgerIngressTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertTrue(ledger.exists())
 
+    def test_universal_lease_and_rotation_commands(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            ledger = tmp / "leases.jsonl"
+            leased = self.run_cli(
+                "lease", ledger,
+                "--event-id", "l1",
+                "--lease-id", "task-1",
+                "--subject", "agent-a",
+                "--lease-class", "TASK",
+                "--resource", "audit-17",
+                "--scope", "repo-x",
+                "--purpose", "audit",
+                "--expires-sequence", "20",
+            )
+            self.assertEqual(leased.returncode, 0, leased.stderr)
+
+            rotated = self.run_cli(
+                "rotate", ledger,
+                "--lease-id", "task-1",
+                "--release-event-id", "r1",
+                "--grant-event-id", "l2",
+                "--new-lease-id", "task-2",
+                "--new-subject", "agent-b",
+                "--expires-sequence", "30",
+            )
+            self.assertEqual(rotated.returncode, 0, rotated.stderr)
+            output = json.loads(rotated.stdout)
+            self.assertEqual(output["grant_event"]["payload"]["subject"], "agent-b")
+            self.assertEqual(output["grant_event"]["payload"]["resource"], "audit-17")
+            self.assertEqual(output["grant_event"]["payload"]["scope"], "repo-x")
+
+            state = self.run_cli("state", ledger)
+            self.assertEqual(state.returncode, 0, state.stderr)
+            snapshot = json.loads(state.stdout)
+            self.assertIn("task-1", snapshot["released_leases"])
+            self.assertEqual(snapshot["leases"][-1]["lease_id"], "task-2")
+            self.assertEqual(snapshot["leases"][-1]["subject"], "agent-b")
+
     def test_historical_raw_grant_can_still_be_replayed(self):
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)
