@@ -1,15 +1,22 @@
-import { canonicalEvent } from "./events.js";
+import { AdmissionError, canonicalEvent } from "./events.js";
 import { admit } from "./predicates.js";
 
 export const EMPTY_SHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 
+const trustedStates = new WeakSet();
+
+function trustState(state) {
+  trustedStates.add(state);
+  return state;
+}
+
 export function initialState() {
-  return Object.freeze({
+  return trustState(Object.freeze({
     status: "NEW",
     lastSequence: 0,
     eventIds: Object.freeze([]),
     historyHash: EMPTY_SHA256,
-  });
+  }));
 }
 
 function hexToBytes(hex) {
@@ -28,18 +35,21 @@ async function sha256(bytes) {
 }
 
 export async function reduce(state, event) {
+  if (!trustedStates.has(state)) {
+    throw new AdmissionError("state must be initial or reducer-produced");
+  }
   const encoded = canonicalEvent(event);
   const status = admit(state, event);
   const previous = hexToBytes(state.historyHash);
   const material = new Uint8Array(previous.length + encoded.length);
   material.set(previous, 0);
   material.set(encoded, previous.length);
-  return Object.freeze({
+  return trustState(Object.freeze({
     status,
     lastSequence: event.sequence,
     eventIds: Object.freeze([...state.eventIds, event.event_id]),
     historyHash: await sha256(material),
-  });
+  }));
 }
 
 export async function replay(events) {

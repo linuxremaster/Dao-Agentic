@@ -72,3 +72,32 @@ test("canonical JavaScript core has no Node-only runtime dependency", async () =
     assert.doesNotMatch(source, /(?:from\s+["']node:|require\s*\(|\bprocess\b|\bBuffer\b)/);
   }
 });
+
+
+test("forged materialized state is rejected", async () => {
+  const forged = Object.freeze({ ...initialState(), status: "VERIFIED" });
+  const checkpoint = {
+    event_id: "forged-checkpoint",
+    sequence: 1,
+    kind: "CHECKPOINTED",
+    payload: {},
+  };
+  await assert.rejects(
+    () => reduce(forged, checkpoint),
+    (error) => error instanceof AdmissionError,
+  );
+});
+
+test("hand-built copy of reducer state is rejected", async () => {
+  const first = { event_id: "e1", sequence: 1, kind: "TASK_ADMITTED", payload: {} };
+  const second = { event_id: "e2", sequence: 2, kind: "TASK_READY", payload: {} };
+  const legitimate = await reduce(initialState(), first);
+  const copied = Object.freeze({
+    ...legitimate,
+    eventIds: Object.freeze([...legitimate.eventIds]),
+  });
+  await assert.rejects(
+    () => reduce(copied, second),
+    (error) => error instanceof AdmissionError,
+  );
+});

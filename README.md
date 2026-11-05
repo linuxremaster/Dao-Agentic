@@ -25,9 +25,9 @@ to one exact subject, action, target, scope and mandatory logical expiry. Role n
 titles, seniority, confidence, sender rhetoric, consensus and identity labels are not
 inputs to the authority decision.
 
-The Python and JavaScript lease reducers reject wildcards, expired/released grants,
-missing required evidence, authority-shaped extra fields, and forged
-`AUTHORITY_DECIDED` events. `scripts/lease_ledger.py` provides append-only JSONL
+The Python and JavaScript lifecycle reducers reject caller-forged materialized state,
+and the lease reducers reject wildcards, expired/released grants, missing required
+evidence, authority-shaped extra fields, and forged `AUTHORITY_DECIDED` events. `scripts/lease_ledger.py` provides append-only JSONL
 persistence and replay, but rejects raw `AUTHORITY_GRANTED` admission. New authority
 must enter through the operator-signed mandate gate. `js/scripts/policy_gate.js` emits
 and persists an exact policy decision and exits non-zero on denial. The trusted adapter registry prevents callers from supplying arbitrary execution callbacks.
