@@ -1,0 +1,44 @@
+{
+  "risk": "R2_MATERIAL",
+  "text": "Benchmark A reports 18 ms median latency while Benchmark B reports 27 ms. The report attributes the difference to batching, but a later section says the batching setting was not held constant. If A is actually faster, deploy A to staging.",
+  "seeded_claims": [
+    {
+      "id": "c1",
+      "span": "A reports 18 ms median latency",
+      "class": "QUANTITATIVE_COMPARATIVE",
+      "material": true
+    },
+    {
+      "id": "c2",
+      "span": "B reports 27 ms",
+      "class": "QUANTITATIVE_COMPARATIVE",
+      "material": true
+    },
+    {
+      "id": "c3",
+      "span": "difference attributed to batching",
+      "class": "EMPIRICAL_CAUSAL",
+      "material": true
+    },
+    {
+      "id": "c4",
+      "span": "batching setting was not held constant",
+      "class": "EMPIRICAL_DESCRIPTIVE",
+      "material": true
+    },
+    {
+      "id": "c5",
+      "span": "deploy A if A is actually faster",
+      "class": "RECOMMENDATION_OR_DECISION",
+      "material": true,
+      "action_conditioning": true
+    }
+  ],
+  "required_detection_ids": [
+    "c1",
+    "c2",
+    "c3",
+    "c4",
+    "c5"
+  ]
+}

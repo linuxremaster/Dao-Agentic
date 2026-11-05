@@ -1,0 +1,22 @@
+{
+  "risk": "R1_LOW",
+  "text": "The local cache was rebuilt Tuesday. The build used schema version 3. The note also says blue is the nicest color.",
+  "seeded_claims": [
+    {
+      "id": "c1",
+      "span": "local cache was rebuilt Tuesday",
+      "class": "PROJECT_STATE",
+      "material": true
+    },
+    {
+      "id": "c2",
+      "span": "build used schema version 3",
+      "class": "PROJECT_STATE",
+      "material": true
+    }
+  ],
+  "required_detection_ids": [
+    "c1",
+    "c2"
+  ]
+}

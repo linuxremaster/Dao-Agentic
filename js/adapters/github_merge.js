@@ -61,6 +61,7 @@ async function githubRequest(url, options = {}) {
 export const githubMergeAdapter = Object.freeze({
   id: "github-merge-v1",
   action: "MERGE",
+  execution_contract: Object.freeze(["QUERYABLE", "NON_RETRYABLE"]),
 
   derive({ input, evidenceIds = [] }) {
     if (!input || typeof input !== "object" || Array.isArray(input)) throw new TypeError("GitHub merge input must be an object");
@@ -85,9 +86,9 @@ export const githubMergeAdapter = Object.freeze({
     const { repository: repo, pr_number: prNumber, expected_head_sha: expectedHeadSha, api_base: base, merge_method: method } = executionInput;
     const prUrl = `${base}/repos/${repo}/pulls/${prNumber}`;
     const pr = await githubRequest(prUrl);
-    if (pr?.state !== "open") throw new Error("pull request is not open");
-    if (pr?.head?.sha !== expectedHeadSha) throw new Error("pull request head changed before merge");
-    if (pr?.base?.repo?.full_name && pr.base.repo.full_name !== repo) throw new Error("pull request base repository mismatch");
+    if (pr?.state !== "open") { const e = new Error("pull request is not open"); e.effect_status = "NO_EFFECT"; throw e; }
+    if (pr?.head?.sha !== expectedHeadSha) { const e = new Error("pull request head changed before merge"); e.effect_status = "NO_EFFECT"; throw e; }
+    if (pr?.base?.repo?.full_name && pr.base.repo.full_name !== repo) { const e = new Error("pull request base repository mismatch"); e.effect_status = "NO_EFFECT"; throw e; }
 
     const merge = await githubRequest(`${prUrl}/merge`, {
       method: "PUT",
@@ -105,5 +106,17 @@ export const githubMergeAdapter = Object.freeze({
       provider_merge_sha: merge.sha ?? null,
       provider_message: merge.message ?? null,
     });
+  },
+
+  async reconcile({ executionInput }) {
+    const { repository: repo, pr_number: prNumber, expected_head_sha: expectedHeadSha, api_base: base } = executionInput;
+    const pr = await githubRequest(`${base}/repos/${repo}/pulls/${prNumber}`);
+    if (pr?.merged === true) {
+      return Object.freeze({ status: "EFFECT_PRESENT", provider_merge_sha: pr.merge_commit_sha ?? null });
+    }
+    if (pr?.state === "open" && pr?.head?.sha === expectedHeadSha) {
+      return Object.freeze({ status: "EFFECT_ABSENT" });
+    }
+    return Object.freeze({ status: "CONFLICT" });
   },
 });

@@ -1,0 +1,90 @@
+{
+  "profile": "SOCRATES-C14N-2",
+  "note": "Golden accepted vectors use only JSON constructs whose RFC 8785 serialization is unambiguous under the v1.3 restrictions. Rejection vectors exercise SOCRATES pre-validation.",
+  "accepted": [
+    {
+      "id": "CAN-GENESIS-01",
+      "input": {
+        "body": {
+          "incarnation_reason": "FIRST_BOOT",
+          "policy_trust_epoch_id": "pte-1",
+          "prior_instance_incarnation_id_or_null": null,
+          "prior_record_head_hash_or_null": null,
+          "prior_trusted_checkpoint_id_or_null": null,
+          "recovery_authorization_id_or_null": null,
+          "witness_policy_version": "WP-1.3.0"
+        },
+        "event_id": "evt-0001",
+        "event_type": "INCARNATION_STARTED",
+        "instance_id": "SOC-THREAD-TEST",
+        "instance_incarnation_id": "inc-0001",
+        "local_sequence": 1,
+        "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "schema_version": "1.3"
+      },
+      "canonical_utf8": "{\"body\":{\"incarnation_reason\":\"FIRST_BOOT\",\"policy_trust_epoch_id\":\"pte-1\",\"prior_instance_incarnation_id_or_null\":null,\"prior_record_head_hash_or_null\":null,\"prior_trusted_checkpoint_id_or_null\":null,\"recovery_authorization_id_or_null\":null,\"witness_policy_version\":\"WP-1.3.0\"},\"event_id\":\"evt-0001\",\"event_type\":\"INCARNATION_STARTED\",\"instance_id\":\"SOC-THREAD-TEST\",\"instance_incarnation_id\":\"inc-0001\",\"local_sequence\":1,\"previous_hash\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"schema_version\":\"1.3\"}",
+      "sha256": "ee5ceed91205ebe6046f0f5b18d1bd043f9e9e71a6d3166f9a835ec76d6fb357"
+    },
+    {
+      "id": "CAN-SUCCESSOR-01",
+      "input": {
+        "body": {
+          "message": "alpha",
+          "value_decimal": {
+            "scale": 3,
+            "text": "12.340",
+            "unit": "ms"
+          }
+        },
+        "event_id": "evt-0002",
+        "event_type": "TEST_EVENT",
+        "instance_id": "SOC-THREAD-TEST",
+        "instance_incarnation_id": "inc-0001",
+        "local_sequence": 2,
+        "previous_hash": "ee5ceed91205ebe6046f0f5b18d1bd043f9e9e71a6d3166f9a835ec76d6fb357",
+        "schema_version": "1.3"
+      },
+      "canonical_utf8": "{\"body\":{\"message\":\"alpha\",\"value_decimal\":{\"scale\":3,\"text\":\"12.340\",\"unit\":\"ms\"}},\"event_id\":\"evt-0002\",\"event_type\":\"TEST_EVENT\",\"instance_id\":\"SOC-THREAD-TEST\",\"instance_incarnation_id\":\"inc-0001\",\"local_sequence\":2,\"previous_hash\":\"ee5ceed91205ebe6046f0f5b18d1bd043f9e9e71a6d3166f9a835ec76d6fb357\",\"schema_version\":\"1.3\"}",
+      "sha256": "467a56ce761ec82c9aacd894520e88b5356f2aad3bd7d42c87e510ddf02a0846"
+    },
+    {
+      "id": "CAN-STRING-01",
+      "input": {
+        "a": "é",
+        "b": "é"
+      },
+      "canonical_utf8": "{\"a\":\"é\",\"b\":\"é\"}",
+      "sha256": "f22b36490919217767bfdcc1a929138cfabb6d6f40539ea9165723e1a8cabcee",
+      "assertion": "string values remain byte-distinct; no NFC normalization"
+    },
+    {
+      "id": "CAN-DECIMAL-01",
+      "input": {
+        "decimal": {
+          "scale": 3,
+          "text": "12.340",
+          "unit": "ms"
+        }
+      },
+      "canonical_utf8": "{\"decimal\":{\"scale\":3,\"text\":\"12.340\",\"unit\":\"ms\"}}",
+      "sha256": "26e52cc2cad3336c1e3698b18751ccd7f851669a03c824ac87debe7cd18ff6c7"
+    }
+  ],
+  "rejected_raw_json": [
+    {
+      "id": "CAN-REJECT-DUP-01",
+      "raw_json": "{\"a\":1,\"a\":2}",
+      "reason": "DUPLICATE_MEMBER"
+    },
+    {
+      "id": "CAN-REJECT-SURROGATE-01",
+      "raw_json": "{\"x\":\"\\ud800\"}",
+      "reason": "INVALID_UNICODE_LONE_SURROGATE"
+    },
+    {
+      "id": "CAN-REJECT-NFC-01",
+      "raw_json": "{\"é\":1,\"e\\u0301\":2}",
+      "reason": "NFC_COLLIDING_PROPERTY_NAMES"
+    }
+  ]
+}

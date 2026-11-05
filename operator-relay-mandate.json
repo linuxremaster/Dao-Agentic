@@ -1,0 +1,21 @@
+{
+  "version": "0.1",
+  "mandate_id": "676c9964-685e-4f08-ac6c-5682dc106d2c",
+  "issuer": "operator",
+  "audience": [
+    "SOC-THREAD-070"
+  ],
+  "issued_at": "2026-11-04T21:09:25.276Z",
+  "not_before": "2026-11-04T21:09:25.276Z",
+  "expires_at": "2026-11-04T21:39:25.276Z",
+  "nonce": "231e16b5-6aae-46ca-a429-0016671982a5",
+  "grant": {
+    "grant_id": "1e1c963f-fe2f-4f9d-90f9-359d2d699e18",
+    "subject": "SOC-THREAD-070",
+    "action": "RELAY_PUBLISH",
+    "target": "OPERATOR-TRUST-BOOTSTRAP-070-001",
+    "scope": "dao-agentic-relay/outbox",
+    "expires_sequence": 100,
+    "required_evidence": []
+  }
+}
