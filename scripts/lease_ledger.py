@@ -45,6 +45,121 @@ def append(path, state, event):
     return next_state
 
 
+def append_many(path, state, events):
+    """Validate a batch completely before appending it as one durable write."""
+    next_state = state
+    encoded = []
+    for event in events:
+        next_state = reduce_lease(next_state, event)
+        encoded.append(json.dumps(event, sort_keys=True, separators=(",", ":")) + "\n")
+    if not encoded:
+        return state
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write("".join(encoded))
+        handle.flush()
+        os.fsync(handle.fileno())
+    return next_state
+
+
+def build_roster(state, *, sequence=None, scope=None, subject=None):
+    """Derive the active roster from lease state; never create authority from roles."""
+    at = state.last_sequence + 1 if sequence is None else sequence
+    if type(at) is not int or at < 1:
+        raise ValueError("sequence must be an integer >= 1")
+
+    rows = {}
+
+    def include(item_subject, item_scope):
+        return (subject is None or item_subject == subject) and (scope is None or item_scope == scope)
+
+    def row_for(item_subject):
+        return rows.setdefault(item_subject, {
+            "subject": item_subject,
+            "roles": [],
+            "assignments": [],
+            "authority_grants": [],
+        })
+
+    for lease in state.leases:
+        if lease.lease_id in state.released_leases:
+            continue
+        if not (lease.issued_sequence <= at < lease.expires_sequence):
+            continue
+        if not include(lease.subject, lease.scope):
+            continue
+        row = row_for(lease.subject)
+        if lease.lease_class == "ROLE":
+            row["roles"].append({
+                "lease_id": lease.lease_id,
+                "role": lease.resource,
+                "scope": lease.scope,
+                "purpose": lease.purpose,
+                "issued_sequence": lease.issued_sequence,
+                "expires_sequence": lease.expires_sequence,
+                "source_kind": "LEASE_GRANTED",
+            })
+        else:
+            row["assignments"].append({
+                "lease_id": lease.lease_id,
+                "lease_class": lease.lease_class,
+                "resource": lease.resource,
+                "scope": lease.scope,
+                "purpose": lease.purpose,
+                "issued_sequence": lease.issued_sequence,
+                "expires_sequence": lease.expires_sequence,
+            })
+
+    for lease in state.role_leases:
+        if lease.lease_id in state.released_role_leases:
+            continue
+        if not (lease.issued_sequence <= at < lease.expires_sequence):
+            continue
+        if not include(lease.subject, lease.scope):
+            continue
+        row_for(lease.subject)["roles"].append({
+            "lease_id": lease.lease_id,
+            "role": lease.role,
+            "scope": lease.scope,
+            "purpose": "legacy-role-lease",
+            "issued_sequence": lease.issued_sequence,
+            "expires_sequence": lease.expires_sequence,
+            "source_kind": "ROLE_LEASE_GRANTED",
+        })
+
+    for grant in state.authority_grants:
+        if grant.grant_id in state.released_authority_grants:
+            continue
+        if not (grant.issued_sequence <= at < grant.expires_sequence):
+            continue
+        if not include(grant.subject, grant.scope):
+            continue
+        row_for(grant.subject)["authority_grants"].append({
+            "grant_id": grant.grant_id,
+            "action": grant.action,
+            "target": grant.target,
+            "scope": grant.scope,
+            "required_evidence": list(grant.required_evidence),
+            "issued_sequence": grant.issued_sequence,
+            "expires_sequence": grant.expires_sequence,
+        })
+
+    subjects = []
+    for item_subject in sorted(rows):
+        row = rows[item_subject]
+        row["roles"].sort(key=lambda item: item["lease_id"])
+        row["assignments"].sort(key=lambda item: item["lease_id"])
+        row["authority_grants"].sort(key=lambda item: item["grant_id"])
+        subjects.append(row)
+
+    return {
+        "sequence": at,
+        "scope": scope,
+        "subject_filter": subject,
+        "subjects": subjects,
+    }
+
+
 def _lease_event(state, args):
     return {
         "event_id": args.event_id,
@@ -106,6 +221,12 @@ def main():
     decide.add_argument("--evidence", action="append", default=[])
     state_cmd = sub.add_parser("state")
     state_cmd.add_argument("ledger", type=Path)
+
+    roster = sub.add_parser("roster")
+    roster.add_argument("ledger", type=Path)
+    roster.add_argument("--sequence", type=int)
+    roster.add_argument("--scope")
+    roster.add_argument("--subject")
     args = parser.parse_args()
 
     state = load(args.ledger)
@@ -142,8 +263,7 @@ def main():
             expires_sequence=args.expires_sequence,
             purpose=args.purpose,
         )
-        state = append(args.ledger, state, release_event)
-        state = append(args.ledger, state, grant_event)
+        state = append_many(args.ledger, state, [release_event, grant_event])
         print(json.dumps({
             "accepted": True,
             "release_event": release_event,
@@ -158,6 +278,13 @@ def main():
         event = make_decision_event(state, request, args.event_id)
         state = append(args.ledger, state, event)
         print(json.dumps(event["payload"], sort_keys=True))
+    elif args.command == "roster":
+        print(json.dumps(build_roster(
+            state,
+            sequence=args.sequence,
+            scope=args.scope,
+            subject=args.subject,
+        ), sort_keys=True))
     else:
         print(json.dumps({
             "last_sequence": state.last_sequence,
