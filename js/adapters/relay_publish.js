@@ -12,6 +12,7 @@ function explicit(value, name) {
 export const relayPublishAdapter = Object.freeze({
   id: "relay-publish-v1",
   action: "RELAY_PUBLISH",
+  execution_contract: Object.freeze(["QUERYABLE", "NON_RETRYABLE"]),
 
   derive({ input, evidenceIds = [] }) {
     if (!input || typeof input !== "object" || Array.isArray(input)) throw new TypeError("relay input must be an object");
@@ -73,5 +74,16 @@ export const relayPublishAdapter = Object.freeze({
       epistemic_trace_sha256: executionInput.epistemic_trace_sha256,
       epistemic_trace: executionInput.epistemic_trace,
     });
+  },
+
+  async reconcile({ executionInput }) {
+    const destination = path.join(executionInput.outbox, path.basename(executionInput.source));
+    if (!fs.existsSync(destination)) return Object.freeze({ status: "EFFECT_ABSENT" });
+    const bytes = fs.readFileSync(destination);
+    const digest = sha256(bytes);
+    if (digest === executionInput.digest) {
+      return Object.freeze({ status: "EFFECT_PRESENT", sha256: digest, bytes: bytes.length });
+    }
+    return Object.freeze({ status: "CONFLICT", observed_sha256: digest });
   },
 });

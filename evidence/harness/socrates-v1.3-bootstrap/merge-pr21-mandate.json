@@ -1,0 +1,23 @@
+{
+  "version": "0.1",
+  "mandate_id": "3ad4f8b5-b88d-44b9-a144-59f255fa824a",
+  "issuer": "operator",
+  "audience": [
+    "SOC-THREAD-070"
+  ],
+  "issued_at": "2026-11-04T21:27:00.100Z",
+  "not_before": "2026-11-04T21:27:00.100Z",
+  "expires_at": "2026-11-04T21:57:00.100Z",
+  "nonce": "d7da00d4-c40e-4a40-9fd8-8e64c716d79c",
+  "grant": {
+    "grant_id": "e7b957f7-6429-4079-bd49-ec83dac3960a",
+    "subject": "SOC-THREAD-070",
+    "action": "MERGE",
+    "target": "PR-21@523385806976269553eb787863085dc20842eb8d",
+    "scope": "linuxremaster/Dao-Agentic",
+    "expires_sequence": 20,
+    "required_evidence": [
+      "github-actions:conformance:41915711022:success"
+    ]
+  }
+}
