@@ -36,7 +36,7 @@ No wildcard subject/class/resource/scope/purpose is accepted. Every lease has ma
 
 ## Rotation
 
-Rotation is **release old, then grant new**. The rotation helper preserves lease class, resource and scope. It may change the holder, purpose and expiry. Changing the meaning or scope of a lease is a fresh lease, not a rotation.
+Rotation is **release old, then grant new**. The rotation helper preserves lease class, resource and scope. It may change the holder, purpose and expiry. Changing the meaning or scope of a lease is a fresh lease, not a rotation. The administrative CLI pre-validates both rotation events before appending them together, so an invalid replacement cannot release the old holder first.
 
 ```text
 old lease
@@ -55,6 +55,32 @@ Authority rotation remains separate: release/expire the old authority grant, the
 `LEASE_GRANTED`, `LEASE_RELEASED`, `ROLE_LEASE_GRANTED`, `ROLE_LEASE_RELEASED`, `AUTHORITY_GRANTED`, `AUTHORITY_RELEASED`, `AUTHORITY_DECIDED`.
 
 The role-specific events are retained for historical replay compatibility. New non-authority assignments should normally use the universal lease events.
+
+## Derived roster
+
+The roster is a **view of active lease state**, not a second registry and not an authority source.
+
+`scripts/lease_ledger.py roster` materializes, at one explicit logical sequence:
+
+- active `ROLE` leases (including replay-compatible legacy role leases),
+- active non-role assignments such as `TASK`, `TOOL_ACCESS`, or `WAKE_RIGHT`,
+- active exact action-authority grants admitted through the authority path.
+
+Expired and released items are omitted. Rows are keyed by subject and sorted deterministically.
+The roster never turns a role into authority; it only places the two kinds of active state next
+to each other so humans and agents can see who currently holds what.
+
+```sh
+python scripts/lease_ledger.py roster state/leases.jsonl \
+  --scope linuxremaster/Dao-Agentic
+
+python scripts/lease_ledger.py roster state/leases.jsonl \
+  --subject SOC-THREAD-DEV-002 \
+  --sequence 42
+```
+
+Identity binding remains outside this ledger. Subjects such as routing labels must still be
+resolved through the project's identity/registry evidence. `ROSTER ROW != VERIFIED IDENTITY`.
 
 ## Administrative CLI
 
