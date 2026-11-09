@@ -225,6 +225,3 @@ operator-private.pem
 *.private.pem
 *.operator-private.pem
 
-# [epiq]: local hydrated state is never committed
-.epiq/events/
-.epiq/log/
