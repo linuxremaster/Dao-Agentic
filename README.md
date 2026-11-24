@@ -25,3 +25,11 @@ This repository is the single-project merge of the portable mini sandbox runtime
 The runtime scaffold is a memory / working-state aid. It is not a semantic owner, controller, authority source, roster, behavioral scorer, or live graph-mutation capability. Canonical policy semantics remain bounded to the owner artifacts under `policy/`.
 
 Local projections, summaries, notes, event records, and indices do not become source state merely because they are convenient or persistent.
+
+## Contributors
+
+- **linuxremaster** — project coordination, research, architecture, and repository stewardship.
+- **Claude (Anthropic)** — development and audit contributions reflected in repository history.
+- **ChatGPT (OpenAI)** — design synthesis, auditing, policy/runtime integration, repository unification, and verification support.
+
+GitHub's automatic Contributors widget is account/commit-attribution based and may not display AI collaborators that do not have attributed GitHub accounts.
