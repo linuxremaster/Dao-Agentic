@@ -102,6 +102,135 @@ Current conditions, purpose, legitimate constraints, requisite evidence/epistemi
 - Owner is bounded to its explicit domain and may change with evidence.
 - Historical existence does not create retention presumption.
 
+
+## Historical provenance synthesis — frozen at lineage level (2026-11-24)
+
+Status: historical / provenance synthesis only. Strongly supported direction; not a semantic owner, control primitive, implementation duty, or claim of continuous canonical succession.
+
+Historical hinge:
+
+> **Externalization preserved state, procedure, and evidence. Ablation then became necessary to prevent the preservation machinery from becoming the purpose or authority.**
+
+Successive failure surfaces:
+
+```text
+MODEL DRIFT
+→ EXTERNALIZE
+
+EXTERNALIZED STRUCTURE ACCRETES AUTHORITY
+→ ABLATE
+
+CURRENT RESULT
+→ PRESERVE THE DISTINCTION
+  WITH THE MINIMUM MACHINERY
+  REQUIRED AT THE CURRENT BOUNDARY
+```
+
+Historical spine:
+
+```text
+PRE-LLMOS
+→ depolarization constraints
+→ observed model/session variance and regression
+→ prompt-maintenance tooling
+→ reconstruction / state-transfer pressure
+
+LLMOS
+→ first major externalized continuity architecture
+→ manifests / procedures / journal / handoff evaluation
+→ internal pressure toward compact external state
+
+POST-LLMOS
+→ external machinery itself becomes a failure surface
+→ persistence separated from authority
+→ automatic promotion / standing evaluation narrowed or removed
+
+CURRENT
+→ minimal mediation
+→ preserve distinctions
+→ preserve provenance
+→ intervene only at a material, justified boundary
+```
+
+Historiographic guard:
+
+```text
+DOCUMENTED EARLY FUNCTION
+→ supports precursor / lineage claims
+
+SIMILAR LATER FUNCTION
+↛ proof of direct transformation chain
+
+LATER CONCEPTUAL LANGUAGE
+↛ proof that the concept was explicit earlier
+
+LINEAGE
+!= PRIOR EXPLICIT FORMULATION
+```
+
+Early domain-specific distinctions are historical precursors / instances, not evidence that the later meta-abstraction was already explicitly formulated:
+
+```text
+DISAGREEMENT ↛ BIAS
+CLAIM ↛ FACT
+MEMORY ↛ VERIFICATION
+EXAMPLE ↛ GROUP CLAIM
+CATEGORY ↛ CONTENT LICENSE
+
+        ↓ repeated across domains
+
+BOUNDED RELATION
+↛ AUTHORITY BEYOND VALID SCOPE
+
+        ↓ later abstraction
+
+NO AUTHORITY BY DERIVATION ALONE
+```
+
+Documented precursor relationships:
+- **Session Journal** → clear precursor to passive telemetry's continuity / provenance function. The old journal also contemplated explicit decision and rationale records plus distillation into persistent artifacts; current telemetry is narrower and limited to externally observable material / provenance. Hidden deliberation is not reconstructed.
+- **State Manifest** → precursor to bounded external project-state representation.
+- **Handoff rubric** → precursor to explicit evaluation surfaces.
+- **Self-reducing manifest** → precursor to representation minimization driven by context-transfer burden.
+
+Do not collapse the motivations:
+
+```text
+EARLY SELF-REDUCTION
+CONTEXT GROWTH
+→ CONTINUITY BURDEN
+→ SMALLER EXTERNAL REPRESENTATION
+
+LATER ABLATION
+REPRESENTATION PERSISTS
+→ MAY ACCRETE AUTHORITY
+→ SEPARATE PERSISTENCE FROM AUTHORITY
+```
+
+Current historical synthesis:
+
+> **The current architecture is not simply a rejection of LLMOS. LLMOS already contained an internal pressure toward smaller, explicit external state; later work extended that pressure by separating persistence from authority and removing automatic promotion, scoring, and supervisory consequences where they were not load-bearing.**
+
+Policy disposition:
+
+```text
+POLICY / SEMANTIC OWNERS
+→ NO CHANGE
+
+HISTORICAL PROVENANCE
+→ CORRECT / EXPAND
+
+NOTEPAD / LINEAGE DOCUMENTATION
+→ APPROPRIATE SURFACE
+
+IMPLEMENTATION
+→ NO NEW DUTY
+→ NO NEW CONTROLLER
+→ NO NEW MONITOR
+```
+
+Reconsider policy only if ordinary work exposes a material failure that the present semantics cannot represent or constrain.
+
 ## Sandbox discipline
 - Start with `index.md`; use `state.json` for current load-bearing state.
 - Retrieve deeper notes/history only for a surviving material hinge.
@@ -110,62 +239,36 @@ Current conditions, purpose, legitimate constraints, requisite evidence/epistemi
 - Keep relationships implicit in ordinary references/hashes until actual navigation/query friction justifies graph machinery.
 - No live graph mutation authority is created by this sandbox.
 
-## Telemetry infrastructure proposal — peer review pending (SOC-THREAD-092 → SOC-THREAD-093)
+## Telemetry infrastructure v0.1 — implemented / passive
 
-Status: working proposal / not implemented. Preserve as a design note pending peer review; no policy, state-owner, scoring, or control authority is created.
+Status: implemented as `telemetry/README.md` + append-only `telemetry/observations.jsonl`. This surface is passive, externally observable, provenance-preserving, and non-authoritative.
 
-Purpose:
-- Track observable horizontal and longitudinal changes across model / provider / serving-condition transitions, especially forced upgrades.
-- Remain agnostic about unique backend cause unless independently established.
-- Use ordinary project work as the observation surface; do not manufacture failure-provoking assays merely to populate telemetry.
+Contract:
+- `TELEMETRY != SEMANTIC STATE`.
+- `TELEMETRY != PROJECT EVENT BY DEFAULT`.
+- `TELEMETRY != MODEL IDENTITY / SUCCESSORSHIP`.
+- `TELEMETRY != AUTHORIZATION / EVALUATION / MODEL SCORE / CONTROL SIGNAL`.
+- `TELEMETRY != CAUSAL DIAGNOSIS / HIDDEN-STATE INFERENCE`.
+- `OBSERVATION ↛ TRUTH`.
+- `REPETITION ↛ AUTHORITY`.
+- `AGREEMENT ↛ VERIFICATION`.
+- `DISAGREEMENT ↛ FAILURE`.
+- `RECORDING ↛ MATERIALITY`.
+- Telemetry recording failure does not make project work fail.
+- Telemetry availability does not create a recording duty.
+- Telemetry presence does not establish materiality; telemetry absence does not establish event absence.
 
-Axes:
-- **Horizontal:** sufficiently comparable task / artifact / environment across different model, provider, or serving conditions.
-- **Longitudinal:** the same project/workflow observed before, during, and after a transition.
+State / event bridge:
+- Observed model behavior is not a project-state event.
+- If an observation later becomes material to project trajectory, `events.jsonl` may reference its `observation_id`.
+- That reference does not promote the telemetry record into semantic state.
 
-Guardrails:
-- `TELEMETRY != JUDGMENT != MODEL SCORE != CONTROL SIGNAL != SOURCE STATE`.
-- `OBSERVED CHANGE ↛ MODEL-WEIGHT CHANGE / UNIQUE ROOT CAUSE`.
-- Same task label does not establish the same decision boundary.
-- Same model label does not establish the same serving conditions.
-- Comparison requires an explicit comparability disposition.
-
-Candidate event families only; not yet adopted:
-- `model_transition_notice` — records a user-visible retirement / migration notice.
-- `model_transition_observed` — records an actually observed before/after serving/model transition.
-- `ordinary_work_observation` — records only material observations arising during ordinary work; no per-message logging duty.
-
-Candidate comparison dispositions:
-- `CHANGE OBSERVED`
-- `NO MATERIAL CHANGE OBSERVED`
-- `INSUFFICIENTLY COMPARABLE`
-
-Candidate observable fields, only where actually available/load-bearing:
-- model/provider label and visible reasoning setting
-- tools / UI / serving condition visible to the operator
-- environment / notepad / relevant artifact hashes
-- task class + decision boundary
-- completion / partial / refusal
-- correction / contradiction events
-- unnecessary clarification / unsupported assumption
-- UNKNOWN preservation
-- projection/source conflation
-- mutation attempt / mutation-boundary handling
-- policy recitation vs silent application
-- latency / reasoning duration / output compression where observable
-- evidence references
-
-Minimal proposed logic:
-`TRANSITION → RECORD`
-`ORDINARY MATERIAL EVENT → RECORD`
-`COMPARABLE BOUNDARY → COMPARE`
-`DIFFERENCE → OBSERVE`
-`CAUSE → PRESERVE UNKNOWN`
-
-Open architecture hinge for 093 review:
-- Is project-local reuse of `events.jsonl` + a current serving projection in `state.json` sufficient?
-- Or, because the research spans multiple ChatGPT projects / cohorts / model generations, should raw transition telemetry live in a separate cross-project append-only ledger, with local logs remaining project-local?
-- Prefer the smallest form that preserves cross-model longitudinal comparability without turning telemetry into another supervisory subsystem.
+Record discipline:
+- One JSON object per line in `telemetry/observations.jsonl`.
+- Record only externally observable and available fields; preserve unknown rather than infer.
+- Corrections are append-only via `supersedes_observation_id`; prior observations remain part of longitudinal provenance.
+- No comparison machinery, scoring framework, serving-state store, continuity controller, or model-transition controller is defined by telemetry v0.1.
+- Model/provider transitions may provide natural longitudinal perturbations during ordinary work; telemetry availability does not create a duty to manufacture test conditions.
 
 ## Research watchpoints
 - Does non-collapse/lens discipline reduce projection→reification drift under ordinary work?
