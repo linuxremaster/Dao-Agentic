@@ -1,6 +1,6 @@
 # Dao Sandbox Mini Harness — Working Notepad
 
-Warm working synthesis derived from SOC-THREAD-089. Searchable, disposable, reorganizable, non-authoritative. Exact source artifacts in `sources/` outrank this note when exactness is load-bearing. Recipient identity is not assigned by this file.
+Warm working synthesis derived from SOC-THREAD-089. Searchable, disposable, reorganizable, non-authoritative. Exact source artifacts in `policy/` outrank this note when exactness is load-bearing. Recipient identity is not assigned by this file.
 
 ## Current update — 2026-11-23
 
@@ -24,6 +24,34 @@ Current regression examples:
 - `PURPOSE_t != CONSTRAINTS_t`
 - `NO STATE_DELTA ↛ NO BOUNDARY EVENT RECORD`
 - `EXCESS(response) RESOLVES ↛ WU WEI = EXCESS PREDICATE`
+
+
+### Candidate meta-invariant — authority provenance (SOC-THREAD-093 sharpening)
+Status: explanatory synthesis / diagnostic lens only. No new policy primitive, controller, or implementation duty.
+
+- **NO AUTHORITY BY DERIVATION ALONE.**
+- **AUTHORITY MUST HAVE ITS OWN VALID, SCOPED BASIS.**
+- A derived surface may be sufficient for a boundary without inheriting the authority of the richer source or relation from which it was derived.
+- Derivation, usefulness, persistence, repetition, similarity, or proximity may establish relevance; they do not by themselves establish epistemic, identity, normative, mutation, control, or scope authority.
+- `BOUNDED RELATION → UNJUSTIFIED AUTHORITY PROMOTION` is the candidate failure family.
+- Any authority exercised at a consequential boundary should be traceable to an independently valid basis whose scope covers that boundary.
+
+Precision examples:
+- Observation may become evidence only through a valid support relation; `OBSERVATION → EVIDENTIARY AUTHORITY` without such a relation is invalid promotion.
+- Local evidence does not authorize a claim beyond its support domain.
+- Registration does not become authentication authority without an authentication basis.
+- Detection does not become causal / diagnostic authority without sufficient support.
+- Proposal existence does not confer execution / authorization authority.
+- A view does not become state, and a view update does not confer mutation authority, without the applicable mutation path and binding.
+- A descriptive label does not become policy / control authority without an independent operational basis.
+
+Sufficiency remains boundary-conditioned, currentness-conditioned, and revocable. Do not add a sufficiency controller unless ordinary work exposes a material failure in which a stale sufficiency judgment survives a changed boundary/source/currentness context and causes consequential error.
+
+Human-readable form:
+- **REPRESENTING SOMETHING != INHERITING ITS POWERS.**
+- **SEEING DIFFERENTLY != CHANGING REALITY.**
+
+093 convergence status: strong partial-blind convergence, not fully blind reconstruction; the instance had already seen project introduction/history and current owner artifacts, but was not handed this meta-invariant or the exact anti-collapse abstraction.
 
 ### Governing dynamic
 Current conditions, purpose, legitimate constraints, requisite evidence/epistemic state, and value/burden where material determine what response, if any, is required. Applicable action-authorization/intervention boundaries determine whether a required response is admissible now.
