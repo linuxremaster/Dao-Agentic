@@ -32,4 +32,4 @@ Local projections, summaries, notes, event records, and indices do not become so
 - **Claude (Anthropic)** — development and audit contributions reflected in repository history.
 - **ChatGPT (OpenAI)** — design synthesis, auditing, policy/runtime integration, repository unification, and verification support.
 
-GitHub's automatic Contributors widget is account/commit-attribution based and may not display AI collaborators that do not have attributed GitHub accounts.
+AI collaborators are credited in repository metadata and, where GitHub-recognized identities exist, through commit co-author attribution.
