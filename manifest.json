@@ -53,6 +53,15 @@
       "role": "repository-local SHA-256 verification manifest; intentionally excludes itself"
     }
   },
+  "testing_candidates": {
+    "minimal_toolkit_v0_1": {
+      "name": "testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md",
+      "status": "FROZEN CANDIDATE / ORDINARY-USE TESTING",
+      "role": "non-authoritative inventory of tiny deterministic helpers and ambient semantic reminders",
+      "implementation": "documentation/test surface only; no implementation mandate",
+      "authority": "none by default; tool pass/failure establishes only the structural condition each tool is designed to test"
+    }
+  },
   "source_selection_note": "v2.5 externalizes Environment and Temporal Notepad provenance/changelog comments while preserving operational semantics. This repository stores the clean current owners once under policy/ and retains historical diffs separately under verification/.",
   "files": {
     "index.md": {
@@ -102,6 +111,12 @@
       "mutation": "append or replace only as release evidence requires",
       "autoload": "no",
       "authority": "verification/provenance only; not policy semantics"
+    },
+    "testing/": {
+      "role": "non-authoritative candidate mechanisms/reminders under ordinary-use testing",
+      "mutation": "change only when ordinary-use testing exposes an inadequacy or a demonstrably simpler sufficient form",
+      "autoload": "no; retrieve only when candidate-toolkit testing is relevant",
+      "authority": "testing/orientation only; not semantic owner, controller, behavioral score, or implementation duty"
     },
     "manifest.json": {
       "role": "deterministic structural inventory and source hashes",

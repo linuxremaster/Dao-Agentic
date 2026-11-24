@@ -16,6 +16,10 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
 - Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
 
+## Testing candidate
+- `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md` — FROZEN CANDIDATE / ORDINARY-USE TESTING. Documentation/test inventory only; not validated architecture, implementation mandate, semantic owner, or controller.
+- Orientation: **Durability in the source and provenance; flexibility in the views; authority only at justified boundaries.**
+
 ## Current high-signal semantics
 - `LOCAL RESOLUTION → MAY GOVERN ONLY ITS DECISION BOUNDARY`.
 - `PROJECTION != SOURCE STATE / MUTATION`.
@@ -43,6 +47,7 @@ Read only what the next material decision needs:
 - File roles / source hashes / scaffold identity → `manifest.json`
 - Exact owner semantics → `policy/`
 - Release verification / historical diffs → `verification/`
+- Frozen minimal-toolkit candidate / ambient reminders → `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md`
 
 ## Retrieval discipline
 1. Start here.

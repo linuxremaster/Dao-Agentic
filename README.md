@@ -19,6 +19,7 @@ This repository is the single-project merge of the portable mini sandbox runtime
 - `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.
 - `policy/` — one canonical copy of current Environment and Temporal Notepad sources, the manual combined context paste, and external changelog.
 - `verification/` — release verification, lineage, reviews, checksums, and historical diffs.
+- `testing/` — non-authoritative candidate mechanisms/reminders under ordinary-use testing; no implementation mandate.
 
 ## Boundary
 

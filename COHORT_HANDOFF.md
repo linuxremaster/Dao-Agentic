@@ -7,6 +7,7 @@ This package is a **portable memory / working-state scaffold**, not a semantic o
 2. Use `state.json` only if current working state is load-bearing.
 3. For manual FIRST_INFERENCE / RECALIBRATION, read `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.24_v0.1.13_CONTEXT_PASTE.md`.
 4. Retrieve `notepad.md`, `events.jsonl`, `contradictions.jsonl` only as needed.
+5. For ordinary-use testing of the frozen minimal-toolkit candidate, read `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md` only when that testing surface is relevant.
 
 ## Identity
 `SOC-THREAD-089` is package provenance/origin only. This package does not establish the recipient's thread handle, UUID, role, authority, or successor relation.
@@ -19,6 +20,7 @@ This package is a **portable memory / working-state scaffold**, not a semantic o
 ## Boundary
 Use the scaffold by progressive disclosure. Do not ingest every file merely because it exists. Do not promote a local projection, summary, index, event, or note into source state or global semantics.
 
+Orientation reminder: **Durability in the source and provenance; flexibility in the views; authority only at justified boundaries.** This is salience/context only, not a semantic owner, control primitive, recitation duty, evidence of policy uptake, or authorization.
 
 ## v0.1.4 repository unification
 - No Environment, Temporal Notepad, judgment, state/event, or authorization semantics changed.
