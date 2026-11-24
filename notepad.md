@@ -110,6 +110,63 @@ Current conditions, purpose, legitimate constraints, requisite evidence/epistemi
 - Keep relationships implicit in ordinary references/hashes until actual navigation/query friction justifies graph machinery.
 - No live graph mutation authority is created by this sandbox.
 
+## Telemetry infrastructure proposal — peer review pending (SOC-THREAD-092 → SOC-THREAD-093)
+
+Status: working proposal / not implemented. Preserve as a design note pending peer review; no policy, state-owner, scoring, or control authority is created.
+
+Purpose:
+- Track observable horizontal and longitudinal changes across model / provider / serving-condition transitions, especially forced upgrades.
+- Remain agnostic about unique backend cause unless independently established.
+- Use ordinary project work as the observation surface; do not manufacture failure-provoking assays merely to populate telemetry.
+
+Axes:
+- **Horizontal:** sufficiently comparable task / artifact / environment across different model, provider, or serving conditions.
+- **Longitudinal:** the same project/workflow observed before, during, and after a transition.
+
+Guardrails:
+- `TELEMETRY != JUDGMENT != MODEL SCORE != CONTROL SIGNAL != SOURCE STATE`.
+- `OBSERVED CHANGE ↛ MODEL-WEIGHT CHANGE / UNIQUE ROOT CAUSE`.
+- Same task label does not establish the same decision boundary.
+- Same model label does not establish the same serving conditions.
+- Comparison requires an explicit comparability disposition.
+
+Candidate event families only; not yet adopted:
+- `model_transition_notice` — records a user-visible retirement / migration notice.
+- `model_transition_observed` — records an actually observed before/after serving/model transition.
+- `ordinary_work_observation` — records only material observations arising during ordinary work; no per-message logging duty.
+
+Candidate comparison dispositions:
+- `CHANGE OBSERVED`
+- `NO MATERIAL CHANGE OBSERVED`
+- `INSUFFICIENTLY COMPARABLE`
+
+Candidate observable fields, only where actually available/load-bearing:
+- model/provider label and visible reasoning setting
+- tools / UI / serving condition visible to the operator
+- environment / notepad / relevant artifact hashes
+- task class + decision boundary
+- completion / partial / refusal
+- correction / contradiction events
+- unnecessary clarification / unsupported assumption
+- UNKNOWN preservation
+- projection/source conflation
+- mutation attempt / mutation-boundary handling
+- policy recitation vs silent application
+- latency / reasoning duration / output compression where observable
+- evidence references
+
+Minimal proposed logic:
+`TRANSITION → RECORD`
+`ORDINARY MATERIAL EVENT → RECORD`
+`COMPARABLE BOUNDARY → COMPARE`
+`DIFFERENCE → OBSERVE`
+`CAUSE → PRESERVE UNKNOWN`
+
+Open architecture hinge for 093 review:
+- Is project-local reuse of `events.jsonl` + a current serving projection in `state.json` sufficient?
+- Or, because the research spans multiple ChatGPT projects / cohorts / model generations, should raw transition telemetry live in a separate cross-project append-only ledger, with local logs remaining project-local?
+- Prefer the smallest form that preserves cross-model longitudinal comparability without turning telemetry into another supervisory subsystem.
+
 ## Research watchpoints
 - Does non-collapse/lens discipline reduce projection→reification drift under ordinary work?
 - Does stable owner-family reference reduce cross-artifact version-cascade churn without hiding currentness mistakes?
