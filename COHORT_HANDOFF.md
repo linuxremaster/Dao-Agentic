@@ -5,7 +5,7 @@ This package is a **portable memory / working-state scaffold**, not a semantic o
 ## Start
 1. Read `index.md`.
 2. Use `state.json` only if current working state is load-bearing.
-3. Read the exact combined owner source in `policy/combined_context.md` when exact semantics matter.
+3. For manual FIRST_INFERENCE / RECALIBRATION, read `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.24_v0.1.13_CONTEXT_PASTE.md`.
 4. Retrieve `notepad.md`, `events.jsonl`, `contradictions.jsonl` only as needed.
 
 ## Identity

@@ -30,9 +30,9 @@
       "status": "STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY"
     },
     "combined_context_paste": {
-      "name": "policy/combined_context.md",
+      "name": "policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.24_v0.1.13_CONTEXT_PASTE.md",
       "sha256": "08fa072fd1f2a34951bbb82cb1107f356ed1adce921ad9e5b39387a9c350bac6",
-      "role": "portable orientation source generated from current clean owner artifacts"
+      "role": "portable manual FIRST_INFERENCE / RECALIBRATION source generated from current clean owner artifacts"
     },
     "changelog": {
       "name": "policy/changelog.md",
@@ -86,7 +86,7 @@
       "authority": "observable event history, not behavioral scoring or semantic state owner"
     },
     "policy/": {
-      "role": "canonical current Environment / Temporal Notepad owner artifacts plus external changelog",
+      "role": "canonical current Environment / Temporal Notepad owner artifacts plus manual combined calibration source and external changelog",
       "mutation": "replace only when a later current source package is deliberately adopted",
       "autoload": "no; retrieve exact source when load-bearing",
       "authority": "source artifacts retain only their own bounded semantics; repository presence adds no authority"

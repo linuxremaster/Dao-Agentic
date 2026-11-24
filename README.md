@@ -11,13 +11,13 @@ This repository is the single-project merge of the portable mini sandbox runtime
 
 1. Read `index.md`.
 2. Use `state.json` only when current working state is load-bearing.
-3. Use `policy/combined_context.md` when exact current Environment + Notepad semantics are required.
+3. For manual FIRST_INFERENCE / RECALIBRATION, use `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.24_v0.1.13_CONTEXT_PASTE.md`.
 4. Retrieve `notepad.md`, `events.jsonl`, `contradictions.jsonl`, or verification history only as needed.
 
 ## Layout
 
 - `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.
-- `policy/` — one canonical copy of current Environment and Temporal Notepad sources, combined context, and external changelog.
+- `policy/` — one canonical copy of current Environment and Temporal Notepad sources, the manual combined context paste, and external changelog.
 - `verification/` — release verification, lineage, reviews, checksums, and historical diffs.
 
 ## Boundary

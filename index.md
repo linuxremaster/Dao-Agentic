@@ -11,7 +11,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 ## Current source anchors
 - Environment: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
 - Temporal Notepad: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
-- Combined orientation source: `policy/combined_context.md`.
+- Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.24_v0.1.13_CONTEXT_PASTE.md`.
 - Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
 - Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
