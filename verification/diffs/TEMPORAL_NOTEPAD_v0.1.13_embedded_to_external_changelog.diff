@@ -1,0 +1,29 @@
+--- Temporal_Notepad_Harness_Update_v0.1.13_TESTING.md (v2.4 embedded changelog)
++++ Temporal_Notepad_Harness_Update_v0.1.13_TESTING.md (v2.5 external changelog)
+@@ -4,6 +4,7 @@
+ **Date:** 2026-11-23  
+ **Status:** STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY  
+ **Applies to:** `Temporal_Notepad_Harness_Spec_v0.1`
++**History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md` (Temporal Notepad section)  
+ 
+ Where the base Notepad specification conflicts with this Architecture Update, this update governs the Notepad / state-substrate boundary. Non-state judgment semantics remain governed by the applicable Environment owner and are not inherited from conflicting base-spec prose. Otherwise, unaffected base-spec provisions remain applicable.
+ 
+@@ -451,18 +452,3 @@
+ → REFERENCE ENVIRONMENT FOR NON-STATE SEMANTICS
+ → DO NOT BECOME A JUDGMENT CONTROLLER
+ ```
+-
+-**v0.1.7 currentness / record-boundary repair provenance:** Updates the Environment owner pointer to v0.1.16; removes semantic canonization language from Notepad ownership; separates `SEMANTIC STATE RECORD` from `BOUNDARY EVENT RECORD`; makes rejected / stale / invalid attempts observable without promoting them into semantic state; and makes the deterministic mutation boundary enforce already-resolved Environment requirements rather than re-judging purpose, necessity, materiality, or epistemic weight. Preserves the v0.1.6 state classes, current view, append-only history, provenance, deterministic mutation boundary, passive telemetry, identity-binding state constraints, backend abstraction, and non-obligatory proposal semantics. Patch candidate only; patch != validation.
+-
+-**v0.1.8 owner-currentness propagation provenance:** Updates the Environment owner pointer from v0.1.16 to v0.1.17 and removes the remaining semantic artifact-privilege token from the ownership firewall. No Notepad state, mutation, telemetry, identity-binding, persistence, or proposal semantics are otherwise changed. Patch candidate only; patch != validation.
+-
+-
+-**v0.1.9 non-collapse / package-audit repair provenance:** Updates the Environment owner pointer from v0.1.17 to v0.1.18; removes the stale `PERMANENTLY PRIVILEGED ARTIFACT` wording that v0.1.8 provenance said had been removed; restores `executor_ref` to conditional proposal status; and makes current-view/projection locality explicit without broadening Notepad ownership. No live graph mutation authority added. Patch candidate only; patch != validation.
+-
+-
+-**v0.1.10 owner-currentness propagation provenance:** Updates only the Environment owner pointer from v0.1.18 to v0.1.19 so the Notepad dependency reference follows the accepted v0.1.19 verification-sequencing repair. No Notepad state, mutation, telemetry, identity-binding, persistence, current-view, projection, or proposal semantics are otherwise changed. Patch candidate only; patch != validation.
+-
+-**v0.1.11 owner-binding de-coupling provenance:** Replaces the exact Environment patch-version pointer with a stable Environment owner-family reference and an explicit boundary preventing Notepad from determining Environment currentness or version. The applicable Environment artifact remains resolved by the active package / context rather than by Notepad semantics. Normalizes the superseded v0.1.10 verification-sequence provenance wording so historical prose does not reintroduce removed operational terminology. This removes cross-artifact version-cascade churn without changing Notepad state, mutation, telemetry, identity-binding, persistence, current-view, projection, proposal, or non-state ownership boundaries. Patch candidate only; patch != validation.
+-**v0.1.12 telemetry / current-state boundary repair provenance:** Replaces the overbroad `ONLY CONSEQUENTIAL SURFACE` claim with the narrower rule that persistent-state mutation is the only surface that changes current semantic state. Makes explicit that boundary-event records may be durable and have downstream consequences without becoming current semantic-state mutation. Preserves the semantic-state-record / boundary-event-record split, deterministic mutation boundary, passive telemetry, identity-binding constraints, proposal semantics, and Environment ownership boundary. Patch candidate only; patch != validation.
+-
+-**v0.1.13 precedence / semantic-type / temporal-coordinate repair provenance:** Adds explicit precedence for conflicts between the base Notepad specification and this Architecture Update while preserving Environment ownership of non-state judgment semantics; replaces the residual `PERSISTENT-STATE MUTATION` discriminator with `SEMANTIC-STATE MUTATION`; distinguishes semantic-view version/hash from boundary-event tail/cursor without imposing universal dual-version coupling; binds resolved enforcement inputs to the concrete proposal/target/scope/currentness; clarifies identity binding as conditional on load-bearing identity; removes generic Notepad `HOLD`; preserves optional rejected-event telemetry through an explicit recording-disposition handoff; requires single-writer serialization or atomic compare-and-commit with deterministic recovery; and adds mixed semantic/boundary replay fixtures. Patch candidate only; patch != validation.

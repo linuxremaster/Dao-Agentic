@@ -1,0 +1,57 @@
+# Dao Agentic — Runtime Index
+
+Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current, and non-authoritative. It points to deeper state; it is not the state store, event history, semantic owner, identity source, or action authority.
+
+## Recipient identity boundary
+- Origin: `SOC-THREAD-089` designed / maintained this sandbox lineage.
+- Recipient thread / instance identity: **UNRESOLVED BY THIS PACKAGE**.
+- `PACKAGE / FOLDER / ORIGIN LABEL != CURRENT_THREAD_HANDLE / AUTHENTICATED IDENTITY`.
+- Populate identity only when material and independently established.
+
+## Current source anchors
+- Environment: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
+- Temporal Notepad: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
+- Combined orientation source: `policy/combined_context.md`.
+- Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
+- Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
+- Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
+
+## Current high-signal semantics
+- `LOCAL RESOLUTION → MAY GOVERN ONLY ITS DECISION BOUNDARY`.
+- `PROJECTION != SOURCE STATE / MUTATION`.
+- `VIEW / PROJECTION UPDATE ↛ UNIQUE SOURCE-STATE UPDATE`.
+- Source-state mutation requires an explicit update policy / mutation path and load-bearing source binding.
+- `SIMILARITY / POSITION ALONE ↛ CORRECT SOURCE BINDING`.
+- `NO TRIGGER ↛ NOTHING CHANGED`; `NO HINGE ↛ COMPLETE UNDERSTANDING`.
+- `NO STATE_DELTA → NO SEMANTIC STATE MUTATION`; this does not imply no boundary-event record.
+- Semantic-state record != boundary-event record.
+- Evidence-supported presentation requires verification only when the Environment resolves verification as requisite.
+- Semantic canonization is not project state; describe what is current and why.
+
+## Wu Wei label boundary
+- Wu Wei is a **historical / discovery label** for the governing dynamic.
+- The label, translation, or interpretation has no policy semantic unless it resolves to an existing operational distinction.
+- It is not an executable rule, target state, control signal, evidence of uptake, positive duty, LET_RUN, minimum action, or non-forced equilibrium.
+- If the label is used to derive a static global rule / target / duty, return to current conditions / purpose / constraints / evidence / boundary.
+
+## Read routing
+Read only what the next material decision needs:
+- Current load-bearing state → `state.json`
+- Working synthesis / research notes → `notepad.md`
+- Contradiction observations → `contradictions.jsonl`
+- Material trajectory → `events.jsonl`
+- File roles / source hashes / scaffold identity → `manifest.json`
+- Exact owner semantics → `policy/`
+- Release verification / historical diffs → `verification/`
+
+## Retrieval discipline
+1. Start here.
+2. Identify the current decision boundary / surviving hinge.
+3. Retrieve only a representation sufficiently rich for that boundary.
+4. Do not silently reuse a prior projection for a new boundary.
+5. Prefer exact/current source over summary when consequential exactness is load-bearing.
+6. Preserve provenance, uncertainty, contradictions, and currentness.
+7. Stop when more context cannot change the next admissible action, requisite evidence/authorization, material risk, or stop condition.
+
+## Mutation boundary
+Change this sandbox only when ordinary work exposes material friction, stale-state risk, a concrete failure route, or a demonstrably simpler sufficient form. Memory availability does not create retrieval duty; scaffold availability does not create mutation duty.

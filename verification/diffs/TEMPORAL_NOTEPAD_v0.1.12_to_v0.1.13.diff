@@ -1,0 +1,257 @@
+--- Temporal_Notepad_Harness_Update_v0.1.12_TESTING.md
++++ Temporal_Notepad_Harness_Update_v0.1.13_TESTING.md
+@@ -1,9 +1,11 @@
+ # Temporal Notepad Harness — Architecture Update
+ 
+-**Version:** v0.1.12 TESTING  
++**Version:** v0.1.13 TESTING  
+ **Date:** 2026-11-23  
+ **Status:** STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY  
+ **Applies to:** `Temporal_Notepad_Harness_Spec_v0.1`
++
++Where the base Notepad specification conflicts with this Architecture Update, this update governs the Notepad / state-substrate boundary. Non-state judgment semantics remain governed by the applicable Environment owner and are not inherited from conflicting base-spec prose. Otherwise, unaffected base-spec provisions remain applicable.
+ 
+ ---
+ 
+@@ -114,27 +116,29 @@
+ 
+ ---
+ 
+-## 5. Persistent-state proposal interface
+-
+-A proposed persistent-state delta may enter only after the Environment-resolved path makes proposal admissible.
++## 5. Semantic-state proposal interface
++
++A proposed semantic-state delta may enter only after the Environment-resolved path makes proposal admissible.
+ 
+ ```text
+ ELIGIBLE_FOR_PROPOSAL → MAY SUBMIT PROPOSED DELTA
+-ELIGIBLE_FOR_PROPOSAL ↛ DUTY_TO_PROPOSE / PERSIST / RECORD
++ELIGIBLE_FOR_PROPOSAL ↛ DUTY_TO_PROPOSE / SEMANTIC-STATE PERSIST / STATE_DELTA RECORD
+ ```
+ 
+ Minimum proposal relations, when applicable:
+ 
+ ```text
+ proposer_ref
+-identity_binding_ref
++[identity_binding_ref]
+ [executor_ref]
+ [action_authorization_ref]
+ [observer_ref]
+ [source_refs]
+ ```
+ 
+-A concrete writer may additionally require expected currentness/version, operation, target, proposed delta, and rationale.
++A concrete writer may additionally require expected semantic-view currentness/version, operation, target, proposed delta, and rationale. Event-tail ancestry / ordering should be required only when load-bearing to the proposed operation.
++
++A verified `identity_binding_ref` is requisite only when identity is load-bearing to the proposed mutation; absence where identity is not load-bearing is not a defect.
+ 
+ ```text
+ FIELD PRESENCE != VERIFIED BINDING
+@@ -147,30 +151,37 @@
+ Environment resolves materiality, load-bearing status, applicable authorization / support requirements, and permitted scope. The mutation boundary enforces them; it does not re-judge them.
+ 
+ ```text
+-RECEIVE PROPOSED DELTA
+-→ CHECK EXPECTED CURRENTNESS / VERSION WHERE IMPLEMENTED
++RECEIVE PROPOSED STATE_DELTA
++→ CHECK EXPECTED SEMANTIC-VIEW CURRENTNESS / VERSION WHERE IMPLEMENTED
+ → CHECK STATE-LOCAL TRANSITION SEMANTICS
+ → CHECK RESOLVED IDENTITY / AUTHORIZATION / SUPPORT / SOURCE REQUIREMENTS WHERE APPLICABLE
+ → CHECK RESOLVED TARGET / SCOPE / ROLLBACK DATA WHERE APPLICABLE
+ 
++RESOLVED REQUIREMENT INPUT
++→ BIND TO PROPOSED DELTA / TARGET / PERMITTED SCOPE /
++  RELEVANT SEMANTIC-VIEW CURRENTNESS
++→ BIND TO RELEVANT EVENT-TAIL ANCESTRY ONLY WHEN LOAD-BEARING
++RAW REF / BOOLEAN / LABEL
++↛ RESOLVED REQUIREMENT
++
+ DETERMINISTIC MUTATION BOUNDARY
+ → ENFORCES ALREADY-RESOLVED REQUIREMENTS
+ ↛ RE-JUDGES PURPOSE / NECESSITY / MATERIALITY / EPISTEMIC WEIGHT
+ ```
+ 
+ ```text
+-VALID MATERIAL DELTA
++VALID MATERIAL STATE_DELTA
+ → APPEND TRANSITION EVENT
+ → UPDATE / REGENERATE CURRENT VIEW
+ 
+ STALE / INVALID / UNVERIFIED / UNAUTHORIZED MATERIAL PROPOSAL
+-→ REJECT PERSISTENT MUTATION
++→ REJECT SEMANTIC-STATE MUTATION
+ → MAY APPEND PASSIVE TELEMETRY
+ 
+ NO MATERIAL STATE DELTA → NO SEMANTIC STATE MUTATION
+ 
+ MUTATION BOUNDARY ACCEPTANCE
+-→ PERSISTENT STATE MAY CHANGE
++→ CURRENT SEMANTIC STATE MAY CHANGE
+ != TRUE CLAIM ABOUT THE WORLD
+ ```
+ 
+@@ -186,7 +197,7 @@
+ IDENTITY CLAIM PRESENT
+ + identity_binding_ref POPULATED
+ + BINDING NOT VERIFIED
+-→ REJECT PERSISTENT IDENTITY MUTATION
++→ REJECT SEMANTIC-STATE IDENTITY MUTATION
+ → PRESERVE CLAIM / ATTEMPT AS TELEMETRY WHERE MATERIAL
+ ```
+ 
+@@ -197,7 +208,7 @@
+ ## 8. Telemetry scope firewall
+ 
+ ```text
+-PERSISTENT-STATE MUTATION
++SEMANTIC-STATE MUTATION
+ = ONLY SURFACE THAT CHANGES
+ CURRENT SEMANTIC STATE
+ OF THIS SUBSTRATE
+@@ -219,17 +230,21 @@
+ ## 9. No-op / rejected-write semantics
+ 
+ ```text
+-NO MATERIAL STATE DELTA → NO STATE MUTATION
++NO MATERIAL STATE DELTA → NO SEMANTIC STATE MUTATION
+ 
+ REJECTED / STALE / INVALID / OTHERWISE MATERIAL PROPOSAL
+ → MAY EMIT PASSIVE TELEMETRY
+ 
+-BOUNDARY REJECTION / HOLD
++MATERIAL MUTATION-BOUNDARY REJECTION
+ → MAY APPEND PASSIVE TELEMETRY
+ → CURRENT-VIEW SEMANTIC STATE UNCHANGED
+ 
+ TELEMETRY APPEND != EXTERNAL ACT_ONCE CONSEQUENCE
+-NO STATE MUTATION != NO BOUNDARY EVENT RECORD
++NO SEMANTIC STATE MUTATION != NO BOUNDARY EVENT RECORD
++
++WHEN PASSIVE TELEMETRY ELIGIBILITY DEPENDS ON NON-STATE MATERIALITY
++→ USE RESOLVED RECORDING DISPOSITION / PROVENANCE
++↛ RE-JUDGE MATERIALITY LOCALLY
+ ```
+ 
+ ---
+@@ -263,13 +278,39 @@
+ ```text
+ READ CURRENT VIEW
+ READ REQUISITE EVENT HISTORY
+-COMPARE EXPECTED CURRENTNESS / VERSION
++COMPARE EXPECTED SEMANTIC-VIEW CURRENTNESS / VERSION
+ APPEND OR DURABLY RECORD EVENT
+ WRITE / REGENERATE DERIVED CURRENT VIEW
+-RETURN CURRENT VERSION / HASH WHERE IMPLEMENTED
+-```
+-
+-```text
++RETURN SEMANTIC-VIEW VERSION / HASH WHERE IMPLEMENTED
++RETURN BOUNDARY-EVENT TAIL / CURSOR WHERE IMPLEMENTED
++```
++
++```text
++SEMANTIC_VIEW_VERSION / HASH
++!= BOUNDARY_EVENT_TAIL / CURSOR
++
++SEMANTIC MUTATION
++→ BIND TO SEMANTIC-VIEW CURRENTNESS
++
++BOUNDARY-EVENT ANCESTRY / ORDER
++→ BIND TO EVENT TAIL ONLY WHEN LOAD-BEARING
++
++DISTINCT TEMPORAL COORDINATES
++↛ UNIVERSAL DUAL-VERSION REQUIREMENT
++
++BOUNDARY-EVENT APPEND
+++ NO SEMANTIC-STATE MUTATION
++→ SEMANTIC_VIEW_VERSION / HASH UNCHANGED
++```
++
++```text
++CONCURRENT SEMANTIC MUTATION
++→ SINGLE-WRITER SERIALIZATION
++  OR ATOMIC COMPARE-AND-COMMIT
++
++INTERRUPTED ACCEPTED SEMANTIC TRANSITION
++→ DETERMINISTIC RECOVERY TO ONE VALID EVENT / CURRENT-VIEW PAIR
++
+ POSSIBLE CONCURRENCY FAILURE
+ != ESTABLISHED NEED FOR NEW COORDINATION MACHINERY
+ ```
+@@ -322,10 +363,10 @@
+ CONTRADICTED != INVALIDATED != SUPERSEDED
+ IDENTITY CLAIM != IDENTITY BINDING
+ READ / PROJECTION ↛ STATE MUTATION
+-ELIGIBLE_FOR_PROPOSAL ↛ DUTY_TO_PROPOSE / PERSIST / RECORD
+-NO MATERIAL STATE DELTA → NO STATE MUTATION
++ELIGIBLE_FOR_PROPOSAL ↛ DUTY_TO_PROPOSE / SEMANTIC-STATE PERSIST / STATE_DELTA RECORD
++NO MATERIAL STATE DELTA → NO SEMANTIC STATE MUTATION
+ SEMANTIC STATE RECORD != BOUNDARY EVENT RECORD
+-BOUNDARY REJECTION / HOLD → MAY APPEND PASSIVE TELEMETRY → CURRENT VIEW UNCHANGED
++MATERIAL MUTATION-BOUNDARY REJECTION → MAY APPEND PASSIVE TELEMETRY → CURRENT VIEW UNCHANGED
+ DETERMINISTIC MUTATION BOUNDARY → ENFORCES RESOLVED REQUIREMENTS ↛ RE-JUDGES NON-STATE SEMANTICS
+ VALID RECORD != TRUE CLAIM ABOUT THE WORLD
+ NON-STATE OWNER PREDICATE → REFERENCE ENVIRONMENT ↛ REIMPLEMENT
+@@ -351,13 +392,20 @@
+ PROVENANCE RETENTION
+ READ / PROJECTION NO-OP
+ ELIGIBLE PROPOSAL WITHOUT PROPOSAL DUTY
+-VALID PERSISTENT DELTA
++VALID SEMANTIC-STATE DELTA
+ NO-MATERIAL-DELTA NO-OP
+ STALE / REJECTED WRITE BOUNDARY EVENT WITHOUT SEMANTIC STATE MUTATION
++MIXED ACCEPTED / REJECTED EVENT-HISTORY REPLAY
++BOUNDARY-EVENT APPEND WITHOUT SEMANTIC-VIEW VERSION ADVANCE
++BOUNDARY EVENT LATER CITED WITHOUT RETROACTIVE STATE_DELTA
++SEMANTIC-VIEW VERSION DISTINCT FROM BOUNDARY-EVENT TAIL
+ BOUNDARY ENFORCEMENT WITHOUT NON-STATE RE-JUDGMENT
+ UNVERIFIED IDENTITY-BINDING REJECTION
+ ACTION-AUTHORIZATION-REF FIELD WITHOUT IMPLIED AUTHORIZATION
++OPTIONAL REJECTED-TELEMETRY MODALITY
+ CONCURRENT STALE-WRITE HANDLING
++SINGLE-WRITER OR ATOMIC COMPARE-AND-COMMIT ENFORCEMENT
++INTERRUPTED SEMANTIC COMMIT DETERMINISTIC RECOVERY
+ INSTANCE-REPLACEMENT STATE CONTINUITY
+ OWNER-PREDICATE REFERENCE WITHOUT LOCAL REIMPLEMENTATION
+ ```
+@@ -368,6 +416,10 @@
+ NON-STATE QUESTION
+ → NOTEPAD DOES NOT RESOLVE OWNER PREDICATE
+ → REFERENCE / DELEGATE TO ENVIRONMENT
++
++BASE-SPEC NON-STATE PREDICATE CONFLICT
++→ APPLICABLE ENVIRONMENT OWNER GOVERNS
++→ NOTEPAD UPDATE DOES NOT REIMPLEMENT
+ ```
+ 
+ Required modality fixture:
+@@ -377,7 +429,7 @@
+ + REQUISITE PERSISTENCE CHECKS SATISFIED
+ → MAY BE ELIGIBLE_FOR_PROPOSAL
+ ↛ DUTY_TO_PROPOSE
+-↛ PERSIST / RECORD
++↛ SEMANTIC-STATE PERSIST / STATE_DELTA RECORD
+ ```
+ 
+ Testing does not authorize live evidence-graph, manifest, repository, library, relay-governance, or external-state mutation unless separately supported and authorized by the applicable owner semantics.
+@@ -392,9 +444,10 @@
+ → ACCEPT ONLY EXPLICIT PROPOSALS AT MUTATION BOUNDARY
+ → APPLY STATE-LOCAL VALIDATION
+ → ENFORCE RESOLVED NON-STATE REQUIREMENTS WITHOUT RE-JUDGING THEM
+-→ MUTATE ONLY VALID MATERIAL DELTA
++→ MUTATE ONLY VALID MATERIAL STATE_DELTA
+ → SEPARATE SEMANTIC STATE RECORDS FROM BOUNDARY EVENT RECORDS
+-→ PASSIVELY RECORD MATERIAL BOUNDARY EVENTS WHERE APPLICABLE
++→ RECORD ACCEPTED PERSISTED SEMANTIC TRANSITIONS
++→ MAY PASSIVELY RECORD OTHER MATERIAL BOUNDARY EVENTS WHERE APPLICABLE
+ → REFERENCE ENVIRONMENT FOR NON-STATE SEMANTICS
+ → DO NOT BECOME A JUDGMENT CONTROLLER
+ ```
+@@ -411,3 +464,5 @@
+ 
+ **v0.1.11 owner-binding de-coupling provenance:** Replaces the exact Environment patch-version pointer with a stable Environment owner-family reference and an explicit boundary preventing Notepad from determining Environment currentness or version. The applicable Environment artifact remains resolved by the active package / context rather than by Notepad semantics. Normalizes the superseded v0.1.10 verification-sequence provenance wording so historical prose does not reintroduce removed operational terminology. This removes cross-artifact version-cascade churn without changing Notepad state, mutation, telemetry, identity-binding, persistence, current-view, projection, proposal, or non-state ownership boundaries. Patch candidate only; patch != validation.
+ **v0.1.12 telemetry / current-state boundary repair provenance:** Replaces the overbroad `ONLY CONSEQUENTIAL SURFACE` claim with the narrower rule that persistent-state mutation is the only surface that changes current semantic state. Makes explicit that boundary-event records may be durable and have downstream consequences without becoming current semantic-state mutation. Preserves the semantic-state-record / boundary-event-record split, deterministic mutation boundary, passive telemetry, identity-binding constraints, proposal semantics, and Environment ownership boundary. Patch candidate only; patch != validation.
++
++**v0.1.13 precedence / semantic-type / temporal-coordinate repair provenance:** Adds explicit precedence for conflicts between the base Notepad specification and this Architecture Update while preserving Environment ownership of non-state judgment semantics; replaces the residual `PERSISTENT-STATE MUTATION` discriminator with `SEMANTIC-STATE MUTATION`; distinguishes semantic-view version/hash from boundary-event tail/cursor without imposing universal dual-version coupling; binds resolved enforcement inputs to the concrete proposal/target/scope/currentness; clarifies identity binding as conditional on load-bearing identity; removes generic Notepad `HOLD`; preserves optional rejected-event telemetry through an explicit recording-disposition handoff; requires single-writer serialization or atomic compare-and-commit with deterministic recovery; and adds mixed semantic/boundary replay fixtures. Patch candidate only; patch != validation.

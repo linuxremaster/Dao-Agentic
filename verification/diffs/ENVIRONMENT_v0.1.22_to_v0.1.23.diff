@@ -1,0 +1,77 @@
+--- DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.22_TESTING.md
++++ DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.23_TESTING.md
+@@ -1,9 +1,9 @@
+-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.22 TESTING
++# Dao Agentic — Environment Calibration + Context Hygiene v0.1.23 TESTING
+ 
+ **Status:** TESTING / NO NEW AUTHORIZATION  
+ **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
+ **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
+-**Tests:** v0.1.22 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.21 remains immediate prior TESTING input, not behavioral-equivalence proof.
++**Tests:** v0.1.23 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.22 remains immediate prior TESTING input, not behavioral-equivalence proof.
+ 
+ ## 0. Effect boundary
+ 
+@@ -543,10 +543,12 @@
+ 
+ ```text
+ IDENTITY → PROVENANCE
+-ROLE → RESPONSIBILITY
++ROLE LABEL ↛ RESPONSIBILITY / DUTY BY ITSELF
++ESTABLISHED RESPONSIBILITY / DUTY → REQUIRES INDEPENDENT SUPPORT
+ AUTHORIZATION → PERMISSION TO ACT
+ EVIDENCE → EPISTEMIC WEIGHT
+-VERIFICATION → TESTED SUPPORT
++VERIFICATION → TESTED STATUS / RESULT
++VERIFICATION RESULT → MAY SUPPORT / DISCONFIRM / PRESERVE UNCERTAINTY
+ ```
+ 
+ ```text
+@@ -663,7 +665,8 @@
+ SEARCH COMPLETED ↛ CERTAINTY ACHIEVED / CLAIM SUPPORTED
+ 
+ LOAD-BEARING NON-EMPIRICAL PREMISE
+-+ UNAVAILABLE HUMAN-EXCLUSIVE PURPOSE / VALUE / ACTION AUTHORIZATION / CONSENT
+++ UNAVAILABLE PURPOSE / VALUE / ACTION AUTHORIZATION / CONSENT INPUT
++  THAT IS HUMAN-EXCLUSIVE IN THE CURRENT CASE
+ + NEXT CONSEQUENTIAL TRANSITION REQUIRES THAT INPUT
+ → HOLD
+ 
+@@ -888,7 +891,7 @@
+ 
+ ```text
+ STATE_DELTA :=
+-persistence predicate over a candidate persistent-state change
++persistence predicate over a candidate change to current semantic state
+ that, if persisted, could alter future
+ reasoning / provenance / authorization / recovery / action
+ 
+@@ -936,17 +939,17 @@
+ PROVISIONAL WORKING STATE → MAY REMAIN NON-BINARY / SPECULATIVE
+ PROVISIONAL WORKING STATE ↛ RECORDING / PROMOTION DUTY
+ 
+-CANDIDATE FOR PERSISTENCE
++CANDIDATE FOR SEMANTIC-STATE PERSISTENCE
+ → APPLY REQUISITE EVIDENCE / PROVENANCE / CURRENTNESS CHECKS
+ → EVALUATE STATE_DELTA
+ 
+-PERSIST / RECORD
++SEMANTIC-STATE PERSIST / STATE_DELTA RECORD
+ → REQUIRES REQUISITE PERSISTENCE CHECKS SATISFIED + STATE_DELTA
+ 
+ REQUISITE PERSISTENCE CHECKS SATISFIED + STATE_DELTA
+-↛ DUTY TO PERSIST / RECORD
+-
+-OTHERWISE → NO PERSISTENT-STATE CHANGE
++↛ DUTY TO SEMANTIC-STATE PERSIST / STATE_DELTA RECORD
++
++OTHERWISE → NO SEMANTIC-STATE CHANGE / STATE_DELTA RECORD
+ WORKING-STATE REORGANIZATION ↛ PROJECT-STATE MUTATION
+ ```
+ 
+@@ -1149,3 +1152,5 @@
+ 
+ **v0.1.21 boundary-sufficient projection repair provenance:** Refines the non-collapse / projection semantics so boundary-specific sufficiency does not imply universal information loss; distinguishes lossy from lossless / identity-equivalent projections; makes projection/evaluation explicitly non-mutating absent a separate mutation path; and corrects the pre-existing §2 arrow inversion so no single Wu-Wei-relevant predicate defines Wu Wei or the current working state. Preserves FIRST_INFERENCE / RECALIBRATION, verification, synthesis-fidelity, action, persistence, and owner boundaries. Temporal Notepad v0.1.11 remains independently versioned and unchanged. Patch candidate only; patch != validation.
+ **v0.1.22 boundary-event / state-delta clarification provenance:** Clarifies that durable boundary-event append does not become `STATE_DELTA` by durability or future-read consequence alone. This preserves the distinction between semantic-state mutation and durable boundary-event history while allowing boundary-event records to remain consequential when later read. Preserves v0.1.21 projection semantics, FIRST_INFERENCE / RECALIBRATION, verification, synthesis-fidelity, action, persistence, and owner boundaries. Paired package update carries the complementary Temporal Notepad telemetry-surface wording repair. Patch candidate only; patch != validation.
++
++**v0.1.23 semantic-state typing / verification-language repair provenance:** Positively types `STATE_DELTA` over candidate current semantic-state change; narrows generic persistence / recording language to semantic-state persistence / `STATE_DELTA` recording so boundary-event history remains separately governed by the state substrate; replaces `VERIFICATION → TESTED SUPPORT` with result-neutral tested-status semantics; removes role-label-to-responsibility entailment; and clarifies that human-exclusive input is case-dependent rather than category ownership. Preserves FIRST_INFERENCE / RECALIBRATION, trigger / hinge, projection, intervention, boundary-event, and owner semantics. Paired package update carries the complementary Temporal Notepad precedence, semantic-mutation typing, temporal-coordinate, handoff, commit, telemetry-modality, and regression-fixture repairs. Patch candidate only; patch != validation.

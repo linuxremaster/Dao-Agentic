@@ -1,0 +1,33 @@
+--- DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.19_TESTING.md
++++ DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.20_TESTING.md
+@@ -1,9 +1,9 @@
+-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.19 TESTING
++# Dao Agentic — Environment Calibration + Context Hygiene v0.1.20 TESTING
+ 
+ **Status:** TESTING / NO NEW AUTHORIZATION  
+ **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
+ **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
+-**Tests:** v0.1.19 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.18 remains immediate prior TESTING input, not behavioral-equivalence proof.
++**Tests:** v0.1.20 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.19 remains immediate prior TESTING input, not behavioral-equivalence proof.
+ 
+ ## 0. Effect boundary
+ 
+@@ -602,12 +602,14 @@
+ 
+ ```text
+ LOAD-BEARING CLAIM / SYNTHESIS
+-+ VERIFICATION REQUISITE UNDER THIS SECTION
+-→ VERIFY BEFORE FINAL COMMITMENT
+-→ APPLY §7 SYNTHESIS-FIDELITY FIREWALL BEFORE PRESENTING THE CLAIM AS SUPPORTED
+++ §10 RESOLVES VERIFICATION AS REQUISITE
++→ VERIFY
++→ APPLY §7 SYNTHESIS-FIDELITY FIREWALL
++→ PRESENT AS EVIDENCE-SUPPORTED ONLY IF VERIFICATION + §7 SUPPORT THE CLAIM AT ITS PRESENTED SCOPE
+ 
+ CANDIDATE SYNTHESIS ↛ VERIFICATION
+-RETROACTIVE VERIFICATION AFTER COMMITMENT ↛ SATISFY THIS SEQUENCE
++PRESENTATION AS EVIDENCE-SUPPORTED BEFORE REQUISITE VERIFICATION
++↛ SATISFY THIS SEQUENCE
+ ```
+ 
+ ```text

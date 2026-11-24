@@ -1,0 +1,30 @@
+--- DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.21_TESTING.md	2026-11-23 04:14:46.000000000 +0000
++++ DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.22_TESTING.md	2026-11-23 05:48:07.814986377 +0000
+@@ -1,9 +1,9 @@
+-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.21 TESTING
++# Dao Agentic — Environment Calibration + Context Hygiene v0.1.22 TESTING
+ 
+ **Status:** TESTING / NO NEW AUTHORIZATION  
+ **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
+ **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
+-**Tests:** v0.1.21 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.20 remains immediate prior TESTING input, not behavioral-equivalence proof.
++**Tests:** v0.1.22 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.21 remains immediate prior TESTING input, not behavioral-equivalence proof.
+ 
+ ## 0. Effect boundary
+ 
+@@ -892,6 +892,10 @@
+ that, if persisted, could alter future
+ reasoning / provenance / authorization / recovery / action
+ 
++DURABLE BOUNDARY-EVENT APPEND
++↛ STATE_DELTA
++BY DURABILITY / FUTURE-READ CONSEQUENCE ALONE
++
+ STATE_DELTA
+ ↛ COMPLETE EVENT DESCRIPTION
+ ↛ COMPLETE STATE DESCRIPTION
+@@ -1144,3 +1148,4 @@
+ ```
+ 
+ **v0.1.21 boundary-sufficient projection repair provenance:** Refines the non-collapse / projection semantics so boundary-specific sufficiency does not imply universal information loss; distinguishes lossy from lossless / identity-equivalent projections; makes projection/evaluation explicitly non-mutating absent a separate mutation path; and corrects the pre-existing §2 arrow inversion so no single Wu-Wei-relevant predicate defines Wu Wei or the current working state. Preserves FIRST_INFERENCE / RECALIBRATION, verification, synthesis-fidelity, action, persistence, and owner boundaries. Temporal Notepad v0.1.11 remains independently versioned and unchanged. Patch candidate only; patch != validation.
++**v0.1.22 boundary-event / state-delta clarification provenance:** Clarifies that durable boundary-event append does not become `STATE_DELTA` by durability or future-read consequence alone. This preserves the distinction between semantic-state mutation and durable boundary-event history while allowing boundary-event records to remain consequential when later read. Preserves v0.1.21 projection semantics, FIRST_INFERENCE / RECALIBRATION, verification, synthesis-fidelity, action, persistence, and owner boundaries. Paired package update carries the complementary Temporal Notepad telemetry-surface wording repair. Patch candidate only; patch != validation.

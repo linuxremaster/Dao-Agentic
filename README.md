@@ -1,74 +1,27 @@
-# Dao-Agentic
+# Dao Agentic — Unified Sandbox Runtime
 
-Dao-Agentic is currently a **small executable deterministic control core**, not a claimed complete orchestration runtime.
+**Status:** TESTING / NO NEW AUTHORIZATION  
+**Runtime:** sandbox mini-harness v0.1.4 unified repository form  
+**Environment:** v0.1.24 TESTING  
+**Temporal Notepad:** v0.1.13 TESTING
 
-```yaml
-INTENT != ACTION
-ACTION != OUTCOME
-OUTCOME != VERIFIED SUCCESS
-ROLE != AUTHORITY
-TITLE != AUTHORIZATION
-PERMANENCE != DEFAULT
-```
+This repository is the single-project merge of the portable mini sandbox runtime and the current calibration / context-hygiene policy package. The prior SOCRATES/Epiq working-tree architecture is intentionally not carried forward. Git history remains the historical record of that ablated tree.
 
-Control semantics are intended to be language-independent. JavaScript is preferred
-when it is the simplest adequate choice for browser-facing use, but it is not a
-semantic authority or a hard language requirement. The Python 3.10+ standard-library
-implementation remains the WO-001 executable reference while cross-runtime conformance
-is evaluated.
+## Start
 
-## Universal leases and authority
+1. Read `index.md`.
+2. Use `state.json` only when current working state is load-bearing.
+3. Use `policy/combined_context.md` when exact current Environment + Notepad semantics are required.
+4. Retrieve `notepad.md`, `events.jsonl`, `contradictions.jsonl`, or verification history only as needed.
 
-There are no standing authority roles in the executable control path.
+## Layout
 
-Generic assignments are temporary leases bound to an explicit subject, lease class,
-resource, scope, purpose and logical expiry. The same primitive can represent roles,
-tasks, capabilities, tool/bus/wake access, resource locks, credential-use designations,
-audience membership and future explicit lease classes. Generic leases never grant
-action authority by themselves.
+- `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.
+- `policy/` — one canonical copy of current Environment and Temporal Notepad sources, combined context, and external changelog.
+- `verification/` — release verification, lineage, reviews, checksums, and historical diffs.
 
-Authority is a separate temporary grant bound to one exact subject, action, target,
-scope and mandatory logical expiry. Role names, titles, task ownership, generic lease
-labels, seniority, confidence, sender rhetoric, consensus and identity labels are not
-inputs to the authority decision.
+## Boundary
 
-Lease rotation is release-old then grant-new with a new lease ID. Rotation preserves
-lease class, resource and scope so it cannot be used as a privilege-expansion shortcut.
-Authority rotation remains on the authenticated mandate path.
+The runtime scaffold is a memory / working-state aid. It is not a semantic owner, controller, authority source, roster, behavioral scorer, or live graph-mutation capability. Canonical policy semantics remain bounded to the owner artifacts under `policy/`.
 
-The Python and JavaScript lifecycle reducers reject caller-forged materialized state,
-and the lease reducers reject wildcards, expired/released grants, missing required
-evidence, authority-shaped extra fields, and forged `AUTHORITY_DECIDED` events.
-`scripts/lease_ledger.py` provides append-only JSONL persistence, generic lease
-grant/release/rotation and replay, but is an administrative persistence surface rather
-than an authentication boundary. Production deployments must keep the lease ledger
-unwritable by untrusted agent runtimes before consuming generic leases as access
-control. Raw `AUTHORITY_GRANTED` admission remains forbidden; new authority must
-enter through the operator-signed mandate gate.
-
-`js/scripts/policy_gate.js` emits and persists an exact policy decision and exits
-non-zero on denial. The trusted adapter registry prevents callers from supplying
-arbitrary execution callbacks. The relay adapter binds publishing to exact content
-bytes; the GitHub adapter binds merging to an exact PR head SHA and deployment-owned
-repository. Registered actions execute only after authorization and write
-tamper-evident pending/final action receipts.
-
-The existing lifecycle conformance work still has unresolved Python/JavaScript numeric
-serialization differences. Those remain `HOLD` evidence rather than being hidden
-behind a compatibility rule.
-
-Run the Python suite:
-
-```sh
-python -m unittest discover -s tests -v
-```
-
-Run the JavaScript suite with a modern Node runtime:
-
-```sh
-node --test js/tests/*.test.js
-```
-
-See [architecture](docs/architecture.md), [universal leases and authority](docs/leases.md),
-[conformance evidence](docs/conformance.md), and
-[operating predicates](docs/operating-predicates.md).
+Local projections, summaries, notes, event records, and indices do not become source state merely because they are convenient or persistent.
