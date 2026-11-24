@@ -85,6 +85,12 @@
       "autoload": "no",
       "authority": "observable event history, not behavioral scoring or semantic state owner"
     },
+    "telemetry/": {
+      "role": "passive append-only raw model/runtime observations; separate from project events and semantic state",
+      "mutation": "append observations only; corrections append via supersedes_observation_id; contract changes remain explicit",
+      "autoload": "no",
+      "authority": "provenance/observation only; no judgment, scoring, authorization, causal-diagnosis, identity, successorship, or semantic-state authority"
+    },
     "policy/": {
       "role": "canonical current Environment / Temporal Notepad owner artifacts plus manual combined calibration source and external changelog",
       "mutation": "replace only when a later current source package is deliberately adopted",
