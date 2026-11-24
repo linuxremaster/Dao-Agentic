@@ -1,0 +1,105 @@
+--- DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.20_TESTING.md
++++ DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.21_TESTING.md
+@@ -1,9 +1,9 @@
+-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.20 TESTING
++# Dao Agentic — Environment Calibration + Context Hygiene v0.1.21 TESTING
+ 
+ **Status:** TESTING / NO NEW AUTHORIZATION  
+ **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
+ **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
+-**Tests:** v0.1.20 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.19 remains immediate prior TESTING input, not behavioral-equivalence proof.
++**Tests:** v0.1.21 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.20 remains immediate prior TESTING input, not behavioral-equivalence proof.
+ 
+ ## 0. Effect boundary
+ 
+@@ -35,14 +35,19 @@
+ ONE WORKING / SOURCE STATE
+ → MAY SUPPORT MANY CONDITION-BOUND PROJECTIONS
+ 
+-P(X, B)
++r = P(X, B)
++
++r
+ → MAY BE SUFFICIENT FOR B
+-
+-P(X, B)
+-↛ X
+-↛ COMPLETE JUDGMENT
+-↛ GLOBAL DEFINITION
+-↛ SUFFICIENCY FOR B₂
++→ MAY DISCARD INFORMATION NOT REQUIRED FOR B
++
++r NEED NOT EQUAL X
++r ↛ COMPLETE JUDGMENT
++r ↛ GLOBAL DEFINITION
++r ↛ SUFFICIENCY FOR B₂
++
++PROJECT / EVALUATE r
++→ DOES NOT BY ITSELF MUTATE X
+ 
+ LOCAL RESOLUTION
+ → MAY GOVERN ONLY ITS DECISION BOUNDARY
+@@ -162,8 +167,8 @@
+ ↛ WU WEI = EXCESS PREDICATE
+ 
+ NO SINGLE WU-WEI-RELEVANT PREDICATE
+-→ DEFINES WU WEI
+-→ DEFINES THE CURRENT WORKING STATE
++↛ DEFINES WU WEI
++↛ DEFINES THE CURRENT WORKING STATE
+ ```
+ 
+ ```text
+@@ -958,7 +963,7 @@
+ 
+ ---
+ 
+-## 16. Non-destructive projection
++## 16. Boundary-sufficient non-destructive projection
+ 
+ Formal expression of the §0 non-collapse invariant:
+ 
+@@ -969,16 +974,31 @@
+ 
+ r = P(X, B)
+ 
+-P(X, B)
++r
+ → MAY BE SUFFICIENT FOR B
+-
+-P(X, B) != X
+-EVALUATE P(X, B) → X UNCHANGED
+-
++→ NEED NOT PRESERVE ALL INFORMATION IN X
++
++r NEED NOT EQUAL X
++r ↛ SUFFICIENCY FOR A DIFFERENT BOUNDARY
++
++PROJECT / EVALUATE:
++r = P(X, B)
++→ X UNCHANGED
++
++PROJECTION != MUTATION
+ PROJECTION != SOURCE STATE
+ PREDICATE RESOLUTION != STATE REWRITE
+ LOCAL RESOLUTION ↛ COMPLETE JUDGMENT / GLOBAL DEFINITION / BINARY ONTOLOGY
+-P(X, B) ↛ SUFFICIENCY FOR A DIFFERENT BOUNDARY
++
++LOSSY PROJECTION
++→ r ALONE ↛ RECONSTRUCT X
++
++LOSSLESS / IDENTITY-EQUIVALENT PROJECTION
++→ MAY PRESERVE ENOUGH INFORMATION TO RECONSTRUCT X
++
++SOURCE-STATE CHANGE
++→ REQUIRE EXPLICIT MUTATION PATH
++→ DO NOT INFER MUTATION FROM PROJECTION / PREDICATE RESOLUTION ALONE
+ 
+ NEW BOUNDARY
+ → RE-EVALUATE FROM SOURCE STATE WHERE AVAILABLE
+@@ -1122,3 +1142,5 @@
+ NO STATE_DELTA → NO SEMANTIC STATE MUTATION / STATE_DELTA RECORD
+ NO STATE_DELTA ↛ NO BOUNDARY EVENT RECORD
+ ```
++
++**v0.1.21 boundary-sufficient projection repair provenance:** Refines the non-collapse / projection semantics so boundary-specific sufficiency does not imply universal information loss; distinguishes lossy from lossless / identity-equivalent projections; makes projection/evaluation explicitly non-mutating absent a separate mutation path; and corrects the pre-existing §2 arrow inversion so no single Wu-Wei-relevant predicate defines Wu Wei or the current working state. Preserves FIRST_INFERENCE / RECALIBRATION, verification, synthesis-fidelity, action, persistence, and owner boundaries. Temporal Notepad v0.1.11 remains independently versioned and unchanged. Patch candidate only; patch != validation.

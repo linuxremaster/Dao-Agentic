@@ -1,8 +1,0 @@
-{
-  "name": "dao-agentic-conformance",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "test:js": "node --test js/tests/*.test.js"
-  }
-}

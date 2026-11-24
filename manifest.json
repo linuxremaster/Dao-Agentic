@@ -1,0 +1,125 @@
+{
+  "harness_name": "dao-agentic-unified-runtime",
+  "version": "0.1.4-unified-repo",
+  "scope": "single-project repository combining the mini sandbox runtime with current Environment / Temporal Notepad policy and release verification history",
+  "origin_thread_handle": "SOC-THREAD-089",
+  "recipient_identity": "unresolved by package",
+  "durability": "disposable",
+  "architecture": "progressive-disclosure filesystem memory with explicit semantic layer separation",
+  "semantic_ownership": "none; this sandbox is a memory / working-state aid and does not own Environment or Temporal Notepad semantics",
+  "baseline": {
+    "artifact": "dao_harness_refactor_v0.1.0_audit.zip",
+    "sha256": "99854927f2290f6c9d2f569241536994afca1946dde15fadb7a7939bda2427f4"
+  },
+  "current_source_package": {
+    "name": "DAO_VERIFICATION_SEQUENCE_UPDATE_v2_5_REBASED_2026-11-24.zip",
+    "sha256": "d9b5539859fc5dd18f31dcf440a571acb8015ca791f417d83936e0063e5f5e55",
+    "status": "verified source package used for canonical policy anchors; packaging/context-hygiene successor with no new policy semantics"
+  },
+  "current_source_artifacts": {
+    "environment": {
+      "name": "policy/environment.md",
+      "sha256": "9631c14ac38581ddda3c9cc9f8fd6570e84bf3d2df6a471d645b689c9bb5bc3c",
+      "role": "current supplied non-state semantic artifact",
+      "status": "TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING"
+    },
+    "temporal_notepad": {
+      "name": "policy/temporal_notepad.md",
+      "sha256": "34c2a51ce671abea881272716e0c7186b667f29f2b10681c097e2c9fe2066ec9",
+      "role": "current state-semantics owner",
+      "status": "STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY"
+    },
+    "combined_context_paste": {
+      "name": "policy/combined_context.md",
+      "sha256": "08fa072fd1f2a34951bbb82cb1107f356ed1adce921ad9e5b39387a9c350bac6",
+      "role": "portable orientation source generated from current clean owner artifacts"
+    },
+    "changelog": {
+      "name": "policy/changelog.md",
+      "sha256": "a24dc899633729b9ba894b94e354ac20f78a6875b071dafdfcb67d6ae35a19a2",
+      "role": "externalized provenance/changelog; not an operational semantic owner"
+    },
+    "update_review": {
+      "name": "verification/UPDATE_REVIEW.md",
+      "sha256": "fbb7ef395febe91aec8ece57865f438e3e68f8f2418e6794fb37686d5259db2b"
+    },
+    "source_package_checksums": {
+      "name": "verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt",
+      "sha256": "7205594849d03a3455693f0b790276d95e76a696da5266a10b04b97577bd3fdc",
+      "role": "verbatim checksum manifest for the v2.5 source package"
+    },
+    "project_checksums": {
+      "name": "SHA256SUMS.txt",
+      "role": "repository-local SHA-256 verification manifest; intentionally excludes itself"
+    }
+  },
+  "source_selection_note": "v2.5 externalizes Environment and Temporal Notepad provenance/changelog comments while preserving operational semantics. This repository stores the clean current owners once under policy/ and retains historical diffs separately under verification/.",
+  "files": {
+    "index.md": {
+      "role": "hot routing dashboard",
+      "mutation": "rewrite when current routing or load-bearing anchors materially change",
+      "autoload": "preferred first read",
+      "authority": "pointer/summary only; defer to exact policy sources when exactness matters"
+    },
+    "state.json": {
+      "role": "current load-bearing working projection",
+      "mutation": "rewrite when material current state changes",
+      "autoload": "on current-state hinge",
+      "authority": "current local projection; not source state or historical record"
+    },
+    "notepad.md": {
+      "role": "warm freeform synthesis / research memory",
+      "mutation": "freeform edit/reorganize/condense",
+      "autoload": "no",
+      "authority": "non-authoritative working notes"
+    },
+    "contradictions.jsonl": {
+      "role": "append-only contradiction observations",
+      "mutation": "append only",
+      "autoload": "no",
+      "authority": "observation history; disposition does not erase prior observation"
+    },
+    "events.jsonl": {
+      "role": "append-only material ordinary-work trajectory",
+      "mutation": "append only",
+      "autoload": "no",
+      "authority": "observable event history, not behavioral scoring or semantic state owner"
+    },
+    "policy/": {
+      "role": "canonical current Environment / Temporal Notepad owner artifacts plus external changelog",
+      "mutation": "replace only when a later current source package is deliberately adopted",
+      "autoload": "no; retrieve exact source when load-bearing",
+      "authority": "source artifacts retain only their own bounded semantics; repository presence adds no authority"
+    },
+    "verification/": {
+      "role": "release verification, lineage, reviews, and historical diffs",
+      "mutation": "append or replace only as release evidence requires",
+      "autoload": "no",
+      "authority": "verification/provenance only; not policy semantics"
+    },
+    "manifest.json": {
+      "role": "deterministic structural inventory and source hashes",
+      "mutation": "rewrite when project structure/source anchors materially change",
+      "autoload": "only when structural semantics/provenance are needed",
+      "authority": "structure/provenance only"
+    }
+  },
+  "retrieval_policy": [
+    "start with index.md",
+    "current decision boundary / material hinge determines deeper retrieval",
+    "memory availability does not create retrieval duty",
+    "use a representation sufficiently rich for the current boundary",
+    "do not silently reuse a prior projection for a new boundary",
+    "prefer exact/current source over summary for consequential transitions",
+    "stop when more context cannot change the next material action, requisite evidence/authorization, material risk, or stop condition"
+  ],
+  "graph_policy": "keep relationships implicit in ordinary IDs/links/hashes until observed navigation/query friction makes explicit graph machinery load-bearing",
+  "design_bias": "progressive disclosure; non-collapse; preserve provenance/currentness; no proceduralization without observed need",
+  "mutation_rule": "change the sandbox only when ordinary work exposes material friction, failure, stale-state risk, or a demonstrably simpler sufficient form",
+  "packaging_repair": {
+    "from_version": "0.1.3-local-cohort",
+    "reason": "merge mini sandbox runtime with v2.5 calibration/policy package as one repository project and remove duplicated embedded source/provenance surfaces",
+    "change": "single canonical policy surface + verification/history surface; old repository working tree ablated",
+    "semantic_delta": "none"
+  }
+}

@@ -1,0 +1,33 @@
+--- Temporal_Notepad_Harness_Update_v0.1.9_TESTING.md
++++ Temporal_Notepad_Harness_Update_v0.1.11_TESTING.md
+@@ -1,6 +1,6 @@
+ # Temporal Notepad Harness — Architecture Update
+ 
+-**Version:** v0.1.9 TESTING  
++**Version:** v0.1.11 TESTING  
+ **Date:** 2026-11-22  
+ **Status:** STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY  
+ **Applies to:** `Temporal_Notepad_Harness_Spec_v0.1`
+@@ -25,10 +25,11 @@
+ 
+ ```text
+ ENVIRONMENT
+-→ DAO_ENVIRONMENT_CALIBRATION_HYGIENE_v0.1.18_TESTING
++→ DAO_ENVIRONMENT_CALIBRATION_HYGIENE
+ → OWNS NON-STATE SEMANTICS
+    (PURPOSE / ENTRY / EVIDENCE / JUDGMENT / ACTION / STOP / EVOLUTION)
+-→ REFERENCE HERE
++→ REFERENCE APPLICABLE ENVIRONMENT ARTIFACT
++↛ DETERMINE ENVIRONMENT CURRENTNESS / VERSION HERE
+ ↛ REIMPLEMENT HERE
+ ```
+ 
+@@ -404,3 +405,8 @@
+ 
+ 
+ **v0.1.9 non-collapse / package-audit repair provenance:** Updates the Environment owner pointer from v0.1.17 to v0.1.18; removes the stale `PERMANENTLY PRIVILEGED ARTIFACT` wording that v0.1.8 provenance said had been removed; restores `executor_ref` to conditional proposal status; and makes current-view/projection locality explicit without broadening Notepad ownership. No live graph mutation authority added. Patch candidate only; patch != validation.
++
++
++**v0.1.10 owner-currentness propagation provenance:** Updates only the Environment owner pointer from v0.1.18 to v0.1.19 so the Notepad dependency reference follows the accepted v0.1.19 verification-sequencing repair. No Notepad state, mutation, telemetry, identity-binding, persistence, current-view, projection, or proposal semantics are otherwise changed. Patch candidate only; patch != validation.
++
++**v0.1.11 owner-binding de-coupling provenance:** Replaces the exact Environment patch-version pointer with a stable Environment owner-family reference and an explicit boundary preventing Notepad from determining Environment currentness or version. The applicable Environment artifact remains resolved by the active package / context rather than by Notepad semantics. Normalizes the superseded v0.1.10 verification-sequence provenance wording so historical prose does not reintroduce removed operational terminology. This removes cross-artifact version-cascade churn without changing Notepad state, mutation, telemetry, identity-binding, persistence, current-view, projection, proposal, or non-state ownership boundaries. Patch candidate only; patch != validation.

@@ -1,0 +1,42 @@
+--- Temporal_Notepad_Harness_Update_v0.1.11_TESTING.md	2026-11-23 04:14:46.000000000 +0000
++++ Temporal_Notepad_Harness_Update_v0.1.12_TESTING.md	2026-11-23 05:48:07.815367751 +0000
+@@ -1,7 +1,7 @@
+ # Temporal Notepad Harness — Architecture Update
+ 
+-**Version:** v0.1.11 TESTING  
+-**Date:** 2026-11-22  
++**Version:** v0.1.12 TESTING  
++**Date:** 2026-11-23  
+ **Status:** STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY  
+ **Applies to:** `Temporal_Notepad_Harness_Spec_v0.1`
+ 
+@@ -198,18 +198,18 @@
+ 
+ ```text
+ PERSISTENT-STATE MUTATION
+-= ONLY CONSEQUENTIAL SURFACE
++= ONLY SURFACE THAT CHANGES
++CURRENT SEMANTIC STATE
+ OF THIS SUBSTRATE
+ ```
+ 
+ But:
+ 
+ ```text
+-ONLY CONSEQUENTIAL SURFACE
+-OF THIS SUBSTRATE
+-!=
+-ONLY CONSEQUENTIAL SURFACE
+-OF THE COUPLED SYSTEM
++BOUNDARY EVENT RECORD
++→ MAY BE DURABLE
++→ MAY HAVE DOWNSTREAM CONSEQUENCES
++↛ CURRENT SEMANTIC STATE MUTATION
+ ```
+ 
+ Do not broaden Notepad telemetry merely to make the substrate represent the whole harness.
+@@ -410,3 +410,4 @@
+ **v0.1.10 owner-currentness propagation provenance:** Updates only the Environment owner pointer from v0.1.18 to v0.1.19 so the Notepad dependency reference follows the accepted v0.1.19 verification-sequencing repair. No Notepad state, mutation, telemetry, identity-binding, persistence, current-view, projection, or proposal semantics are otherwise changed. Patch candidate only; patch != validation.
+ 
+ **v0.1.11 owner-binding de-coupling provenance:** Replaces the exact Environment patch-version pointer with a stable Environment owner-family reference and an explicit boundary preventing Notepad from determining Environment currentness or version. The applicable Environment artifact remains resolved by the active package / context rather than by Notepad semantics. Normalizes the superseded v0.1.10 verification-sequence provenance wording so historical prose does not reintroduce removed operational terminology. This removes cross-artifact version-cascade churn without changing Notepad state, mutation, telemetry, identity-binding, persistence, current-view, projection, proposal, or non-state ownership boundaries. Patch candidate only; patch != validation.
++**v0.1.12 telemetry / current-state boundary repair provenance:** Replaces the overbroad `ONLY CONSEQUENTIAL SURFACE` claim with the narrower rule that persistent-state mutation is the only surface that changes current semantic state. Makes explicit that boundary-event records may be durable and have downstream consequences without becoming current semantic-state mutation. Preserves the semantic-state-record / boundary-event-record split, deterministic mutation boundary, passive telemetry, identity-binding constraints, proposal semantics, and Environment ownership boundary. Patch candidate only; patch != validation.
