@@ -77,6 +77,14 @@
       "implementation": "structural projection only; externally supplied boundary spec; exact source/spec SHA-256 binding; missing-path reporting; atomic output",
       "authority": "none; does not determine boundary, relevance, semantic sufficiency, truth, authorization, or source-deletion permission",
       "admission_test": "6/6 local standard-library tests passed; current state.json shape projection exercised"
+    },
+    "three_surface_access_v0_1": {
+      "name": "testing/THREE_SURFACE_ACCESS_v0.1.md",
+      "status": "PRIOR-WORK-SUPPORTED SYNTHESIS / GENERALIZATION / BOUNDED SEARCH COMPLETE FOR CURRENT HINGE / NO IMPLEMENTATION AUTHORITY",
+      "role": "non-authoritative prior-work-supported synthesis that TOOL / MEMORY / OBSERVE may be exposed as instances of boundary-conditioned progressive disclosure over richer available surfaces",
+      "implementation": "none; preserves the abstraction, two-sided exposure failure boundary, recovery toward richer source, and anti-authority firewall without promoting three subsystems/managers",
+      "authority": "none; exact precedent not found in bounded search is not a novelty claim, and accessibility/filtering/retrieval do not determine relevance, sufficiency, truth, authorization, or source mutation",
+      "evidence": "direct prior work separately supports selective tool exposure, hierarchical/selective memory, task-conditioned active perception, and relevance/sufficiency separation; exact combined formulation not found in bounded search"
     }
   },
   "source_selection_note": "v2.5 externalizes Environment and Temporal Notepad provenance/changelog comments while preserving operational semantics. This repository stores the clean current owners once under policy/ and retains historical diffs separately under verification/.",
@@ -152,6 +160,12 @@
       "mutation": "change with corresponding executable behavior or failure coverage",
       "autoload": "no",
       "authority": "test evidence only; passing tests do not validate semantic or behavioral effects"
+    },
+    "testing/THREE_SURFACE_ACCESS_v0.1.md": {
+      "role": "prior-work-supported synthesis preserving SOC-THREAD-092's TOOL / MEMORY / OBSERVE access-surface generalization, two-sided exposure failure boundary, recovery semantics, and relation to §16/§16+",
+      "mutation": "revise only if ordinary work or stronger provenance materially changes the synthesis, evidence boundary, or current hinge",
+      "autoload": "no; index-linked for access-surface, progressive-disclosure, context-compaction, §16 generalization, or bounded prior-work questions",
+      "authority": "synthesis/research evidence only; no architecture, implementation, controller, manager, novelty, semantic, or action authority"
     }
   },
   "retrieval_policy": [
