@@ -114,7 +114,7 @@
       "authority": "observation history; disposition does not erase prior observation"
     },
     "events.jsonl": {
-      "role": "append-only material ordinary-work trajectory",
+      "role": "append-only material ordinary-work trajectory; includes post-Nov-23 repository-unification, telemetry, §16, stewardship, and Three-Surface transitions",
       "mutation": "append only",
       "autoload": "no",
       "authority": "observable event history, not behavioral scoring or semantic state owner"
@@ -162,10 +162,28 @@
       "authority": "test evidence only; passing tests do not validate semantic or behavioral effects"
     },
     "testing/THREE_SURFACE_ACCESS_v0.1.md": {
-      "role": "prior-work-supported synthesis preserving SOC-THREAD-092's TOOL / MEMORY / OBSERVE access-surface generalization, two-sided exposure failure boundary, recovery semantics, and relation to §16/§16+",
+      "role": "prior-work-supported synthesis preserving SOC-THREAD-092's TOOL / MEMORY / OBSERVE access-surface generalization, two-sided exposure failure boundary, recovery semantics, and relation to §16 plus local §16+ shorthand",
       "mutation": "revise only if ordinary work or stronger provenance materially changes the synthesis, evidence boundary, or current hinge",
       "autoload": "no; index-linked for access-surface, progressive-disclosure, context-compaction, §16 generalization, or bounded prior-work questions",
-      "authority": "synthesis/research evidence only; no architecture, implementation, controller, manager, novelty, semantic, or action authority"
+      "authority": "synthesis/research evidence only; §16+ is local shorthand, not a policy section/version, architecture, implementation, controller, manager, novelty, semantic, or action authority"
+    },
+    "0000000_INTRODUCTION.md": {
+      "role": "optional cold project-history orientation restored from the cleaned project introduction",
+      "mutation": "revise only when project-history orientation materially changes and provenance supports the revision",
+      "autoload": "no; retrieve only when historical/project-purpose orientation is load-bearing",
+      "authority": "orientation/provenance only; not startup state, policy, semantic owner, architecture mandate, or authorization"
+    },
+    "LICENSE": {
+      "role": "Mozilla Public License 2.0 distribution license restored verbatim from the pre-ablation repository tree",
+      "mutation": "preserve unless the repository's licensing decision is deliberately changed",
+      "autoload": "no",
+      "authority": "legal/distribution metadata only; no project semantic or action authority"
+    },
+    "testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md": {
+      "role": "bounded prior-work mechanism selection/ablation matrix for context-compaction research",
+      "mutation": "revise only when a material hinge reopens the research boundary or evidence materially corrects the current disposition",
+      "autoload": "no; retrieve only when context-compaction or memory-mechanism work is load-bearing",
+      "authority": "research/design-selection only; post-eviction recalibration remains a candidate for testing, not a tested consequence or implementation duty"
     }
   },
   "retrieval_policy": [

@@ -227,6 +227,12 @@ THREE-SURFACE ACCESS
 
 ## Relation to §16 and §16+
 
+```text
+§16+
+→ LOCAL SYNTHESIS SHORTHAND / NOT POLICY SECTION OR VERSION
+→ NO INDEPENDENT POLICY OR IMPLEMENTATION AUTHORITY
+```
+
 The relationship is intentionally asymmetric and non-collapsing:
 
 ```text
