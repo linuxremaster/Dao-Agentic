@@ -19,6 +19,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 ## Testing candidates
 - `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md` — FROZEN CANDIDATE / ORDINARY-USE TESTING. Documentation/test inventory only; not validated architecture, implementation mandate, semantic owner, or controller.
 - `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md` — FROZEN RESEARCH INPUT / MECHANISM SELECTION. Prior-work selection/ablation matrix only; not an architecture proposal, implementation mandate, semantic owner, memory authority, or novelty claim.
+- `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py` — EXECUTABLE CANDIDATE / BOUNDED SANDBOX TESTING. Deterministic declared-path projection only; no boundary, relevance, sufficiency, truth, or authorization oracle.
 - Orientation: **Durability in the source and provenance; flexibility in the views; authority only at justified boundaries.**
 
 ## Current high-signal semantics
@@ -50,6 +51,7 @@ Read only what the next material decision needs:
 - Release verification / historical diffs → `verification/`
 - Frozen minimal-toolkit candidate / ambient reminders → `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md`
 - Context-compaction prior-work selection / mechanism ablation → `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md`
+- Executable §16 structural projection candidate → `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py`
 
 ## Retrieval discipline
 1. Start here.

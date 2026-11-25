@@ -67,6 +67,16 @@
       "role": "non-authoritative prior-work mechanism selection/ablation matrix for bounded context-compaction experiments",
       "implementation": "research/design-selection surface only; no compaction implementation or architecture mandate",
       "authority": "none; structural retrieval/compaction mechanics do not determine semantic sufficiency, truth, authorization, or source destruction"
+    },
+    "section16_boundary_projection_v0_1": {
+      "name": "testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md",
+      "executable": "tools/boundary_projection.py",
+      "tests": "tests/test_boundary_projection.py",
+      "status": "EXECUTABLE CANDIDATE / BOUNDED SANDBOX TESTING",
+      "role": "deterministic non-destructive boundary-declared JSON projection helper",
+      "implementation": "structural projection only; externally supplied boundary spec; exact source/spec SHA-256 binding; missing-path reporting; atomic output",
+      "authority": "none; does not determine boundary, relevance, semantic sufficiency, truth, authorization, or source-deletion permission",
+      "admission_test": "6/6 local standard-library tests passed; current state.json shape projection exercised"
     }
   },
   "source_selection_note": "v2.5 externalizes Environment and Temporal Notepad provenance/changelog comments while preserving operational semantics. This repository stores the clean current owners once under policy/ and retains historical diffs separately under verification/.",
@@ -130,6 +140,18 @@
       "mutation": "rewrite when project structure/source anchors materially change",
       "autoload": "only when structural semantics/provenance are needed",
       "authority": "structure/provenance only"
+    },
+    "tools/": {
+      "role": "small executable structural helpers under bounded testing",
+      "mutation": "change only when a tested mechanical failure or simpler sufficient implementation justifies it",
+      "autoload": "no; invoke only when the current task calls for the helper",
+      "authority": "mechanical/structural only; tool output gains no semantic authority"
+    },
+    "tests/": {
+      "role": "mechanical regression tests for executable sandbox candidates",
+      "mutation": "change with corresponding executable behavior or failure coverage",
+      "autoload": "no",
+      "authority": "test evidence only; passing tests do not validate semantic or behavioral effects"
     }
   },
   "retrieval_policy": [
