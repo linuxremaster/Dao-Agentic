@@ -160,7 +160,7 @@ Candidate test disposition:
 
 ```text
 POST-EVICTION RECALIBRATION
-→ TESTED CONSEQUENCE-TRIGGERED MECHANISM
+→ CANDIDATE FOR CONSEQUENCE-TRIGGERED TESTING
 ↛ UNIVERSAL MANDATORY RITUAL
 ```
 
@@ -202,10 +202,14 @@ OTHERWISE
 ## Current next boundary
 
 ```text
-NEXT
+IF REOPENED BY MATERIAL HINGE
 → inspect strongest mechanisms at implementation detail
 → extract smallest reusable mechanics
 → define bounded sandbox experiment
+
+OTHERWISE
+→ preserve current research disposition
+→ no compaction implementation duty
 
 NOT NEXT
 → design a new memory architecture
