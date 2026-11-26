@@ -1,24 +1,191 @@
-# Section 16 Boundary Projection Tool v0.1
+# Section 16 Criterion-Conditioned Source/View Projection v0.1
 
 **Status:** EXECUTABLE CANDIDATE / BOUNDED SANDBOX TESTING  
 **Authority:** structural projection only  
 **Semantic owner:** none
 
-Implements the mechanical core of §16 as a deterministic, non-destructive JSON projection helper.
+This file preserves the mechanical §16 candidate while normalizing the explanatory vocabulary toward established source/view, slicing-criterion, projection, abstraction/refinement, and active-context terminology.
 
-It does not determine the current boundary, relevance, semantic sufficiency, truth, authorization, or source-deletion permission.
+The executable JSON helper retains the existing `boundary_id` field and `--boundary` CLI option as compatibility names. In the semantic relation below, `B` is a **current criterion**, not a standing controller, planner, or authority.
 
-## Contract
+## Core relation
 
-DECLARED BOUNDARY B + JSON SOURCE X → r = PROJECT(X, B)
+```text
+X_t = SOURCE / WORKING STATE AT t
+B_t = CURRENT CRITERION AT t
+P   = PROJECTION / EVALUATION RELATION
+r_t = RESULTING VIEW
 
-r selects only declared JSON Pointer paths, binds exact source and boundary-spec SHA-256 values, reports missing required/optional paths, leaves source bytes unchanged, and may be lossy or identity-equivalent.
+r_t = P(X_t, B_t)
+```
 
-r != X. r does not establish complete judgment, semantic sufficiency, or sufficiency for another boundary.
+`r_t` may be sufficient for `B_t` while omitting information present in `X_t`.
 
-Every result carries `semantic_sufficiency = NOT_EVALUATED`.
+```text
+r_t
+→ MAY BE SUFFICIENT FOR B_t
+→ NEED NOT PRESERVE ALL INFORMATION IN X_t
 
-Boundary specs are supplied externally, for example:
+r_t NEED NOT EQUAL X_t
+
+SUFFICIENT(r_t, B_t)
+↛ SUFFICIENT(r_t, B′)
+```
+
+Projection/evaluation does not itself mutate the source:
+
+```text
+r_t = P(X_t, B_t)
+→ X_t UNCHANGED
+
+PROJECTION != MUTATION
+VIEW != SOURCE STATE
+CRITERION RESOLUTION != SOURCE-STATE REWRITE
+
+LOCAL RESOLUTION
+↛ COMPLETE JUDGMENT
+↛ GLOBAL DEFINITION
+↛ BINARY ONTOLOGY
+```
+
+## Information relation
+
+```text
+NON-INJECTIVE / LOSSY PROJECTION
+→ r_t ALONE ↛ RECONSTRUCT X_t
+
+r_t
++ SUFFICIENT COMPLEMENT / SOURCE INFORMATION
+→ MAY RECOVER DISTINCTIONS NOT PRESENT IN r_t ALONE
+
+LOSSLESS / IDENTITY-EQUIVALENT PROJECTION
+→ MAY PRESERVE ENOUGH INFORMATION TO RECONSTRUCT X_t
+
+SOURCE → VIEW
+↛ VIEW → SOURCE
+
+CYCLIC ACCESS
+!=
+SYMMETRIC INFORMATION RELATION
+```
+
+Returning toward source is refinement/retrieval, not inversion of the view.
+
+## Criterion lifecycle and source refinement
+
+The temporal form separates **view insufficiency** from **criterion release**.
+
+```text
+r_t = P(X_t, B_t)
+
+r_t INSUFFICIENT
+OR
+r_t MISBOUND
+→ RETURN TOWARD X_t
+   OR THE INTENDED RICHER SOURCE / REPRESENTATION
+→ RE-EVALUATE UNDER THE SAME B_t
+```
+
+Important asymmetry:
+
+```text
+INSUFFICIENT VIEW
+↛ INVALID CRITERION
+```
+
+Sometimes the current criterion is still the right question; the active view is simply too poor.
+
+Criterion release is a different operation:
+
+```text
+B_t RESOLVED
+OR
+B_t INVALIDATED
+→ RELEASE B_t
+
+RELEASE B_t
+↛ REQUIRE SUCCESSOR
+
+NEW LOAD-BEARING DISTINCTION?
+    YES → B_{t+1}
+    NO  → ∅
+
+B_t ↛ B_{t+1}
+```
+
+Here `RESOLVED` is descriptive: the current task no longer requires that criterion to remain active. It is **not** an implemented semantic oracle.
+
+The lifecycle may therefore cycle through richer source and focused views without claiming reversibility:
+
+```text
+X
+→ P(X, B)
+→ r
+→ X / RICHER SOURCE
+→ P(X, B′) IF NEEDED
+→ r′
+```
+
+## Inference-effect boundary
+
+Non-destructive source handling is not the same as inference neutrality.
+
+```text
+PROJECTION
+↛ SOURCE MUTATION
+
+BUT
+
+USE(r_t)
+→ MAY ALTER SUBSEQUENT INFERENCE TRAJECTORY
+
+NON-DESTRUCTIVE
+↛ INFERENCE-NEUTRAL
+```
+
+Therefore:
+
+```text
+REPETITION
+SALIENCE
+PERSISTENCE
+LOCAL SUCCESS
+↛ GREATER EVIDENTIAL OR OPERATIONAL AUTHORITY
+```
+
+Repeated exposure may create selection pressure or fixation. That is a **testable trajectory hypothesis**, not an established attractor mechanism and not a reason to add a standing anti-attractor controller.
+
+## Update semantics
+
+```text
+VIEW / PROJECTION UPDATE
+↛ UNIQUE SOURCE-STATE UPDATE
+
+SOURCE-STATE CHANGE
+→ REQUIRE EXPLICIT UPDATE POLICY / MUTATION PATH
+→ BIND THE UPDATE TO THE INTENDED SOURCE
+   WHERE THAT BINDING IS LOAD-BEARING
+→ DO NOT INFER MUTATION
+   FROM PROJECTION / EVALUATION ALONE
+
+SIMILARITY
+POSITION
+RETRIEVAL PROXIMITY
+↛ CORRECT SOURCE BINDING
+```
+
+A new criterion should normally re-evaluate from source state where available, or from a representation sufficiently rich for that criterion. Preserve unknown where source information does not support resolution.
+
+## Executable candidate mapping
+
+Current implementation:
+
+```text
+DECLARED STRUCTURAL SPEC B + JSON SOURCE X
+→ r = PROJECT(X, B)
+```
+
+The structural spec is externally supplied. Its current schema uses the compatibility field `boundary_id`:
 
 ```json
 {
@@ -28,7 +195,11 @@ Boundary specs are supplied externally, for example:
 }
 ```
 
-`required` means only that the declared structural projection fails if the path is absent. It does not mean the field is semantically required by the real decision boundary.
+`required` means only that the declared structural projection fails if the path is absent. It does not mean the field is semantically required by the actual criterion.
+
+The helper binds exact source/spec SHA-256 values, reports missing required/optional paths, leaves source bytes unchanged, and may be lossy or identity-equivalent.
+
+Every result carries `semantic_sufficiency = NOT_EVALUATED`.
 
 ## Usage
 
@@ -46,8 +217,8 @@ MISSING DECLARED REQUIRED PATH
 STRUCTURALLY COMPLETE
 ↛ SEMANTICALLY SUFFICIENT
 
-BOUNDARY SPEC
-↛ CORRECT BOUNDARY
+DECLARED SPEC
+↛ CORRECT CRITERION
 
 SELECTOR PRESENT
 ↛ RELEVANT
@@ -58,24 +229,31 @@ SOURCE HASH MATCH
 PROJECTION
 ↛ SOURCE MUTATION
 ↛ SOURCE-DELETION AUTHORITY
-```
 
-New boundaries should normally reproject from richer source rather than silently reuse an older projection.
+INSUFFICIENT VIEW
+↛ INVALID CRITERION
+
+RELEASED CRITERION
+↛ REQUIRED SUCCESSOR
+```
 
 ## Admission test evidence
 
 Local standard-library suite: **6 / 6 PASS**.
 
-Covered source-byte preservation, required/optional paths, RFC 6901 pointer traversal/escaping, overwrite protection, deterministic boundary hashing, and identity-equivalent root projection. A current `state.json` shape also projected successfully.
+Covered source-byte preservation, required/optional paths, RFC 6901 pointer traversal/escaping, overwrite protection, deterministic spec hashing, and identity-equivalent root projection. A current `state.json` shape also projected successfully.
 
-These tests establish only the tested mechanics; they do not validate §16 as an LLM behavioral intervention.
+These tests establish only the tested mechanics; they do not validate the temporal criterion lifecycle, semantic sufficiency, criterion resolution, source refinement, or any LLM behavioral/trajectory effect.
 
 ## Not implemented
 
-- `determine_boundary()`
+- `determine_criterion()` / `determine_boundary()`
 - relevance scoring
 - `is_sufficient()`
+- automatic criterion release
+- automatic successor-criterion selection
+- source-refinement controller
+- trajectory / attractor scoring
 - semantic compression
 - source mutation/deletion
-- automatic traversal controller
 - authority/action selection
