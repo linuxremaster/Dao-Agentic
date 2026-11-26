@@ -5,7 +5,7 @@ This package is a **portable memory / working-state scaffold**, not a semantic o
 ## Start
 1. Read `index.md`.
 2. Use `state.json` only if current working state is load-bearing.
-3. For manual FIRST_INFERENCE / RECALIBRATION, read `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.25_v0.1.13_CONTEXT_PASTE.md`.
+3. For manual FIRST_INFERENCE / RECALIBRATION, read `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.26_v0.1.13_CONTEXT_PASTE.md`.
 4. Retrieve `notepad.md`, `events.jsonl`, `contradictions.jsonl` only as needed.
 5. For ordinary-use testing of the frozen minimal-toolkit candidate, read `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md` only when that testing surface is relevant.
 
@@ -13,9 +13,9 @@ This package is a **portable memory / working-state scaffold**, not a semantic o
 `SOC-THREAD-089` is package provenance/origin only. This package does not establish the recipient's thread handle, UUID, role, authority, or successor relation.
 
 ## Current anchors
-- Environment v0.1.25 — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
+- Environment v0.1.26 — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
 - Temporal Notepad v0.1.13 — TESTING state-owner ablation candidate / no live graph mutation authority.
-- Verified v2.5 package remains baseline provenance for the unified rebase; Environment subsequently advanced repo-locally to v0.1.25 while Temporal Notepad remains v0.1.13. Exact hashes are recorded in `manifest.json`.
+- Verified v2.5 package remains baseline provenance for the unified rebase; Environment subsequently advanced repo-locally to v0.1.26 while Temporal Notepad remains v0.1.13. Exact hashes are recorded in `manifest.json`.
 
 ## Boundary
 Use the scaffold by progressive disclosure. Do not ingest every file merely because it exists. Do not promote a local projection, summary, index, event, or note into source state or global semantics.
