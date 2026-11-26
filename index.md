@@ -20,13 +20,15 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 ## Testing candidates
 - `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md` — FROZEN CANDIDATE / ORDINARY-USE TESTING. Documentation/test inventory only; not validated architecture, implementation mandate, semantic owner, or controller.
 - `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md` — FROZEN RESEARCH INPUT / MECHANISM SELECTION. Prior-work selection/ablation matrix only; not an architecture proposal, implementation mandate, semantic owner, memory authority, or novelty claim.
-- `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py` — EXECUTABLE CANDIDATE / BOUNDED SANDBOX TESTING. Deterministic declared-path projection only; no boundary, relevance, sufficiency, truth, or authorization oracle.
-- `testing/THREE_SURFACE_ACCESS_v0.1.md` — PRIOR-WORK-SUPPORTED SYNTHESIS / GENERALIZATION / BOUNDED SEARCH COMPLETE / NO IMPLEMENTATION AUTHORITY. TOOL / MEMORY / OBSERVE as exposed access surfaces under boundary-conditioned progressive disclosure; exact precedent not found in bounded search ↛ novelty claim.
+- `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py` — EXECUTABLE CANDIDATE / BOUNDED SANDBOX TESTING. Criterion-conditioned source/view semantics with a deterministic declared-path projector; existing `boundary_id` / `--boundary` names remain implementation compatibility labels. No criterion, relevance, sufficiency, release, truth, or authorization oracle.
+- `testing/THREE_SURFACE_ACCESS_v0.1.md` — PRIOR-WORK-SUPPORTED SYNTHESIS / GENERALIZATION / BOUNDED SEARCH COMPLETE / NO IMPLEMENTATION AUTHORITY. TOOL / MEMORY / OBSERVE indexed under field-native tool retrieval, memory retrieval/working-memory management, active perception/selective attention, and criterion-conditioned context/access selection; exact combined precedent not found ↛ novelty claim.
 - Orientation: **Durability in the source and provenance; flexibility in the views; authority only at justified boundaries.**
 
 ## Current high-signal semantics
-- `LOCAL RESOLUTION → MAY GOVERN ONLY ITS DECISION BOUNDARY`.
-- `PROJECTION != SOURCE STATE / MUTATION`.
+- `LOCAL RESOLUTION → MAY GOVERN ONLY ITS CURRENT CRITERION`.
+- `r_t = P(X_t, B_t)` with `B_t` = current criterion; `PROJECTION != SOURCE STATE / MUTATION`.
+- `INSUFFICIENT / MISBOUND VIEW → REFINE TOWARD RICHER SOURCE → RE-EVALUATE UNDER THE SAME B_t`; insufficient view ↛ invalid criterion.
+- `B_t RESOLVED / INVALIDATED → RELEASE B_t`; release ↛ required successor; `B_t ↛ B_{t+1}`.
 - `VIEW / PROJECTION UPDATE ↛ UNIQUE SOURCE-STATE UPDATE`.
 - Source-state mutation requires an explicit update policy / mutation path and load-bearing source binding.
 - `SIMILARITY / POSITION ALONE ↛ CORRECT SOURCE BINDING`.
@@ -54,14 +56,14 @@ Read only what the next material decision needs:
 - Release verification / historical diffs → `verification/`
 - Frozen minimal-toolkit candidate / ambient reminders → `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md`
 - Context-compaction prior-work selection / mechanism ablation → `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md`
-- Executable §16 structural projection candidate → `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py`
+- Executable §16 criterion-conditioned source/view projection candidate → `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py`
 - Three-surface access synthesis / missing 092 bridge → `testing/THREE_SURFACE_ACCESS_v0.1.md`
 
 ## Retrieval discipline
 1. Start here.
-2. Identify the current decision boundary / surviving hinge.
-3. Retrieve only a representation sufficiently rich for that boundary.
-4. Do not silently reuse a prior projection for a new boundary.
+2. Identify the current criterion / surviving hinge.
+3. Retrieve only a representation sufficiently rich for that criterion.
+4. Do not silently reuse a prior projection for a new criterion.
 5. Prefer exact/current source over summary when consequential exactness is load-bearing.
 6. Preserve provenance, uncertainty, contradictions, and currentness.
 7. Stop when more context cannot change the next admissible action, requisite evidence/authorization, material risk, or stop condition.
