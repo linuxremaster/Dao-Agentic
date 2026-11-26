@@ -14,6 +14,13 @@ This repository is the single-project merge of the portable mini sandbox runtime
 3. For manual FIRST_INFERENCE / RECALIBRATION, use `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.26_v0.1.13_CONTEXT_PASTE.md`.
 4. Retrieve `notepad.md`, `events.jsonl`, `contradictions.jsonl`, or verification history only as needed.
 
+## Repository flow
+
+- Private development source: `linuxremaster/Dao-Agentic-Private`.
+- Public mirror: `linuxremaster/Dao-Agentic`.
+- Accepted shared changes flow **PRIVATE → PUBLIC** in the same update cycle; an accepted private change is not complete while the public mirror is stale.
+- Public may omit private-only provenance or coordination material deliberately. Shared policy/runtime artifacts should otherwise remain aligned, and any intentional public divergence should have an explicit distribution reason.
+
 ## Layout
 
 - `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.

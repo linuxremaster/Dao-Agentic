@@ -17,6 +17,17 @@ This package is a **portable memory / working-state scaffold**, not a semantic o
 - Temporal Notepad v0.1.13 — TESTING state-owner ablation candidate / no live graph mutation authority.
 - Verified v2.5 package remains baseline provenance for the unified rebase; Environment subsequently advanced repo-locally to v0.1.26 while Temporal Notepad remains v0.1.13. Exact hashes are recorded in `manifest.json`.
 
+## Repository flow
+Accepted shared repository changes flow:
+
+```text
+PRIVATE DEVELOPMENT SOURCE
+→ ACCEPTED CHANGE
+→ PUBLIC MIRROR
+```
+
+A private-only accepted change with a stale public mirror is incomplete distribution state. Deliberate public omission is limited to private-only provenance / coordination material and does not authorize shared semantic/runtime drift.
+
 ## Boundary
 Use the scaffold by progressive disclosure. Do not ingest every file merely because it exists. Do not promote a local projection, summary, index, event, or note into source state or global semantics.
 

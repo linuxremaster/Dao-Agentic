@@ -16,6 +16,12 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
 - Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
 
+## Repository flow
+- Private development source: `linuxremaster/Dao-Agentic-Private`.
+- Public mirror: `linuxremaster/Dao-Agentic`.
+- Accepted shared changes: **PRIVATE → PUBLIC**; do not treat private-only completion as finished distribution.
+- Intentional public omissions may cover private-only provenance / coordination surfaces; shared semantic/runtime sources should remain aligned.
+
 ## Testing candidates
 - `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md` — FROZEN CANDIDATE / ORDINARY-USE TESTING. Documentation/test inventory only; not validated architecture, implementation mandate, semantic owner, or controller.
 - `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md` — FROZEN RESEARCH INPUT / MECHANISM SELECTION. Prior-work selection/ablation matrix only; not an architecture proposal, implementation mandate, semantic owner, memory authority, or novelty claim.
@@ -30,7 +36,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - `B_t RESOLVED / INVALIDATED → RELEASE B_t`; release ↛ required successor; `B_t ↛ B_{t+1}`.
 - `VIEW / PROJECTION UPDATE ↛ UNIQUE SOURCE-STATE UPDATE`.
 - Source-state mutation requires an explicit update policy / mutation path and load-bearing source binding.
-- `SIMILARITY / POSITION ALONE ↛ CORRECT SOURCE BINDING`.
+- `SIMILARITY / POSITION / RETRIEVAL PROXIMITY ↛ CORRECT SOURCE BINDING`.
 - `NO TRIGGER ↛ NOTHING CHANGED`; `NO HINGE ↛ COMPLETE UNDERSTANDING`.
 - `NO STATE_DELTA → NO SEMANTIC STATE MUTATION`; this does not imply no boundary-event record.
 - Semantic-state record != boundary-event record.
@@ -41,7 +47,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Wu Wei is a **historical / discovery label** for the governing dynamic.
 - The label, translation, or interpretation has no policy semantic unless it resolves to an existing operational distinction.
 - It is not an executable rule, target state, control signal, evidence of uptake, positive duty, LET_RUN, minimum action, or non-forced equilibrium.
-- If the label is used to derive a static global rule / target / duty, return to current conditions / purpose / constraints / evidence / boundary.
+- If the label is used to derive a static global rule / target / duty, return to current conditions / purpose / constraints / evidence / criterion.
 
 ## Read routing
 Read only what the next material decision needs:
@@ -55,7 +61,7 @@ Read only what the next material decision needs:
 - Frozen minimal-toolkit candidate / ambient reminders → `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md`
 - Context-compaction prior-work selection / mechanism ablation → `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md`
 - Executable §16 criterion-conditioned source/view projection candidate → `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py`
-- Three-surface access synthesis / missing 092 bridge → `testing/THREE_SURFACE_ACCESS_v0.1.md`
+- Three-surface access synthesis → `testing/THREE_SURFACE_ACCESS_v0.1.md`
 
 ## Retrieval discipline
 1. Start here.
