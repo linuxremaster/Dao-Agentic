@@ -73,16 +73,16 @@
       "executable": "tools/boundary_projection.py",
       "tests": "tests/test_boundary_projection.py",
       "status": "EXECUTABLE CANDIDATE / BOUNDED SANDBOX TESTING",
-      "role": "deterministic non-destructive boundary-declared JSON projection helper",
-      "implementation": "structural projection only; externally supplied boundary spec; exact source/spec SHA-256 binding; missing-path reporting; atomic output",
-      "authority": "none; does not determine boundary, relevance, semantic sufficiency, truth, authorization, or source-deletion permission",
+      "role": "deterministic non-destructive criterion-conditioned source/view projection helper; current executable schema retains boundary terminology for compatibility",
+      "implementation": "structural projection only; externally supplied spec; exact source/spec SHA-256 binding; missing-path reporting; atomic output; temporal refinement/release semantics are descriptive and not automated",
+      "authority": "none; does not determine criterion/boundary, relevance, semantic sufficiency, criterion resolution/release, truth, authorization, or source-deletion permission",
       "admission_test": "6/6 local standard-library tests passed; current state.json shape projection exercised"
     },
     "three_surface_access_v0_1": {
       "name": "testing/THREE_SURFACE_ACCESS_v0.1.md",
       "status": "PRIOR-WORK-SUPPORTED SYNTHESIS / GENERALIZATION / BOUNDED SEARCH COMPLETE FOR CURRENT HINGE / NO IMPLEMENTATION AUTHORITY",
-      "role": "non-authoritative prior-work-supported synthesis that TOOL / MEMORY / OBSERVE may be exposed as instances of boundary-conditioned progressive disclosure over richer available surfaces",
-      "implementation": "none; preserves the abstraction, two-sided exposure failure boundary, recovery toward richer source, and anti-authority firewall without promoting three subsystems/managers",
+      "role": "non-authoritative prior-work-supported synthesis that TOOL / MEMORY / OBSERVE may be treated as criterion-conditioned context/access selection over richer available surfaces, indexed under field-native retrieval, working-memory, and active-perception terminology",
+      "implementation": "none; preserves two-sided exposure failure, source refinement/retrieval, criterion release, and anti-authority boundaries without promoting three subsystems/managers",
       "authority": "none; exact precedent not found in bounded search is not a novelty claim, and accessibility/filtering/retrieval do not determine relevance, sufficiency, truth, authorization, or source mutation",
       "evidence": "direct prior work separately supports selective tool exposure, hierarchical/selective memory, task-conditioned active perception, and relevance/sufficiency separation; exact combined formulation not found in bounded search"
     }
@@ -162,10 +162,10 @@
       "authority": "test evidence only; passing tests do not validate semantic or behavioral effects"
     },
     "testing/THREE_SURFACE_ACCESS_v0.1.md": {
-      "role": "prior-work-supported synthesis preserving SOC-THREAD-092's TOOL / MEMORY / OBSERVE access-surface generalization, two-sided exposure failure boundary, recovery semantics, and relation to §16 plus local §16+ shorthand",
+      "role": "prior-work-supported synthesis preserving TOOL / MEMORY / OBSERVE access-surface generalization, two-sided exposure failure, source refinement/retrieval, criterion release, and relation to §16",
       "mutation": "revise only if ordinary work or stronger provenance materially changes the synthesis, evidence boundary, or current hinge",
       "autoload": "no; index-linked for access-surface, progressive-disclosure, context-compaction, §16 generalization, or bounded prior-work questions",
-      "authority": "synthesis/research evidence only; §16+ is local shorthand, not a policy section/version, architecture, implementation, controller, manager, novelty, semantic, or action authority"
+      "authority": "synthesis/research evidence only; historical §16+ shorthand is retired from active terminology and carries no independent policy, architecture, implementation, controller, manager, novelty, semantic, or action authority"
     },
     "0000000_INTRODUCTION.md": {
       "role": "optional cold project-history orientation restored from the cleaned project introduction",
@@ -188,10 +188,10 @@
   },
   "retrieval_policy": [
     "start with index.md",
-    "current decision boundary / material hinge determines deeper retrieval",
+    "current criterion / material hinge determines deeper retrieval",
     "memory availability does not create retrieval duty",
-    "use a representation sufficiently rich for the current boundary",
-    "do not silently reuse a prior projection for a new boundary",
+    "use a representation sufficiently rich for the current criterion",
+    "do not silently reuse a prior projection for a new criterion",
     "prefer exact/current source over summary for consequential transitions",
     "stop when more context cannot change the next material action, requisite evidence/authorization, material risk, or stop condition"
   ],
