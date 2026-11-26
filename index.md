@@ -9,9 +9,9 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Populate identity only when material and independently established.
 
 ## Current source anchors
-- Environment v0.1.26: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
+- Environment v0.1.27: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
 - Temporal Notepad: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
-- Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.26_v0.1.13_CONTEXT_PASTE.md`.
+- Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.27_v0.1.13_CONTEXT_PASTE.md`.
 - Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
 - Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
@@ -31,6 +31,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 
 ## Current high-signal semantics
 - `LOCAL RESOLUTION → MAY GOVERN ONLY ITS CURRENT CRITERION`.
+- Model/substrate attribution firewall: capability ceiling, reasoning stability, confidence/epistemic calibration, accuracy, task fitness, and experimental utility remain distinct; benchmark/model identity ↛ current-task accuracy/stability or required scaffold; observed trajectory difference ↛ causal attribution beyond supported scope.
 - `r_t = P(X_t, B_t)` with `B_t` = current criterion; `PROJECTION != SOURCE STATE / MUTATION`.
 - `INSUFFICIENT / MISBOUND VIEW → REFINE TOWARD RICHER SOURCE → RE-EVALUATE UNDER THE SAME B_t`; insufficient view ↛ invalid criterion.
 - `B_t RESOLVED / INVALIDATED → RELEASE B_t`; release ↛ required successor; `B_t ↛ B_{t+1}`.
