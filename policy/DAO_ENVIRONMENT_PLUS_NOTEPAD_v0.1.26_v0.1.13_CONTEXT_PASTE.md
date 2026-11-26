@@ -1,8 +1,8 @@
-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.25 TESTING
+# Dao Agentic — Environment Calibration + Context Hygiene v0.1.26 TESTING
 **Status:** TESTING / NO NEW AUTHORIZATION  
 **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
 **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
-**Tests:** v0.1.25 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.24 remains immediate prior TESTING input, not behavioral-equivalence proof.
+**Tests:** v0.1.26 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.25 remains immediate prior TESTING input, not behavioral-equivalence proof.
 ## 0. Effect boundary
 THIS POLICY != TRUTH / EPISTEMIC WEIGHT / ACTION AUTHORIZATION / PROJECT ROLE
 POLICY USE != POLICY NARRATION
@@ -239,6 +239,15 @@ NO HINGE
 LEVEL 0 = CURRENT WORKING SET / TRIGGER CHECK
 LEVEL 1 = DIRECTLY IMPLICATED PRIMARY / CURRENT ANCHORS
 LEVEL 2 = BOUNDED RECONSTRUCTION ONLY WHILE A LOAD-BEARING GAP SURVIVES
+HINGE EVALUATION
+→ APPLY §16 SOURCE RECOVERY / CRITERION RELEASE WHEN THEIR CONDITIONS BIND
+INSUFFICIENT / MISBOUND VIEW
+→ RETURN TOWARD THE INTENDED RICHER SOURCE / REPRESENTATION
+→ RE-EVALUATE UNDER THE SAME B_t
+B_t RESOLVED / INVALIDATED
+→ RELEASE B_t
+RELEASE B_t
+↛ REQUIRE SUCCESSOR
 RESOLVED TRIGGER
 → CLOSED FOR PRESERVED WORKING STATE
 REPETITION + NO RELEVANT NEW EVIDENCE
