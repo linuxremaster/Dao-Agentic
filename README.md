@@ -16,7 +16,6 @@ This repository is the single-project merge of the portable mini sandbox runtime
 
 ## Layout
 
-- `0000000_INTRODUCTION.md` — optional cold project-history orientation; not startup state, policy, or semantic owner.
 - `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.
 - `LICENSE` — Mozilla Public License 2.0 restored from the pre-ablation tree; distribution metadata only.
 - `policy/` — one canonical copy of current Environment and Temporal Notepad sources, the manual combined context paste, and external changelog.
