@@ -167,12 +167,6 @@
       "autoload": "no; index-linked for access-surface, progressive-disclosure, context-compaction, §16 generalization, or bounded prior-work questions",
       "authority": "synthesis/research evidence only; historical §16+ shorthand is retired from active terminology and carries no independent policy, architecture, implementation, controller, manager, novelty, semantic, or action authority"
     },
-    "0000000_INTRODUCTION.md": {
-      "role": "optional cold project-history orientation restored from the cleaned project introduction",
-      "mutation": "revise only when project-history orientation materially changes and provenance supports the revision",
-      "autoload": "no; retrieve only when historical/project-purpose orientation is load-bearing",
-      "authority": "orientation/provenance only; not startup state, policy, semantic owner, architecture mandate, or authorization"
-    },
     "LICENSE": {
       "role": "Mozilla Public License 2.0 distribution license restored verbatim from the pre-ablation repository tree",
       "mutation": "preserve unless the repository's licensing decision is deliberately changed",
