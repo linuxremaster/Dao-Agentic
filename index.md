@@ -14,7 +14,6 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.25_v0.1.13_CONTEXT_PASTE.md`.
 - Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
-- Optional project-history orientation: `0000000_INTRODUCTION.md` — cold context only; not startup state or semantic owner.
 - Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
 
 ## Testing candidates
@@ -50,7 +49,6 @@ Read only what the next material decision needs:
 - Working synthesis / research notes → `notepad.md`
 - Contradiction observations → `contradictions.jsonl`
 - Material trajectory → `events.jsonl`
-- Optional project-history orientation → `0000000_INTRODUCTION.md`
 - File roles / source hashes / scaffold identity → `manifest.json`
 - Exact owner semantics → `policy/`
 - Release verification / historical diffs → `verification/`
