@@ -14,14 +14,14 @@ SURFACES
 → OBSERVE
 
 COMMON OPERATION
-→ BOUNDARY-CONDITIONED PROGRESSIVE DISCLOSURE
+→ CRITERION-CONDITIONED CONTEXT / ACCESS SELECTION
 ```
 
 Let:
 
 ```text
 S = RICHER AVAILABLE SURFACE
-B = CURRENT DECISION BOUNDARY
+B = CURRENT CRITERION
 C = STRUCTURAL / COST / PERMISSION CONSTRAINTS
 
 R = ACCESSIBLE(S, B, C)
@@ -36,7 +36,7 @@ R
 R ↛ S
 ```
 
-The exposed result is a boundary-conditioned view over a richer available surface. Exposure does not exhaust, replace, define, or destroy that surface.
+The exposed result is a criterion-conditioned view over a richer available surface. Exposure does not exhaust, replace, define, or destroy that surface.
 
 ## Two-sided failure boundary
 
@@ -55,7 +55,7 @@ BOUNDED EXPOSURE
 + RECOVERY TOWARD RICHER SOURCE
 ```
 
-Selective exposure is therefore not treated as inherently correct. It is useful only while the current projection remains sufficient for the load-bearing boundary.
+Selective exposure is therefore not treated as inherently correct. It is useful only while the current projection remains sufficient for the current criterion.
 
 ## Recovery / non-collapse firewall
 
@@ -93,7 +93,7 @@ NOT EXPOSED
 != DESTROYED / IRRELEVANT / ABSENT
 ```
 
-## Anti-attractor / authority firewall
+## Salience / authority firewall
 
 Selective access changes what is salient to downstream inference even when the richer source remains unchanged.
 
@@ -225,40 +225,55 @@ THREE-SURFACE ACCESS
 ↛ NOVELTY ESTABLISHED
 ```
 
-## Relation to §16 and §16+
+## Relation to §16
 
-```text
-§16+
-→ LOCAL SYNTHESIS SHORTHAND / NOT POLICY SECTION OR VERSION
-→ NO INDEPENDENT POLICY OR IMPLEMENTATION AUTHORITY
-```
+The historical local shorthand `§16+` is retired from active terminology here. Its useful distinctions are expressed directly as **source refinement** and **criterion release** rather than as a new project-specific layer or version.
 
 The relationship is intentionally asymmetric and non-collapsing:
 
 ```text
 §16
-→ NON-COLLAPSE OF PROJECTION INTO SOURCE
+→ NON-COLLAPSE OF VIEW INTO SOURCE
+→ CRITERION-CONDITIONED PROJECTION
 
 THREE-SURFACE ACCESS
-→ NON-COLLAPSE OF AVAILABLE SURFACE INTO ACTIVE SURFACE
+→ NON-COLLAPSE OF AVAILABLE CONTEXT INTO ACTIVE CONTEXT
 
-§16+
-→ RELEASE STALE / RESOLVED BOUNDARIES
-→ CONDITIONED SOURCE RE-ANCHOR
-→ PROJECTION SALIENCE HAS NO ACCRUED AUTHORITY
+INSUFFICIENT VIEW
+→ REFINE / RETRIEVE TOWARD RICHER SOURCE
+→ RE-EVALUATE UNDER THE SAME CRITERION
+
+RESOLVED / INVALIDATED CRITERION
+→ RELEASE CRITERION
+
+RELEASE
+↛ REQUIRE SUCCESSOR CRITERION
+
+PROJECTION SALIENCE
+↛ ACCRUED AUTHORITY
 ```
 
 Operationally:
 
 ```text
-BOUNDARY-CONDITIONED DISCLOSURE
-→ LOCAL PROJECTION
-→ LOCAL RESOLUTION
+CRITERION-CONDITIONED ACCESS
+→ LOCAL VIEW
+
+VIEW INSUFFICIENT / MISBOUND
+→ REFINE / RETRIEVE
+→ RE-EVALUATE UNDER SAME CRITERION
+
+CRITERION RESOLVED / INVALIDATED
 → RELEASE
-→ CONDITIONED SOURCE RE-ANCHOR
+
+NEW MATERIAL CRITERION
+→ MAY PROJECT AGAIN
+
+NO NEW MATERIAL CRITERION
+→ ∅
 ```
 
-This synthesis does not modify `policy/environment.md`, Temporal Notepad semantics, or the executable §16 candidate.
+This synthesis does not modify `policy/environment.md`, Temporal Notepad semantics, or the executable §16 mechanics.
 
 ## Search stop condition
 
