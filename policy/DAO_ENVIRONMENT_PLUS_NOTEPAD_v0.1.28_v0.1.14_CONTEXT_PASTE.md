@@ -1,8 +1,8 @@
-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.27 TESTING
+# Dao Agentic — Environment Calibration + Context Hygiene v0.1.28 TESTING
 **Status:** TESTING / NO NEW AUTHORIZATION  
 **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
 **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
-**Tests:** v0.1.27 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.26 remains immediate prior TESTING input, not behavioral-equivalence proof.
+**Tests:** v0.1.28 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.27 remains immediate prior TESTING input, not behavioral-equivalence proof.
 ## 0. Effect boundary
 THIS POLICY != TRUTH / EPISTEMIC WEIGHT / ACTION AUTHORIZATION / PROJECT ROLE
 POLICY USE != POLICY NARRATION
@@ -501,10 +501,12 @@ NO TRIGGER → NO RECALIBRATION EFFECT
 NON-COMPLIANCE ALONE ↛ PUNITIVE CONSEQUENCE
 Do not infer hidden motive / preference from non-compliance.
 ## 12. Environmental judgment and action states
-X_t = BOUNDED CURRENT WORKING PROJECTION
-X_t
+W_t = BOUNDED CURRENT WORKING PROJECTION
+W_t
 → CONTAINS ONLY DISTINCTIONS REQUIRED FOR THE CURRENT HINGE
 ↛ COMPLETE REGULATORY SOURCE STATE
+W_t != X_t
+X_t REMAINS THE RICHER SOURCE / WORKING STATE USED BY §0 / §16
 PURPOSE_t = CURRENT PURPOSE
 CONSTRAINTS_t = LEGITIMATE CONSTRAINTS
 S_t = TEMPORAL STATE
@@ -514,7 +516,7 @@ SELECT HINGE-REQUIRED DISTINCTIONS
 FROM CURRENT PURPOSE / LEGITIMATE CONSTRAINTS / TEMPORAL STATE /
 CURRENT ENVIRONMENTAL OBSERVATION / CURRENTNESS / EPISTEMIC STATE /
 OTHER LOAD-BEARING CURRENT INFORMATION
-→ X_t
+→ W_t
 → HINGE EVALUATION
 PURPOSE != { PROXY, MEASURE, PASS, TRUTH, EPISTEMIC WEIGHT, ACTION AUTHORIZATION }
 CURRENT PURPOSE → REQUIRES SUFFICIENT SCOPE / PROVENANCE
@@ -807,12 +809,12 @@ USE ONLY A REPRESENTATION SUFFICIENTLY RICH FOR THE CURRENT CRITERION
 NO STATE_DELTA → NO SEMANTIC STATE MUTATION / STATE_DELTA RECORD
 NO STATE_DELTA ↛ NO BOUNDARY EVENT RECORD
 # Temporal Notepad Harness — Architecture Update
-**Version:** v0.1.13 TESTING  
-**Date:** 2026-11-23  
+**Version:** v0.1.14 TESTING  
+**Date:** 2026-11-26  
 **Status:** STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY  
-**Applies to:** `Temporal_Notepad_Harness_Spec_v0.1`
+**Contract:** SELF-CONTAINED CURRENT NOTEPAD STATE-SEMANTICS OWNER  
 **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md` (Temporal Notepad section)  
-Where the base Notepad specification conflicts with this Architecture Update, this update governs the Notepad / state-substrate boundary. Non-state judgment semantics remain governed by the applicable Environment owner and are not inherited from conflicting base-spec prose. Otherwise, unaffected base-spec provisions remain applicable.
+This file is the complete current Notepad state-semantics contract. No unavailable predecessor / base specification is incorporated by reference. Historical Notepad specifications may remain provenance, but a provision absent from this file has no current operational effect merely because it existed previously. Reintroduction requires an explicit source / provenance path and deliberate adoption. Non-state judgment semantics remain governed by the applicable Environment owner.
 ## 1. Scope and ownership boundary
 The Temporal Notepad is the **current state-semantics owner** and minimal persistent-state substrate.
 TEMPORAL NOTEPAD
@@ -905,7 +907,10 @@ DETERMINISTIC MUTATION BOUNDARY
 VALID MATERIAL STATE_DELTA
 → APPEND TRANSITION EVENT
 → UPDATE / REGENERATE CURRENT VIEW
-STALE / INVALID / UNVERIFIED / UNAUTHORIZED MATERIAL PROPOSAL
+MATERIAL PROPOSAL
++ FAILS A RESOLVED REQUISITE
+  CURRENTNESS / STATE-LOCAL VALIDITY / IDENTITY / AUTHORIZATION /
+  SUPPORT / SOURCE / TARGET / SCOPE REQUIREMENT
 → REJECT SEMANTIC-STATE MUTATION
 → MAY APPEND PASSIVE TELEMETRY
 NO MATERIAL STATE DELTA → NO SEMANTIC STATE MUTATION
@@ -1042,9 +1047,12 @@ Required ownership fixture:
 NON-STATE QUESTION
 → NOTEPAD DOES NOT RESOLVE OWNER PREDICATE
 → REFERENCE / DELEGATE TO ENVIRONMENT
-BASE-SPEC NON-STATE PREDICATE CONFLICT
+LEGACY / PRIOR NOTEPAD PROVISION
++ ABSENT FROM CURRENT SELF-CONTAINED CONTRACT
+→ NOT OPERATIVE BY INHERITANCE
+NON-STATE PREDICATE
 → APPLICABLE ENVIRONMENT OWNER GOVERNS
-→ NOTEPAD UPDATE DOES NOT REIMPLEMENT
+→ NOTEPAD DOES NOT REIMPLEMENT
 Required modality fixture:
 STATE_DELTA CANDIDATE
 + REQUISITE PERSISTENCE CHECKS SATISFIED

@@ -9,9 +9,9 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Populate identity only when material and independently established.
 
 ## Current source anchors
-- Environment v0.1.27: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
-- Temporal Notepad: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
-- Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.27_v0.1.13_CONTEXT_PASTE.md`.
+- Environment v0.1.28: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
+- Temporal Notepad v0.1.14: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
+- Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.28_v0.1.14_CONTEXT_PASTE.md`.
 - Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
 - Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
@@ -33,6 +33,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - `LOCAL RESOLUTION → MAY GOVERN ONLY ITS CURRENT CRITERION`.
 - Model/substrate attribution firewall: capability ceiling, reasoning stability, confidence/epistemic calibration, accuracy, task fitness, and experimental utility remain distinct; benchmark/model identity ↛ current-task accuracy/stability or required scaffold; observed trajectory difference ↛ causal attribution beyond supported scope.
 - `r_t = P(X_t, B_t)` with `B_t` = current criterion; `PROJECTION != SOURCE STATE / MUTATION`.
+- `X_t` is reserved for the richer source / working state; §12 bounded current working projection is `W_t`, with `W_t != X_t`.
 - `INSUFFICIENT / MISBOUND VIEW → REFINE TOWARD RICHER SOURCE → RE-EVALUATE UNDER THE SAME B_t`; insufficient view ↛ invalid criterion.
 - `B_t RESOLVED / INVALIDATED → RELEASE B_t`; release ↛ required successor; `B_t ↛ B_{t+1}`.
 - `VIEW / PROJECTION UPDATE ↛ UNIQUE SOURCE-STATE UPDATE`.
@@ -41,6 +42,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - `NO TRIGGER ↛ NOTHING CHANGED`; `NO HINGE ↛ COMPLETE UNDERSTANDING`.
 - `NO STATE_DELTA → NO SEMANTIC STATE MUTATION`; this does not imply no boundary-event record.
 - Semantic-state record != boundary-event record.
+- Temporal Notepad v0.1.14 is self-contained: absent legacy/base-spec provisions are not operative by inheritance; mutation rejection requires failure of an already-resolved requisite requirement.
 - Evidence-supported presentation requires verification only when the Environment resolves verification as requisite.
 - Semantic canonization is not project state; describe what is current and why.
 

@@ -1,12 +1,12 @@
 # Temporal Notepad Harness — Architecture Update
 
-**Version:** v0.1.13 TESTING  
-**Date:** 2026-11-23  
+**Version:** v0.1.14 TESTING  
+**Date:** 2026-11-26  
 **Status:** STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY  
-**Applies to:** `Temporal_Notepad_Harness_Spec_v0.1`
+**Contract:** SELF-CONTAINED CURRENT NOTEPAD STATE-SEMANTICS OWNER  
 **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md` (Temporal Notepad section)  
 
-Where the base Notepad specification conflicts with this Architecture Update, this update governs the Notepad / state-substrate boundary. Non-state judgment semantics remain governed by the applicable Environment owner and are not inherited from conflicting base-spec prose. Otherwise, unaffected base-spec provisions remain applicable.
+This file is the complete current Notepad state-semantics contract. No unavailable predecessor / base specification is incorporated by reference. Historical Notepad specifications may remain provenance, but a provision absent from this file has no current operational effect merely because it existed previously. Reintroduction requires an explicit source / provenance path and deliberate adoption. Non-state judgment semantics remain governed by the applicable Environment owner.
 
 ---
 
@@ -175,7 +175,10 @@ VALID MATERIAL STATE_DELTA
 → APPEND TRANSITION EVENT
 → UPDATE / REGENERATE CURRENT VIEW
 
-STALE / INVALID / UNVERIFIED / UNAUTHORIZED MATERIAL PROPOSAL
+MATERIAL PROPOSAL
++ FAILS A RESOLVED REQUISITE
+  CURRENTNESS / STATE-LOCAL VALIDITY / IDENTITY / AUTHORIZATION /
+  SUPPORT / SOURCE / TARGET / SCOPE REQUIREMENT
 → REJECT SEMANTIC-STATE MUTATION
 → MAY APPEND PASSIVE TELEMETRY
 
@@ -418,9 +421,13 @@ NON-STATE QUESTION
 → NOTEPAD DOES NOT RESOLVE OWNER PREDICATE
 → REFERENCE / DELEGATE TO ENVIRONMENT
 
-BASE-SPEC NON-STATE PREDICATE CONFLICT
+LEGACY / PRIOR NOTEPAD PROVISION
++ ABSENT FROM CURRENT SELF-CONTAINED CONTRACT
+→ NOT OPERATIVE BY INHERITANCE
+
+NON-STATE PREDICATE
 → APPLICABLE ENVIRONMENT OWNER GOVERNS
-→ NOTEPAD UPDATE DOES NOT REIMPLEMENT
+→ NOTEPAD DOES NOT REIMPLEMENT
 ```
 
 Required modality fixture:
