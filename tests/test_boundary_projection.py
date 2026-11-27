@@ -24,8 +24,15 @@ class T(unittest.TestCase):
     def test_boundary_hash_deterministic(self):
         with tempfile.TemporaryDirectory() as td:
             d=Path(td); s,b=self.files(d,'{"a":1}\n',{"boundary_id":"b","required":["/a"]}); a=self.run_tool("project","--source",str(s),"--boundary",str(b)); c=self.run_tool("project","--source",str(s),"--boundary",str(b)); self.assertEqual(json.loads(a.stdout)["boundary_spec"]["sha256"],json.loads(c.stdout)["boundary_spec"]["sha256"])
-    def test_root_pointer_non_lossy(self):
+    def test_root_pointer_reports_root_selected(self):
         with tempfile.TemporaryDirectory() as td:
-            d=Path(td); s,b=self.files(d,'{"a":1}\n',{"boundary_id":"id","required":[""]}); r=self.run_tool("project","--source",str(s),"--boundary",str(b)); x=json.loads(r.stdout); self.assertFalse(x["lossy"]); self.assertEqual(x["items"][0]["value"],{"a":1})
+            d=Path(td); s,b=self.files(d,'{"a":1}\n',{"boundary_id":"id","required":[""]}); r=self.run_tool("project","--source",str(s),"--boundary",str(b)); x=json.loads(r.stdout); self.assertTrue(x["root_selected"]); self.assertNotIn("lossy",x); self.assertEqual(x["items"][0]["value"],{"a":1})
+    def test_non_root_projection_does_not_claim_lossiness(self):
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td); s,b=self.files(d,'{"a":1,"b":2}\n',{"boundary_id":"b","required":["/a"]}); r=self.run_tool("project","--source",str(s),"--boundary",str(b)); x=json.loads(r.stdout); self.assertFalse(x["root_selected"]); self.assertNotIn("lossy",x); self.assertEqual(x["items"][0]["value"],1)
+    def test_array_index_rejects_leading_zero_and_unicode_digits(self):
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td); s,b=self.files(d,json.dumps({"x":[10,20]}),{"boundary_id":"b","required":["/x/01"]}); r=self.run_tool("project","--source",str(s),"--boundary",str(b)); self.assertEqual(r.returncode,2); self.assertIn("invalid array index token",r.stderr)
+            s,b=self.files(d,json.dumps({"x":[10,20]}),{"boundary_id":"b","required":["/x/١"]}); r=self.run_tool("project","--source",str(s),"--boundary",str(b)); self.assertEqual(r.returncode,2); self.assertIn("invalid array index token",r.stderr)
 
 if __name__ == "__main__": unittest.main()
