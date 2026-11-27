@@ -2,8 +2,8 @@
 
 **Status:** TESTING / NO NEW AUTHORIZATION  
 **Runtime:** sandbox mini-harness v0.1.4 unified repository form  
-**Environment:** v0.1.27 TESTING  
-**Temporal Notepad:** v0.1.13 TESTING
+**Environment:** v0.1.28 TESTING  
+**Temporal Notepad:** v0.1.14 TESTING
 
 This repository is the single-project merge of the portable mini sandbox runtime and the current calibration / context-hygiene policy package. The prior SOCRATES/Epiq working-tree architecture is intentionally not carried forward. Git history remains the historical record of that ablated tree.
 
@@ -11,7 +11,7 @@ This repository is the single-project merge of the portable mini sandbox runtime
 
 1. Read `index.md`.
 2. Use `state.json` only when current working state is load-bearing.
-3. For manual FIRST_INFERENCE / RECALIBRATION, use `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.27_v0.1.13_CONTEXT_PASTE.md`.
+3. For manual FIRST_INFERENCE / RECALIBRATION, use `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.28_v0.1.14_CONTEXT_PASTE.md`.
 4. Retrieve `notepad.md`, `events.jsonl`, `contradictions.jsonl`, or verification history only as needed.
 
 ## Repository flow
