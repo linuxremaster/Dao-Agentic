@@ -1,9 +1,9 @@
-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.27 TESTING
+# Dao Agentic — Environment Calibration + Context Hygiene v0.1.28 TESTING
 
 **Status:** TESTING / NO NEW AUTHORIZATION  
 **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
 **History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
-**Tests:** v0.1.27 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.26 remains immediate prior TESTING input, not behavioral-equivalence proof.
+**Tests:** v0.1.28 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.27 remains immediate prior TESTING input, not behavioral-equivalence proof.
 
 ## 0. Effect boundary
 
@@ -786,11 +786,14 @@ Do not infer hidden motive / preference from non-compliance.
 ## 12. Environmental judgment and action states
 
 ```text
-X_t = BOUNDED CURRENT WORKING PROJECTION
+W_t = BOUNDED CURRENT WORKING PROJECTION
 
-X_t
+W_t
 → CONTAINS ONLY DISTINCTIONS REQUIRED FOR THE CURRENT HINGE
 ↛ COMPLETE REGULATORY SOURCE STATE
+
+W_t != X_t
+X_t REMAINS THE RICHER SOURCE / WORKING STATE USED BY §0 / §16
 
 PURPOSE_t = CURRENT PURPOSE
 CONSTRAINTS_t = LEGITIMATE CONSTRAINTS
@@ -803,7 +806,7 @@ SELECT HINGE-REQUIRED DISTINCTIONS
 FROM CURRENT PURPOSE / LEGITIMATE CONSTRAINTS / TEMPORAL STATE /
 CURRENT ENVIRONMENTAL OBSERVATION / CURRENTNESS / EPISTEMIC STATE /
 OTHER LOAD-BEARING CURRENT INFORMATION
-→ X_t
+→ W_t
 → HINGE EVALUATION
 ```
 
