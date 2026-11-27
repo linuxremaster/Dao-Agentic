@@ -1,8 +1,8 @@
-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.28 TESTING
+# Dao Agentic — Environment Calibration + Context Hygiene v0.1.29 TESTING
 **Status:** TESTING / NO NEW AUTHORIZATION  
 **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
-**History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
-**Tests:** v0.1.28 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.27 remains immediate prior TESTING input, not behavioral-equivalence proof.
+**History:** `policy/changelog.md`  
+**Tests:** v0.1.29 TEST CLOSURE PENDING; historical regression artifact DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md is not present in the active repository, so its prior regression status is provenance only and is not treated as current available evidence. v0.1.28 remains immediate prior TESTING input, not behavioral-equivalence proof.
 ## 0. Effect boundary
 THIS POLICY != TRUTH / EPISTEMIC WEIGHT / ACTION AUTHORIZATION / PROJECT ROLE
 POLICY USE != POLICY NARRATION
@@ -25,6 +25,8 @@ ONE WORKING / SOURCE STATE
 X_t = CURRENT SOURCE / WORKING STATE
 B_t = CURRENT CRITERION
 r_t = P(X_t, B_t)
+W_t = r_t
+W_t IS §12 WORKING-VIEW NOTATION FOR THE SAME PROJECTION
 r_t
 → MAY BE SUFFICIENT FOR B_t
 → MAY DISCARD INFORMATION NOT REQUIRED FOR B_t
@@ -501,10 +503,12 @@ NO TRIGGER → NO RECALIBRATION EFFECT
 NON-COMPLIANCE ALONE ↛ PUNITIVE CONSEQUENCE
 Do not infer hidden motive / preference from non-compliance.
 ## 12. Environmental judgment and action states
-W_t = BOUNDED CURRENT WORKING PROJECTION
+W_t = r_t = P(X_t, B_t)
 W_t
-→ CONTAINS ONLY DISTINCTIONS REQUIRED FOR THE CURRENT HINGE
-↛ COMPLETE REGULATORY SOURCE STATE
+→ BOUNDED CURRENT WORKING PROJECTION
+→ NOTATION USED WHERE §12 DISCUSSES THE WORKING VIEW
+r_t
+→ MATHEMATICAL RESULT NOTATION FOR THE SAME PROJECTION
 W_t != X_t
 X_t REMAINS THE RICHER SOURCE / WORKING STATE USED BY §0 / §16
 PURPOSE_t = CURRENT PURPOSE
@@ -672,6 +676,8 @@ X_t = AVAILABLE SOURCE / WORKING STATE AT t
 B_t = CURRENT CRITERION AT t
 P = PREDICATE / PROJECTION
 r_t = P(X_t, B_t)
+W_t = r_t
+W_t IS §12 WORKING-VIEW NOTATION FOR THE SAME PROJECTION
 r_t
 → MAY BE SUFFICIENT FOR B_t
 → NEED NOT PRESERVE ALL INFORMATION IN X_t
@@ -813,7 +819,7 @@ NO STATE_DELTA ↛ NO BOUNDARY EVENT RECORD
 **Date:** 2026-11-26  
 **Status:** STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY  
 **Contract:** SELF-CONTAINED CURRENT NOTEPAD STATE-SEMANTICS OWNER  
-**History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md` (Temporal Notepad section)  
+**History:** `policy/changelog.md` (Temporal Notepad section)  
 This file is the complete current Notepad state-semantics contract. No unavailable predecessor / base specification is incorporated by reference. Historical Notepad specifications may remain provenance, but a provision absent from this file has no current operational effect merely because it existed previously. Reintroduction requires an explicit source / provenance path and deliberate adoption. Non-state judgment semantics remain governed by the applicable Environment owner.
 ## 1. Scope and ownership boundary
 The Temporal Notepad is the **current state-semantics owner** and minimal persistent-state substrate.
@@ -851,7 +857,7 @@ BOUNDARY EVENT RECORD
 SEMANTIC STATE RECORD != BOUNDARY EVENT RECORD
 DURABLE RECORD != TRUE CLAIM ABOUT THE WORLD
 CURRENT VIEW != COMPLETE WORLD STATE / COMPLETE JUDGMENT STATE
-`EVENTS.jsonl` remains the named boundary-event record where used; accepted persisted transitions form the semantic-state-record subset.
+`events.jsonl` remains the named boundary-event record where used; accepted persisted transitions form the semantic-state-record subset.
 ## 3. State classes
 The current-view schema must not collapse state classes that the transition model keeps distinct.
 At minimum:
@@ -950,7 +956,7 @@ WHEN PASSIVE TELEMETRY ELIGIBILITY DEPENDS ON NON-STATE MATERIALITY
 → USE RESOLVED RECORDING DISPOSITION / PROVENANCE
 ↛ RE-JUDGE MATERIALITY LOCALLY
 ## 10. Provenance / temporal record semantics
-EVENTS.jsonl = DURABLE BOUNDARY EVENT RECORD
+events.jsonl = DURABLE BOUNDARY EVENT RECORD
 ACCEPTED PERSISTED TRANSITION → SEMANTIC STATE RECORD ENTRY
 MATERIAL REJECTED / STALE / INVALID ATTEMPT → MAY REMAIN BOUNDARY EVENT
 ↛ SEMANTIC STATE MUTATION

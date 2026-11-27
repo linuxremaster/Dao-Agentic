@@ -1,0 +1,49 @@
+@@ -1,9 +1,9 @@
+-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.28 TESTING
++# Dao Agentic — Environment Calibration + Context Hygiene v0.1.29 TESTING
+ 
+ **Status:** TESTING / NO NEW AUTHORIZATION  
+ **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
+-**History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md`  
+-**Tests:** v0.1.28 TEST CLOSURE PENDING; `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md` remains prior-version regression evidence and is not silently promoted. v0.1.27 remains immediate prior TESTING input, not behavioral-equivalence proof.
++**History:** `policy/changelog.md`  
++**Tests:** v0.1.29 TEST CLOSURE PENDING; historical regression artifact DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md is not present in the active repository, so its prior regression status is provenance only and is not treated as current available evidence. v0.1.28 remains immediate prior TESTING input, not behavioral-equivalence proof.
+ 
+ ## 0. Effect boundary
+ 
+@@ -38,6 +38,8 @@ ONE WORKING / SOURCE STATE
+ X_t = CURRENT SOURCE / WORKING STATE
+ B_t = CURRENT CRITERION
+ r_t = P(X_t, B_t)
++W_t = r_t
++W_t IS §12 WORKING-VIEW NOTATION FOR THE SAME PROJECTION
+ 
+ r_t
+ → MAY BE SUFFICIENT FOR B_t
+@@ -786,11 +788,14 @@ Do not infer hidden motive / preference from non-compliance.
+ ## 12. Environmental judgment and action states
+ 
+ ```text
+-W_t = BOUNDED CURRENT WORKING PROJECTION
++W_t = r_t = P(X_t, B_t)
+ 
+ W_t
+-→ CONTAINS ONLY DISTINCTIONS REQUIRED FOR THE CURRENT HINGE
+-↛ COMPLETE REGULATORY SOURCE STATE
++→ BOUNDED CURRENT WORKING PROJECTION
++→ NOTATION USED WHERE §12 DISCUSSES THE WORKING VIEW
++
++r_t
++→ MATHEMATICAL RESULT NOTATION FOR THE SAME PROJECTION
+ 
+ W_t != X_t
+ X_t REMAINS THE RICHER SOURCE / WORKING STATE USED BY §0 / §16
+@@ -1058,6 +1063,8 @@ B_t = CURRENT CRITERION AT t
+ P = PREDICATE / PROJECTION
+ 
+ r_t = P(X_t, B_t)
++W_t = r_t
++W_t IS §12 WORKING-VIEW NOTATION FOR THE SAME PROJECTION
+ 
+ r_t
+ → MAY BE SUFFICIENT FOR B_t

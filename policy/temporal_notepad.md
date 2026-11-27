@@ -4,7 +4,7 @@
 **Date:** 2026-11-26  
 **Status:** STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY  
 **Contract:** SELF-CONTAINED CURRENT NOTEPAD STATE-SEMANTICS OWNER  
-**History:** `DAO_ENVIRONMENT_CALIBRATION_HYGIENE_CHANGELOG.md` (Temporal Notepad section)  
+**History:** `policy/changelog.md` (Temporal Notepad section)  
 
 This file is the complete current Notepad state-semantics contract. No unavailable predecessor / base specification is incorporated by reference. Historical Notepad specifications may remain provenance, but a provision absent from this file has no current operational effect merely because it existed previously. Reintroduction requires an explicit source / provenance path and deliberate adoption. Non-state judgment semantics remain governed by the applicable Environment owner.
 
@@ -69,7 +69,7 @@ DURABLE RECORD != TRUE CLAIM ABOUT THE WORLD
 CURRENT VIEW != COMPLETE WORLD STATE / COMPLETE JUDGMENT STATE
 ```
 
-`EVENTS.jsonl` remains the named boundary-event record where used; accepted persisted transitions form the semantic-state-record subset.
+`events.jsonl` remains the named boundary-event record where used; accepted persisted transitions form the semantic-state-record subset.
 
 ---
 
@@ -256,7 +256,7 @@ WHEN PASSIVE TELEMETRY ELIGIBILITY DEPENDS ON NON-STATE MATERIALITY
 ## 10. Provenance / temporal record semantics
 
 ```text
-EVENTS.jsonl = DURABLE BOUNDARY EVENT RECORD
+events.jsonl = DURABLE BOUNDARY EVENT RECORD
 ACCEPTED PERSISTED TRANSITION → SEMANTIC STATE RECORD ENTRY
 MATERIAL REJECTED / STALE / INVALID ATTEMPT → MAY REMAIN BOUNDARY EVENT
 ↛ SEMANTIC STATE MUTATION
