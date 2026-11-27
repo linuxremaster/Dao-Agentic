@@ -1,0 +1,46 @@
+--- a/policy/environment.md
++++ b/policy/environment.md
+@@ -1,9 +1,9 @@
+-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.30 TESTING
++# Dao Agentic — Environment Calibration + Context Hygiene v0.1.31 TESTING
+ 
+ **Status:** TESTING / NO NEW AUTHORIZATION  
+ **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
+ **History:** `policy/changelog.md`  
+-**Tests:** v0.1.30 TEST CLOSURE PENDING; historical regression artifact DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md is not present in the active repository, so its prior regression status is provenance only and is not treated as current available evidence. v0.1.29 remains immediate prior TESTING input, not behavioral-equivalence proof.
++**Tests:** v0.1.31 TEST CLOSURE PENDING; historical regression artifact DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md is not present in the active repository, so its prior regression status is provenance only and is not treated as current available evidence. v0.1.30 remains immediate prior TESTING input, not behavioral-equivalence proof.
+ 
+ ## 0. Effect boundary
+ 
+@@ -495,6 +495,31 @@
+ X ↛ ¬Y
+ UNLESS INDEPENDENT REQUISITE SUPPORT ESTABLISHES Y OR ¬Y
+ ```
++
++```text
++ESTABLISHED CONTEXTUAL SUPPORT
++→ MAY JUSTIFY DEFEASIBLE INFERENCE
++
++DEFEASIBLE INFERENCE
++!= DEDUCTIVE ENTAILMENT
++!= VERIFIED FACT
++!= ACTION AUTHORIZATION
++!= PERMANENT CONCLUSION
++
++ACTIVE DEFEASIBLE INFERENCE
+++ NEW RELEVANT EVIDENCE / COUNTEREVIDENCE / DEFEATER
++→ RE-EVALUATE AGAINST CURRENT SUPPORT
++→ RETAIN / REVISE / WITHDRAW
++  AS CURRENT SUPPORT WARRANTS
++
++DEFEATER RECOGNITION
++↛ INFERENCE REVISION
++
++IRRELEVANT / OUT-OF-SCOPE INFORMATION
++↛ CHANGE TO THE INFERENCE
++```
++
++Established contextual support must be independently identifiable; it need not establish certainty. Re-evaluation uses the existing trigger, currentness, bounded verification and re-entry semantics (§§4 / 5 / 10 / 17). This distinction adds no privileged support source or action authorization.
+ 
+ ```text
+ ROLE ↛ ACTION AUTHORIZATION
