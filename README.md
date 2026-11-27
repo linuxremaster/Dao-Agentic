@@ -16,6 +16,8 @@ This repository is the single-project merge of the portable mini sandbox runtime
 
 ## Repository flow
 
+Core project principle: [Repository Stewardship](policy/repository_stewardship.md) governs authorized repository updates and shared-artifact distribution; private evidence is not required to be public.
+
 - Private development source: `linuxremaster/Dao-Agentic-Private`.
 - Public mirror: `linuxremaster/Dao-Agentic`.
 - Accepted shared changes flow **PRIVATE → PUBLIC** in the same update cycle; an accepted private change is not complete while the public mirror is stale.
@@ -25,7 +27,7 @@ This repository is the single-project merge of the portable mini sandbox runtime
 
 - `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.
 - `LICENSE` — Mozilla Public License 2.0 restored from the pre-ablation tree; distribution metadata only.
-- `policy/` — one canonical copy of current Environment and Temporal Notepad sources, the manual combined context paste, and external changelog.
+- `policy/` — one canonical copy of current Environment and Temporal Notepad sources, the manual combined context paste, external changelog, and shared repository-stewardship requirements.
 - `verification/` — release verification, lineage, reviews, checksums, and historical diffs.
 - `testing/` — non-authoritative candidate mechanisms/reminders under ordinary-use testing; no implementation mandate.
 

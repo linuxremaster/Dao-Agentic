@@ -13,6 +13,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Temporal Notepad v0.1.14: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
 - Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.31_v0.1.14_CONTEXT_PASTE.md`.
 - Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
+- Shared stewardship requirements: `policy/repository_stewardship.md` — core project principle; read for authorized repository updates and distribution.
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
 - Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
 
@@ -64,6 +65,7 @@ Read only what the next material decision needs:
 - Material trajectory → `events.jsonl`
 - File roles / source hashes / scaffold identity → `manifest.json`
 - Exact owner semantics → `policy/`
+- Repository mutation / distribution requirements → `policy/repository_stewardship.md`
 - Release verification / historical diffs → `verification/`
 - Frozen minimal-toolkit candidate / ambient reminders → `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md`
 - Context-compaction prior-work selection / mechanism ablation → `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md`

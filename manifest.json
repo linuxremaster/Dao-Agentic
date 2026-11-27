@@ -126,8 +126,8 @@
       "authority": "provenance/observation only; no judgment, scoring, authorization, causal-diagnosis, identity, successorship, or semantic-state authority"
     },
     "policy/": {
-      "role": "canonical current Environment / Temporal Notepad owner artifacts plus manual combined calibration source and external changelog",
-      "mutation": "replace only when a later current source package is deliberately adopted",
+      "role": "canonical current Environment / Temporal Notepad owner artifacts plus manual combined calibration source and external changelog; shared repository-stewardship requirements",
+      "mutation": "amend the applicable artifact only by authorized bounded change; adopt current semantic owners deliberately",
       "autoload": "no; retrieve exact source when load-bearing",
       "authority": "source artifacts retain only their own bounded semantics; repository presence adds no authority"
     },
@@ -178,6 +178,13 @@
       "mutation": "revise only when a material hinge reopens the research boundary or evidence materially corrects the current disposition",
       "autoload": "no; retrieve only when context-compaction or memory-mechanism work is load-bearing",
       "authority": "research/design-selection only; post-eviction recalibration remains a candidate for testing, not a tested consequence or implementation duty"
+    },
+    "policy/repository_stewardship.md": {
+      "role": "shared core project principle and operational repository-maintenance requirements",
+      "mutation": "authorized bounded change only; preserve applicable lineage and distribution parity",
+      "autoload": "read for authorized repository mutation and distribution",
+      "authority": "repository-maintenance requirements only; not Environment/Temporal Notepad semantics, action authorization, runtime controller or role assignment",
+      "sha256": "c0e4e9ca8eba2dbf1d4a611e3bbf46e7a3a411fc0cacfb4daa8f5c94e46afbae"
     }
   },
   "retrieval_policy": [
