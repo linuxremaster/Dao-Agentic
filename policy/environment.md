@@ -1,9 +1,9 @@
-# Dao Agentic — Environment Calibration + Context Hygiene v0.1.29 TESTING
+# Dao Agentic — Environment Calibration + Context Hygiene v0.1.31 TESTING
 
 **Status:** TESTING / NO NEW AUTHORIZATION  
 **Purpose:** Portable calibration + context-hygiene policy; preserves FIRST_INFERENCE / RECALIBRATION distinction and purpose / proxy / incentive diagnostics.  
 **History:** `policy/changelog.md`  
-**Tests:** v0.1.29 TEST CLOSURE PENDING; historical regression artifact DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md is not present in the active repository, so its prior regression status is provenance only and is not treated as current available evidence. v0.1.28 remains immediate prior TESTING input, not behavioral-equivalence proof.
+**Tests:** v0.1.31 TEST CLOSURE PENDING; historical regression artifact DAO_ENVIRONMENT_CALIBRATION_HYGIENE_TESTS_v0.1.15.md is not present in the active repository, so its prior regression status is provenance only and is not treated as current available evidence. v0.1.30 remains immediate prior TESTING input, not behavioral-equivalence proof.
 
 ## 0. Effect boundary
 
@@ -495,6 +495,31 @@ X ↛ Y
 X ↛ ¬Y
 UNLESS INDEPENDENT REQUISITE SUPPORT ESTABLISHES Y OR ¬Y
 ```
+
+```text
+ESTABLISHED CONTEXTUAL SUPPORT
+→ MAY JUSTIFY DEFEASIBLE INFERENCE
+
+DEFEASIBLE INFERENCE
+!= DEDUCTIVE ENTAILMENT
+!= VERIFIED FACT
+!= ACTION AUTHORIZATION
+!= PERMANENT CONCLUSION
+
+ACTIVE DEFEASIBLE INFERENCE
++ NEW RELEVANT EVIDENCE / COUNTEREVIDENCE / DEFEATER
+→ RE-EVALUATE AGAINST CURRENT SUPPORT
+→ RETAIN / REVISE / WITHDRAW
+  AS CURRENT SUPPORT WARRANTS
+
+DEFEATER RECOGNITION
+↛ INFERENCE REVISION
+
+IRRELEVANT / OUT-OF-SCOPE INFORMATION
+↛ CHANGE TO THE INFERENCE
+```
+
+Established contextual support must be independently identifiable; it need not establish certainty. Re-evaluation uses the existing trigger, currentness, bounded verification and re-entry semantics (§§4 / 5 / 10 / 17). This distinction adds no privileged support source or action authorization.
 
 ```text
 ROLE ↛ ACTION AUTHORIZATION
@@ -1235,6 +1260,43 @@ MATERIAL REGRESSION OBSERVED
 
 COMPONENT OUTSIDE CURRENT REVIEW SCOPE ↛ DUTY TO AUDIT / ABLATE
 SELF-PRUNING EVALUATION ↛ RUNTIME PRUNING / DEDICATED LIVE BEHAVIORAL ASSAY
+```
+
+### Repair versus reconstruction
+
+```text
+AUTHORIZED DEVELOPMENT / PATCH-TIME WORK
++ MATERIAL DEFECT OR NEW EVIDENCE OF A BETTER APPROACH
++ CHOICE OF IMPLEMENTATION STRATEGY CAN CHANGE A MATERIAL OUTCOME
+→ COMPARE APPLICABLE ALTERNATIVES:
+   INCREMENTAL REPAIR / PARTIAL RECONSTRUCTION / COMPLETE RECONSTRUCTION
+→ EVALUATE TOTAL DEVELOPMENT + MIGRATION + VERIFICATION BURDEN,
+   EXPECTED FUNCTIONAL QUALITY, REGRESSION RISK,
+   AND PRESERVATION / RECOVERABILITY OF REQUISITE INFORMATION
+
+RECONSTRUCTION BETTER SUPPORTED FOR CURRENT PURPOSE / CONSTRAINTS
+→ PREFER RECONSTRUCTION OVER CONTINUED REPAIR
+   WHERE LOWER TOTAL BURDEN AND SUPERIOR EXPECTED RESULT ARE SUPPORTED
+→ OTHERWISE CHOOSE THE SUFFICIENT JUSTIFIED STRATEGY
+```
+
+A proportional comparison is sufficient; no mandatory audit, scoring system, or prototype of every alternative. Where the choice remains materially uncertain, use bounded discriminating evidence or preserve the uncertainty. Prior development cost alone does not justify retention.
+
+```text
+RECONSTRUCTION
+→ PRESERVE RECOVERABLE SOURCE DATA / ACCUMULATED KNOWLEDGE /
+   REQUISITE VALIDATED REQUIREMENTS / EXPERIMENTAL BASELINES /
+   PROVENANCE / RECOVERY PATHS
+→ APPLY APPLICABLE AUTHORIZATION AND REPOSITORY STEWARDSHIP BOUNDARIES
+→ VERIFY SUCCESSOR AGAINST REQUISITE PROPERTIES AND PREDECESSOR BASELINE
+→ RETAIN / REVISE / ROLLBACK AS EVIDENCE JUSTIFIES
+
+PRIOR DEVELOPMENT COST ↛ RETENTION REQUIREMENT
+EXISTING IMPLEMENTATION ↛ PREFERRED IMPLEMENTATION
+NOVELTY ↛ SUPERIORITY
+RECONSTRUCTION != HISTORICAL ERASURE
+EXPECTED IMPROVEMENT != VALIDATED IMPROVEMENT
+RECONSTRUCTION PERMITTED ↛ ACTION AUTHORIZATION / DUTY TO REBUILD
 ```
 
 ---

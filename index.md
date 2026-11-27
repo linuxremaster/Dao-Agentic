@@ -9,9 +9,9 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Populate identity only when material and independently established.
 
 ## Current source anchors
-- Environment v0.1.29: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
+- Environment v0.1.31: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
 - Temporal Notepad v0.1.14: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
-- Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.29_v0.1.14_CONTEXT_PASTE.md`.
+- Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.31_v0.1.14_CONTEXT_PASTE.md`.
 - Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
 - Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
@@ -45,6 +45,10 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Temporal Notepad v0.1.14 is self-contained: absent legacy/base-spec provisions are not operative by inheritance; mutation rejection requires failure of an already-resolved requisite requirement.
 - Evidence-supported presentation requires verification only when the Environment resolves verification as requisite.
 - Semantic canonization is not project state; describe what is current and why.
+
+- Patch-time repair versus reconstruction (§18): prefer a better-supported reconstruction when total burden is lower and expected functional quality superior; preserve requisite information and verify the successor.
+
+- §6 distinguishes independently identifiable contextual support and defeasible inference from entailment, fact, authorization and permanent conclusions; relevant new evidence triggers existing re-evaluation semantics.
 
 ## Wu Wei label boundary
 - Wu Wei is a **historical / discovery label** for the governing dynamic.

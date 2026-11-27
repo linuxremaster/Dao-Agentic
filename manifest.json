@@ -14,12 +14,12 @@
   "current_source_package": {
     "name": "DAO_VERIFICATION_SEQUENCE_UPDATE_v2_5_REBASED_2026-11-24.zip",
     "sha256": "d9b5539859fc5dd18f31dcf440a571acb8015ca791f417d83936e0063e5f5e55",
-    "status": "verified baseline package used for the unified rebase; current repo-local owners are Environment v0.1.29 and Temporal Notepad v0.1.14"
+    "status": "verified baseline package used for the unified rebase; current repo-local owners are Environment v0.1.31 and Temporal Notepad v0.1.14"
   },
   "current_source_artifacts": {
     "environment": {
       "name": "policy/environment.md",
-      "sha256": "b4c4acce6abedc7213d59d3298185091f1b7f3279b3e616ad03862a6df6d4aca",
+      "sha256": "3aa0e071156b98073accd45344be58777913816b67b145e1c216954d98ba5e31",
       "role": "current supplied non-state semantic artifact",
       "status": "TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING"
     },
@@ -30,13 +30,13 @@
       "status": "STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY"
     },
     "combined_context_paste": {
-      "name": "policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.29_v0.1.14_CONTEXT_PASTE.md",
-      "sha256": "ed21239d549a3f923292d2c0b7f3ea49bdbfcdbcb779a0a6bd24c282d9e6db07",
+      "name": "policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.31_v0.1.14_CONTEXT_PASTE.md",
+      "sha256": "8bbc477f4b66a13e0b016f3aa0f6ceb513728a5127f51112f8281557c15fbb02",
       "role": "portable manual FIRST_INFERENCE / RECALIBRATION source generated from current clean owner artifacts"
     },
     "changelog": {
       "name": "policy/changelog.md",
-      "sha256": "9205a320196193be39766776b898664bb8ac9a9351ec4e1a9ea2f0605fa67a75",
+      "sha256": "b98286f9e6ed4b469a9bfad435bac6fc4fa0a6d7e364bc4a77a2661818fb5e21",
       "role": "externalized provenance/changelog; not an operational semantic owner"
     },
     "update_review": {
@@ -87,7 +87,7 @@
       "evidence": "direct prior work separately supports selective tool exposure, hierarchical/selective memory, task-conditioned active perception, and relevance/sufficiency separation; exact combined formulation not found in bounded search"
     }
   },
-  "source_selection_note": "v2.5 remains the verified baseline package for the unified repository. Current repo-local owners are Environment v0.1.29 and Temporal Notepad v0.1.14; the current combined context is regenerated from those self-contained/current owner artifacts, while historical diffs remain under verification/.",
+  "source_selection_note": "v2.5 remains the verified baseline package for the unified repository. Current repo-local owners are Environment v0.1.31 and Temporal Notepad v0.1.14; the current combined context is regenerated from those self-contained/current owner artifacts, while historical diffs remain under verification/.",
   "files": {
     "index.md": {
       "role": "hot routing dashboard",
