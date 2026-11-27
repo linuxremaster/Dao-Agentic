@@ -13,29 +13,31 @@
     "environment": {
       "artifact": "policy/environment.md",
       "status": "TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING",
-      "sha256": "9ad996ceb81968ce25ae374bab37d119ce666cce8580b461e349e6a6912fd2dc"
+      "sha256": "6c12415c311913db0da538a91753d81f65f769dc58c5472a30b24dea3f1e7b1a"
     },
     "temporal_notepad": {
       "artifact": "policy/temporal_notepad.md",
       "status": "STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY",
-      "sha256": "34c2a51ce671abea881272716e0c7186b667f29f2b10681c097e2c9fe2066ec9"
+      "sha256": "cac27cea1c37232f8845121f48c236b73103a9404c62d3b1491bd3fd430315dc"
     },
     "combined_context_paste": {
-      "artifact": "policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.27_v0.1.13_CONTEXT_PASTE.md",
-      "sha256": "d6388cbc3d882a433d0c65f5812bea358300e659e8942e0a17d80b75c2aea171"
+      "artifact": "policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.28_v0.1.14_CONTEXT_PASTE.md",
+      "sha256": "81dde4e14bc9ed2d017e8cb703f473789f70093639b94655bb3c53f4a9f08791"
     },
     "verification_update_bundle": {
       "artifact": "DAO_VERIFICATION_SEQUENCE_UPDATE_v2_5_REBASED_2026-11-24.zip",
       "sha256": "d9b5539859fc5dd18f31dcf440a571acb8015ca791f417d83936e0063e5f5e55",
       "embedded": false,
-      "role": "verified v2.5 baseline provenance package; Environment advanced repo-locally to v0.1.26 afterward"
+      "role": "verified v2.5 baseline provenance package; current repo-local owners have advanced beyond the bundle"
     }
   },
-  "current_objective": "Maintain a minimal portable working-state and memory scaffold that exposes current Environment v0.1.27 and Temporal Notepad v0.1.13 semantics without becoming a semantic owner, regulator, identity source, or new control plane.",
+  "current_objective": "Maintain a minimal portable working-state and memory scaffold that exposes current Environment v0.1.28 and Temporal Notepad v0.1.14 semantics without becoming a semantic owner, regulator, identity source, or new control plane.",
   "current_load_bearing_state": [
-    "Environment v0.1.27 is the current supplied non-state semantic artifact and remains TESTING with test closure pending.",
-    "Temporal Notepad v0.1.13 is the current state-semantics owner and minimal persistent-state substrate; non-state semantics remain owned by Environment.",
+    "Environment v0.1.28 is the current supplied non-state semantic artifact and remains TESTING with test closure pending.",
+    "Temporal Notepad v0.1.14 is the current state-semantics owner and minimal persistent-state substrate; non-state semantics remain owned by Environment.",
     "The non-collapse invariant now uses temporal criterion-conditioned source/view semantics: r_t = P(X_t, B_t); local resolution may govern only the current criterion, while projection remains distinct from source state, mutation, complete judgment, global definition, and sufficiency for a different criterion.",
+    "Environment §12 now uses W_t for the bounded current working projection, preserving X_t for the richer source / working state used by §0 / §16.",
+    "Temporal Notepad v0.1.14 is self-contained: unavailable predecessor/base specifications are not incorporated by reference; absent legacy provisions are not operative by inheritance, and rejected semantic-state mutation must fail an already-resolved requisite currentness/validity/identity/authorization/support/source/target/scope requirement.",
     "View insufficiency or misbinding calls for recovery toward the intended richer source / representation under the same criterion; criterion resolution or invalidation releases that criterion, release does not require a successor criterion, and the shared hinge core explicitly invokes these §16 semantics for both FIRST_INFERENCE and RECALIBRATION.",
     "Shared FIRST_INFERENCE / RECALIBRATION hinge evaluation now carries a model/substrate attribution firewall: capability ceiling, reasoning stability, confidence/epistemic calibration, accuracy, task fitness, and experimental utility remain distinct; benchmark/model identity does not establish current-task accuracy/stability or scaffold need; causal attribution is bounded to supported claim scope.",
     "A view/projection update does not determine a unique source-state update; source mutation requires an explicit update policy/mutation path and load-bearing source binding.",
@@ -46,7 +48,7 @@
     "Recipient identity is intentionally unresolved; SOC-THREAD-089 is provenance/origin, not a recipient identity assignment."
   ],
   "load_bearing_unknowns": [
-    "Environment v0.1.27 test closure remains pending; static/package validation is not behavioral-equivalence proof.",
+    "Environment v0.1.28 test closure remains pending; static/package validation is not behavioral-equivalence proof.",
     "Whether criterion-conditioned source/view projection plus descriptive criterion release/refinement measurably reduces projection-to-reification or fixation drift without inducing premature release or criterion churn remains empirical.",
     "Which sandbox memory surfaces materially improve cross-instance continuity without becoming stale or inducing unnecessary retrieval/meta-work remains empirical.",
     "Whether an explicit temporal graph adds material value beyond append-only events, provenance, and current-view projection remains to be demonstrated by ordinary-work navigation/query friction."
