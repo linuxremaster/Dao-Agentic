@@ -74,9 +74,9 @@
       "tests": "tests/test_boundary_projection.py",
       "status": "EXECUTABLE CANDIDATE / BOUNDED SANDBOX TESTING",
       "role": "deterministic non-destructive criterion-conditioned source/view projection helper; current executable schema retains boundary terminology for compatibility",
-      "implementation": "structural projection only; externally supplied spec; exact source/spec SHA-256 binding; missing-path reporting; atomic output; temporal refinement/release semantics are descriptive and not automated",
+      "implementation": "structural projection only; externally supplied spec; exact source/spec SHA-256 binding; missing-path reporting; atomic output; root-selection reporting only (no information-loss classification); temporal refinement/release semantics are descriptive and not automated",
       "authority": "none; does not determine criterion/boundary, relevance, semantic sufficiency, criterion resolution/release, truth, authorization, or source-deletion permission",
-      "admission_test": "6/6 local standard-library tests passed; current state.json shape projection exercised"
+      "admission_test": "8/8 local standard-library tests passed; includes leading-zero/Unicode array-index rejection and root-selection reporting without lossiness classification; current state.json shape projection exercised"
     },
     "three_surface_access_v0_1": {
       "name": "testing/THREE_SURFACE_ACCESS_v0.1.md",

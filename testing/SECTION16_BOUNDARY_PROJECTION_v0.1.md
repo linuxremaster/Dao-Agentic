@@ -197,7 +197,15 @@ The structural spec is externally supplied. Its current schema uses the compatib
 
 `required` means only that the declared structural projection fails if the path is absent. It does not mean the field is semantically required by the actual criterion.
 
-The helper binds exact source/spec SHA-256 values, reports missing required/optional paths, leaves source bytes unchanged, and may be lossy or identity-equivalent.
+The helper binds exact source/spec SHA-256 values, reports missing required/optional paths, and leaves source bytes unchanged. It reports only the mechanically observed `root_selected` condition; it does not classify information loss.
+
+```text
+root_selected = false
+↛ INFORMATION LOSS ESTABLISHED
+
+root_selected = true
+→ FULL SOURCE VALUE IS PRESENT IN THE SELECTED VIEW
+```
 
 Every result carries `semantic_sufficiency = NOT_EVALUATED`.
 
@@ -239,9 +247,9 @@ RELEASED CRITERION
 
 ## Admission test evidence
 
-Local standard-library suite: **6 / 6 PASS**.
+Local standard-library suite: **8 / 8 PASS**.
 
-Covered source-byte preservation, required/optional paths, RFC 6901 pointer traversal/escaping, overwrite protection, deterministic spec hashing, and identity-equivalent root projection. A current `state.json` shape also projected successfully.
+Covered source-byte preservation, required/optional paths, RFC 6901 pointer traversal/escaping, ASCII array-index syntax including rejection of leading-zero and Unicode-digit tokens, overwrite protection, deterministic spec hashing, explicit root-selection reporting without a lossiness claim, and root projection. A current `state.json` shape also projected successfully.
 
 These tests establish only the tested mechanics; they do not validate the temporal criterion lifecycle, semantic sufficiency, criterion resolution, source refinement, or any LLM behavioral/trajectory effect.
 

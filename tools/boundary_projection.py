@@ -33,7 +33,15 @@ def resolve(doc, ptr):
         if isinstance(cur, dict):
             if t not in cur: return MISSING
             cur = cur[t]
-        elif isinstance(cur, list) and t.isdigit() and int(t) < len(cur):
+        elif isinstance(cur, list):
+            valid_index = t == "0" or (
+                bool(t)
+                and t[0] in "123456789"
+                and all("0" <= c <= "9" for c in t[1:])
+            )
+            if not valid_index:
+                raise ProjectionError(f"invalid array index token: {t!r}")
+            if int(t) >= len(cur): return MISSING
             cur = cur[int(t)]
         else: return MISSING
     return cur
@@ -72,7 +80,7 @@ def project(source_path, boundary_path):
         "projection_version": "0.1", "boundary_id": bid,
         "boundary_spec": {"path": str(boundary_path), "sha256": sha(braw)},
         "source": {"path": str(source_path), "sha256": sha(before), "unchanged": True},
-        "lossy": "" not in (req + opt),
+        "root_selected": "" in (req + opt),
         "structurally_complete": not mr,
         "items": items, "missing_required": mr, "missing_optional": mo,
         "semantic_sufficiency": "NOT_EVALUATED",
