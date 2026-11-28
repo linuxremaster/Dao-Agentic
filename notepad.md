@@ -1,4 +1,4 @@
-# Dao Sandbox Mini Harness — Working Notepad
+# Dao Agentic — Sandbox Runtime Library Working Notepad
 
 Warm working synthesis derived from SOC-THREAD-089. Searchable, disposable, reorganizable, non-authoritative. Exact source artifacts in `policy/` outrank this note when exactness is load-bearing. Recipient identity is not assigned by this file.
 

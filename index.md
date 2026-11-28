@@ -1,4 +1,4 @@
-# Dao Agentic — Runtime Index
+# Dao Agentic — Sandbox Runtime Library Index
 
 Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current, and non-authoritative. It points to deeper state; it is not the state store, event history, semantic owner, identity source, or action authority.
 
@@ -9,14 +9,14 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Populate identity only when material and independently established.
 
 ## Current source anchors
-- Research framing: `README.md` — computational metacognition / experimental computational metacognitive architecture (CMA) / adaptive self-regulation through experience. UMR is historical terminology; current prototype v0.1.4 unchanged.
+- Research framing: `README.md` — experimental Cognitive Architecture / Cognitive Architecture Runtime (under development) / Sandbox Runtime Library v0.1.4 (current prototype scaffold). Current research focus: computational metacognition; objective: adaptive self-regulation through experience. Capability validation pending.
 - Environment v0.1.31: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
 - Temporal Notepad v0.1.14: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
 - Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.31_v0.1.14_CONTEXT_PASTE.md`.
 - Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
 - Shared stewardship requirements: `policy/repository_stewardship.md` — core project principle; read for authorized repository updates and distribution.
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
-- Sandbox: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
+- Sandbox Runtime Library: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
 
 ## Repository flow
 - Private development source: `linuxremaster/Dao-Agentic-Private`.
