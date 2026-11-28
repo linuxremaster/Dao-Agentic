@@ -31,6 +31,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md` — FROZEN RESEARCH INPUT / MECHANISM SELECTION. Prior-work selection/ablation matrix only; not an architecture proposal, implementation mandate, semantic owner, memory authority, or novelty claim.
 - `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py` — EXECUTABLE CANDIDATE / BOUNDED SANDBOX TESTING. Criterion-conditioned source/view semantics with a deterministic declared-path projector; existing `boundary_id` / `--boundary` names remain implementation compatibility labels. No criterion, relevance, sufficiency, release, truth, or authorization oracle.
 - `testing/THREE_SURFACE_ACCESS_v0.1.md` — PRIOR-WORK-SUPPORTED SYNTHESIS / GENERALIZATION / BOUNDED SEARCH COMPLETE / NO IMPLEMENTATION AUTHORITY. TOOL / MEMORY / OBSERVE indexed under field-native tool retrieval, memory retrieval/working-memory management, active perception/selective attention, and criterion-conditioned context/access selection; exact combined precedent not found ↛ novelty claim.
+- `research/experiments/representation_independent_composition/DAO_REPRESENTATION_INDEPENDENT_COMPOSITION_CONSTRUCTIVE_FALSIFICATION_SPEC_v0.1.3.md` + `tools/composition_fixture.py` — BOUNDED EXECUTABLE RESEARCH FIXTURE / INITIAL M1-vs-M3 SMALL COMPARISON. 12/12 local mechanical tests pass. Selected S0/S1/S2a/S4 evidence supports local substitution + reencoding only; composition-functionality ablation, harness independence, LLM cognitive effects and general architecture validation are not established. No standing evaluator or controller.
 - Orientation: **Durability in the source and provenance; flexibility in the views; authority only at justified boundaries.**
 
 ## Current high-signal semantics
@@ -76,6 +77,7 @@ Read only what the next material decision needs:
 - Context-compaction prior-work selection / mechanism ablation → `testing/CONTEXT_COMPACTION_MECHANISM_MATRIX_v0.1.md`
 - Executable §16 criterion-conditioned source/view projection candidate → `testing/SECTION16_BOUNDARY_PROJECTION_v0.1.md` + `tools/boundary_projection.py`
 - Three-surface access synthesis → `testing/THREE_SURFACE_ACCESS_v0.1.md`
+- Representation-independent composition fixture/results → `research/experiments/representation_independent_composition/`
 
 ## Retrieval discipline
 1. Start here.
