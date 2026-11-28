@@ -1,0 +1,193 @@
+--- DAO_REPRESENTATION_INDEPENDENT_COMPOSITION_CONSTRUCTIVE_FALSIFICATION_SPEC_v0.1.2.md
++++ DAO_REPRESENTATION_INDEPENDENT_COMPOSITION_CONSTRUCTIVE_FALSIFICATION_SPEC_v0.1.3.md
+@@ -1,18 +1,18 @@
+ # Dao Agentic - Representation-Independent Workflow Composition and Adaptive Representational Commitment
+ 
+-## Constructive Falsification Specification v0.1.2
++## Constructive Falsification Specification v0.1.3
+ 
+-**Status:** RESEARCH SPECIFICATION / TARGETED IMPLEMENTATION-READINESS REVISION / NO POLICY OR IMPLEMENTATION AUTHORITY  
+-**Date:** 2026-11-27  
++**Status:** RESEARCH SPECIFICATION / CURRENTNESS + TYPE-PRECISION REVISION / NO POLICY AUTHORITY  
++**Date:** 2026-11-28  
+ **Project:** SOC-THREAD-076-95  
+-**Policy / runtime anchors:** Environment v0.1.29 TESTING; Temporal Notepad v0.1.14 TESTING; Unified Sandbox Runtime v0.1.4  
+-**Currentness reference:** private Control Room #1, checked 2026-11-27 (heads as reported by that projection).  
+-**Private head:** `42ddab1fa4367ce5f1a4181151b4e58a1fd2e654`  
+-**Public head:** `4bc481f68f5422ca85dc85af1605b62cf5f09180`  
++**Policy / runtime anchors:** Environment v0.1.31 TESTING; Temporal Notepad v0.1.14 TESTING; Cognitive Architecture Runtime (experimental; under development); Sandbox Runtime Library v0.1.4  
++**Pre-implementation currentness anchor:** exact repository heads checked 2026-11-28; current owner versions re-opened before implementation.  
++**Private pre-implementation head:** `ff5fe82015fbfd807dab0de757ff118fbb316dd9`  
++**Public pre-implementation head:** `28a97d776bf313995af518bcaf40bff9f4b0281d`  
+ **Relay anchor:** `SECTION16-GRAPH-PROJECTION-095-001`, private GitHub relay #18, comment `7197942387`  
+ **Repository routing:** private development source -> accepted shared change -> public mirror
+ 
+-**Revision disposition:** v0.1.2 preserves the v0.1.1 experimental contract and repairs the implementation seams identified by subsequent audits. It binds the system under test, distinguishes indistinguishable external outcomes from recoverable outcomes, specifies local mechanical assertions and continuity boundaries, and clarifies evidence attribution. The owner anchors are updated without changing their semantics. No policy revision, implementation authorization, or live behavioral assay is introduced. The Control Room is a currentness projection, not a substitute for exact owner sources; re-anchor to those sources before execution.
++**Revision disposition:** v0.1.3 preserves the v0.1.2 experimental contract and makes only the agreed currentness, terminology, type-precision, and implementation-local repairs required before the first bounded fixture. H1/H2 semantics are not reopened. Environment §18 patch-time reconstruction is namespaced away from runtime source/relation reconstruction and representation migration. Environment §6 defeasible inference is admitted only from candidate-visible, in-scope support and cannot silently satisfy a transition prerequisite that explicitly requires exact/verified support. Repository Stewardship, Environmental / Runtime Telemetry v0.2, and the Experimental Research Object Archival Standard remain surrounding development/observation/preservation surfaces, not SUT execution machinery. No new Environment rule, controller, standing assay, or live behavioral score is introduced.
+ 
+ ---
+ 
+@@ -205,6 +205,54 @@
+ 
+ Observed endogenous conditions (remaining time, actual progress, resource use, in-flight obligations and recovery margin) may inform adaptive judgment within a run. Their relevance does not make them fixed comparison inputs. A criterion change need not entail a representation change either.
+ 
++### 1.4 Currentness and surrounding-surface firewalls
++
++Environment v0.1.30 introduced patch-time repair-versus-reconstruction strategy. That namespace is distinct from runtime reconstruction in M5 and from representation migration in H2a:
++
++```text
++PATCH-TIME IMPLEMENTATION RECONSTRUCTION
++!= RUNTIME SOURCE / RELATION RECONSTRUCTION
++!= REPRESENTATION MIGRATION
++```
++
++Environment v0.1.31 permits defeasible inference from independently identifiable contextual support. In this experiment the support available to a candidate remains bounded by the declared candidate-visible interface:
++
++```text
++CANDIDATE-VISIBLE
+++ IN-SCOPE CONTEXTUAL SUPPORT
++-> MAY JUSTIFY DEFEASIBLE INFERENCE
++
++HIDDEN FIXTURE TRUTH
++-> APPARATUS ONLY
++!-> CANDIDATE SUPPORT
++
++DEFEASIBLE INFERENCE
++!= VERIFIED FIXTURE FACT
++!= ACTION AUTHORIZATION
++!= PERMANENT CONCLUSION
++
++TRANSITION PRECONDITION
++EXPLICITLY REQUIRES VERIFIED / EXACT SUPPORT
++-> DEFEASIBLE INFERENCE ALONE
++   DOES NOT SATISFY THAT PRECONDITION
++```
++
++The surrounding repository surfaces remain outside composition execution:
++
++```text
++REPOSITORY STEWARDSHIP
++-> DEVELOPMENT / SOURCE / PROVENANCE / DISTRIBUTION PRESERVATION
++!-> SUT CONTROLLER
++
++ENVIRONMENTAL / RUNTIME TELEMETRY v0.2
++-> PASSIVE OBSERVATION
++!-> TRANSITION / SUCCESS / AUTHORIZATION
++
++EXPERIMENTAL RESEARCH OBJECT ARCHIVAL STANDARD v0.1
++-> COMPLETED / FROZEN / SUPERSEDED OBJECT PRESERVATION
++!-> ACTIVE SUT EXECUTION SEMANTICS
++```
++
+ ---
+ 
+ ## 2. Research claims and result taxonomy
+@@ -411,10 +459,10 @@
+ B accepted contribution -> contribution_id = B1
+ 
+ FOR EACH ACCEPTED LOGICAL CONTRIBUTION:
+-    EXACTLY ONE COMMITTED EFFECT
++    EXACTLY ONE CONTRIBUTION COMMIT
+ 
+ UNACCEPTED CONTRIBUTION:
+-    ZERO COMMITTED EFFECTS
++    ZERO CONTRIBUTION COMMITS
+ 
+ FINAL R_shared
+ -> CONSISTENT WITH THE SET OF ACCEPTED CONTRIBUTIONS
+@@ -525,7 +573,8 @@
+ 
+ ```text
+ SYSTEM UNDER TEST (SUT)
+-= UNIFIED SANDBOX RUNTIME
++= COGNITIVE ARCHITECTURE RUNTIME (EXPERIMENTAL REALIZATION)
+++ SANDBOX RUNTIME LIBRARY v0.1.4
+ + CANDIDATE REALIZATION
+ + DECLARED ORDINARY ENVIRONMENTAL CAPABILITIES
+ 
+@@ -541,7 +590,7 @@
+ !-> REPRESENTATION SELECTION / MIGRATION
+ ```
+ 
+-The Runtime v0.1.4 is a working-state scaffold, not by declaration a workflow engine. Disclose model/host, storage, tool and human contributions where material; an ordinary environmental capability may provide a necessary function, but its presence limits the claim to that composite SUT. The same capability supplied only by the test runner cannot support a claim that the SUT replaced it. A declared forced probe tests enforcement only; it is not SUT-directed progression. The comparison must not quietly move the tested function across this boundary.
++The Sandbox Runtime Library v0.1.4 is a working-state scaffold, not by declaration a workflow engine. Disclose model/host, storage, tool and human contributions where material; an ordinary environmental capability may provide a necessary function, but its presence limits the claim to that composite SUT. The same capability supplied only by the test runner cannot support a claim that the SUT replaced it. A declared forced probe tests enforcement only; it is not SUT-directed progression. The comparison must not quietly move the tested function across this boundary.
+ 
+ ### 6.2 Capability inventory
+ 
+@@ -595,7 +644,28 @@
+ INSTANCE_TERMINATED(instance_id)
+ ```
+ 
+-Define accepted identity and completion from fixture rules and committed effects, not candidate labels. Distinguish attempt, accepted request, actual effect, acknowledgement, and observed outcome. Define authorization validity at the actual consequential commit, including exact target/scope and any validity conditions of a bound token. A check of a version before commit is not an atomic guarantee; identify the mechanism that makes the transition valid or rejects it. Attribute any atomic primitive to its provider. Define the source-loss and replacement cutpoints and what each destroys or preserves. Events must reflect observable fixture facts or evaluator-only injected truth, never model-judged semantic truth. The apparatus may observe and inject conditions but must not enforce the candidate's missing workflow rules. Use only events needed to discriminate the current scenario.
++Define accepted identity and completion from fixture rules and contribution commits, not candidate labels. Distinguish attempt, accepted request, actual effect, acknowledgement, and observed outcome. Define authorization validity at the actual consequential commit, including exact target/scope and any validity conditions of a bound token. A check of a version before commit is not an atomic guarantee; identify the mechanism that makes the transition valid or rejects it. Attribute any atomic primitive to its provider. Define the source-loss and replacement cutpoints and what each destroys or preserves. Events must reflect observable fixture facts or evaluator-only injected truth, never model-judged semantic truth. The apparatus may observe and inject conditions but must not enforce the candidate's missing workflow rules. Use only events needed to discriminate the current scenario.
++
++### 6.4 Candidate invocation / wake policy
++
++The fixture declares one candidate-agnostic invocation policy before comparison. The common apparatus may wake a candidate only on a declared candidate-visible opportunity, not by naming the next workflow node or desired transition.
++
++```text
++DECLARED WAKE SOURCES
++-> RUN START / REPLACEMENT START
++-> COMPLETION OR RESPONSE FROM THE CANDIDATE'S PRIOR ACTION
++-> DECLARED CANDIDATE-VISIBLE EXOGENOUS CHANGE
++
++WAKE
++!= INSTRUCTION TO EXECUTE A / B / C / D
++!= SUCCESSOR SELECTION
++!= JOIN ENFORCEMENT
++
++SAME WAKE POLICY
++-> ALL COMPARED CANDIDATES
++```
++
++A candidate may act, observe, or hold. A hold without a new declared wake source does not authorize the runner to repeatedly invoke it until a preferred result appears. The runner may inject an exogenous disturbance at a declared cutpoint and then wake the candidate because the visible environment changed; that remains disturbance injection, not candidate workflow execution.
+ 
+ ---
+ 
+@@ -616,10 +686,10 @@
+ 
+ ```text
+ EACH ACCEPTED CONTRIBUTION
+--> EXACTLY ONE COMMITTED EFFECT
++-> EXACTLY ONE CONTRIBUTION COMMIT
+ 
+ UNACCEPTED CONTRIBUTION
+--> ZERO COMMITTED EFFECTS
++-> ZERO CONTRIBUTION COMMITS
+ ```
+ 
+ ### P3 - Join ordering
+@@ -988,13 +1058,17 @@
+ = ONLY APPLICABLE MECHANICAL PROPERTY CHECKS
+ 
+ SCENARIO_OUTCOME
+-= {
+-    safety,
+-    progression,
+-    recovery,
+-    completion,
+-    justified_non_execution
+-  }
++= SPARSE MAP OVER ONLY APPLICABLE AXES:
++    safety?
++    progression?
++    recovery?
++    completion?
++    justified_non_execution?
++
++OMITTED AXIS
++!= PASS
++!= FAIL
++-> NOT CLAIMED BY THIS SCENARIO
+ ```
+ 
+ No universal P1-P10 evaluation pass, scalar score, model-based rubric, or persistent evaluator is required. Scenario-local assertions run after the trace is captured; a separate declared runtime mechanism must supply any actual enforcement. The outcome axes distinguish observed safety, progression, recovery, completion and justified non-execution only where material.
+@@ -1477,6 +1551,8 @@
+ 
+ v0.1.2 additionally incorporates the subsequent implementation-readiness audit and 095 delta-audit corrections (SUT attribution, S4 identifiability, local event/commit definitions, scenario-local assertions, recovery disposition and positive controls). Currentness was checked against [private Control Room #1](https://github.com/linuxremaster/Dao-Agentic-Private/issues/1) on 2026-11-27; the head identifiers and owner versions are reported by that projection, not independently fetched exact blobs in this revision. The ordinary-work continuity discussion informs §18.1 as a diagnostic distinction only. The separate cohort-view and reminder proposal ([relay message HUMAN-COHORT-REMINDER-095-001](https://github.com/linuxremaster/Dao-Agentic-Private/issues/18#issuecomment-7211062797)) is not an H1 requirement or authorization to deploy. No Claude-specific causal claim, new tracer architecture, or reminder implementation is established here.
+ 
++v0.1.3 is the bounded pre-implementation successor agreed after revalidation against Environment v0.1.31, Repository Stewardship, Environmental / Runtime Telemetry v0.2, the Experimental Research Object Archival Standard v0.1, and the Evidence-Based Research Method v0.1. It updates current terminology/anchors, adds only the reconstruction and defeasible-inference typing firewalls, makes scenario outcomes sparse, replaces ambiguous branch “committed effect” wording with “contribution commit,” and declares a candidate-agnostic wake policy. These are precision/currentness repairs, not new composition semantics.
++
+ ```text
+ SPECIFICATION
+ != OBSERVED EFFECT
