@@ -13,6 +13,7 @@ This package is a **portable memory / working-state scaffold**, not a semantic o
 `SOC-THREAD-089` is package provenance/origin only. This package does not establish the recipient's thread handle, UUID, role, authority, or successor relation.
 
 ## Current anchors
+- Research field: computational metacognition; architectural category: experimental computational metacognitive architecture (CMA); objective: adaptive self-regulation through experience. See `README.md` for scientific framing and historical UMR terminology. Runtime v0.1.4 remains the current prototype scaffold; capability validation pending.
 - Environment v0.1.31 — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
 - Temporal Notepad v0.1.14 — TESTING state-owner ablation candidate / no live graph mutation authority.
 - Verified v2.5 package remains baseline provenance for the unified rebase; current repo-local owners are Environment v0.1.31 and Temporal Notepad v0.1.14. Exact hashes are recorded in `manifest.json`.
