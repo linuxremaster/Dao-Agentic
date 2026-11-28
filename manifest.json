@@ -131,6 +131,12 @@
       "autoload": "no; retrieve exact source when load-bearing",
       "authority": "source artifacts retain only their own bounded semantics; repository presence adds no authority"
     },
+    "research/": {
+      "role": "shared research standards plus archival references/objects for completed, frozen or superseded experimental evidence; private payloads may remain private or externally stored with recoverable references",
+      "mutation": "add or revise only when a material research-preservation/interoperability requirement or archived experimental object justifies it",
+      "autoload": "no; retrieve only when archival/research-history work is load-bearing",
+      "authority": "research preservation/interoperability only; archive presence does not imply currentness, adoption, scientific validity, authorization, retrieval duty or semantic authority"
+    },
     "verification/": {
       "role": "release verification, lineage, reviews, and historical diffs",
       "mutation": "append or replace only as release evidence requires",
@@ -178,6 +184,13 @@
       "mutation": "revise only when a material hinge reopens the research boundary or evidence materially corrects the current disposition",
       "autoload": "no; retrieve only when context-compaction or memory-mechanism work is load-bearing",
       "authority": "research/design-selection only; post-eviction recalibration remains a candidate for testing, not a tested consequence or implementation duty"
+    },
+    "research/standards/EXPERIMENTAL_RESEARCH_OBJECT_ARCHIVAL_STANDARD_v0.1.md": {
+      "role": "shared minimal archival interoperability profile for experimental research objects using RO-Crate 1.3, BagIt 1.0/RFC 8493, Process Run Crate 0.6 where applicable, FAIR guidance and W3C PROV fallback vocabulary",
+      "mutation": "authorized bounded revision when standards/current preservation requirements materially change; preserve versioned lineage",
+      "autoload": "no; retrieve for experimental archival, research-object preservation, or interoperability work",
+      "authority": "archival/research-object interoperability only; not Environment/Temporal Notepad semantics, scientific-validity oracle, public-disclosure requirement, controller or role assignment",
+      "sha256": "2e35900ac77ee9e8b43a774c5da1586aebf2c355de70790e55d7db82663648db"
     },
     "policy/repository_stewardship.md": {
       "role": "shared core project principle and operational repository-maintenance requirements",
