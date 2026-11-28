@@ -15,6 +15,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.31_v0.1.14_CONTEXT_PASTE.md`.
 - Source-package verification metadata: `verification/V2_5_SOURCE_PACKAGE_SHA256SUMS.txt` + `verification/UPDATE_REVIEW.md`.
 - Shared stewardship requirements: `policy/repository_stewardship.md` — core project principle; read for authorized repository updates and distribution.
+- Evidence-based research method: `research/methodology/EVIDENCE_BASED_RESEARCH_METHOD_v0.1.md` — normalize terminology, search/appraise external evidence first, avoid duplicate research experiments when transferable evidence suffices, separate mechanical verification, and use bounded simulation or naturalistic production observation only for unresolved load-bearing questions.
 - Experimental research-object archival standard: `research/standards/EXPERIMENTAL_RESEARCH_OBJECT_ARCHIVAL_STANDARD_v0.1.md` — shared RO-Crate 1.3 + BagIt 1.0 interoperability profile; Process Run Crate 0.6 where execution provenance is available; no public-disclosure, archive-controller, or scientific-validity authority.
 - Unified project integrity: root `SHA256SUMS.txt` (paths relative to repository root; intentionally excludes itself).
 - Sandbox Runtime Library: memory / working-state aid only; not judgment owner, policy owner, regulator, roster, or graph authority.
@@ -68,6 +69,7 @@ Read only what the next material decision needs:
 - File roles / source hashes / scaffold identity → `manifest.json`
 - Exact owner semantics → `policy/`
 - Repository mutation / distribution requirements → `policy/repository_stewardship.md`
+- Research evidence / method selection → `research/methodology/EVIDENCE_BASED_RESEARCH_METHOD_v0.1.md`
 - Experimental-artifact archival interoperability → `research/standards/EXPERIMENTAL_RESEARCH_OBJECT_ARCHIVAL_STANDARD_v0.1.md`
 - Release verification / historical diffs → `verification/`
 - Frozen minimal-toolkit candidate / ambient reminders → `testing/CANDIDATE_MINIMAL_TOOLKIT_v0.1.md`

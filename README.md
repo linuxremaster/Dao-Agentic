@@ -15,6 +15,10 @@ Use established scientific terminology and formalisms wherever they adequately e
 
 Terminological precedent: [How metacognitive architectures remember their own thoughts: a systematic scoping review](https://doi.org/10.1007/s10462-026-11669-5) uses computational metacognitive architectures (CMAs) and identifies inconsistent terminology as a barrier to comparison. This supports terminology selection, not validation of Dao Agentic's architecture.
 
+## Research method
+
+Dao Agentic uses an [evidence-based research method](research/methodology/EVIDENCE_BASED_RESEARCH_METHOD_v0.1.md): normalize project terminology toward established scientific/engineering terms before search; reuse adequate transferable external evidence rather than duplicating research experiments; mechanically verify local implementations separately; and when adequate external evidence is unavailable, use the smallest justified sandbox simulation or naturalistic production/ordinary-work observation capable of resolving the load-bearing uncertainty. Intuition may generate research questions or hypotheses but does not establish effects, requirements, causal attribution, or authorization.
+
 This repository originated in the single-project merge of the earlier sandbox scaffold and the calibration / context-hygiene policy package. The prior SOCRATES/Epiq working-tree architecture is intentionally not carried forward. Git history remains the historical record of that ablated tree.
 
 ## Start
@@ -38,6 +42,7 @@ Core project principle: [Repository Stewardship](policy/repository_stewardship.m
 - `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.
 - `LICENSE` — Mozilla Public License 2.0 restored from the pre-ablation tree; distribution metadata only.
 - `policy/` — current Environment and Temporal Notepad owner artifacts stored once, plus the manual combined context paste, external changelog, and shared repository-stewardship requirements.
+- `research/` — shared research methodology and archival-interoperability standards; no runtime semantic or scientific-validity authority.
 - `verification/` — release verification, lineage, reviews, checksums, and historical diffs.
 - `testing/` — non-authoritative candidate mechanisms/reminders under ordinary-use testing; no implementation mandate.
 
