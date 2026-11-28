@@ -1,9 +1,17 @@
-# Dao Agentic — Unified Sandbox Runtime
+# Dao Agentic
 
 **Status:** TESTING / NO NEW AUTHORIZATION  
 **Runtime:** sandbox mini-harness v0.1.4 unified repository form  
 **Environment:** v0.1.31 TESTING  
 **Temporal Notepad:** v0.1.14 TESTING
+
+Dao Agentic investigates computational metacognition and adaptive self-regulation through the development of an experimental computational metacognitive architecture (CMA). Its research objective is adaptive self-regulation through experience, including the monitoring, evaluation and regulation of cognition. Capability validation remains pending; the current runtime is an experimental working-state and memory scaffold, not a validated CMA.
+
+## Scientific framing
+
+Use established scientific terminology and formalisms wherever they adequately express the distinction. Scientific conformity means conceptual comparability and evidentiary rigor, not mandatory reproduction of existing architectures. Novelty may emerge from research evidence; novelty is not a design objective. The designation Unified Metacognition Runtime (UMR) is retained only as historical research terminology, not an active scientific category. Existing research tracks continue under computational metacognition. The Unified Sandbox Runtime v0.1.4 remains the prototype lineage; no implementation or version change follows from this terminology update.
+
+Terminological precedent: [How metacognitive architectures remember their own thoughts: a systematic scoping review](https://doi.org/10.1007/s10462-026-11669-5) uses computational metacognitive architectures (CMAs) and identifies inconsistent terminology as a barrier to comparison. This supports terminology selection, not validation of Dao Agentic's architecture.
 
 This repository is the single-project merge of the portable mini sandbox runtime and the current calibration / context-hygiene policy package. The prior SOCRATES/Epiq working-tree architecture is intentionally not carried forward. Git history remains the historical record of that ablated tree.
 

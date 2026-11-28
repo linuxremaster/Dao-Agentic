@@ -204,5 +204,16 @@
     "reason": "merge mini sandbox runtime with v2.5 calibration/policy package as one repository project and remove duplicated embedded source/provenance surfaces",
     "change": "single canonical policy surface + verification/history surface; old repository working tree ablated",
     "semantic_delta": "none"
+  },
+  "research_framing": {
+    "project": "Dao Agentic",
+    "field": "computational metacognition",
+    "architectural_category": "experimental computational metacognitive architecture (CMA)",
+    "objective": "adaptive self-regulation through experience",
+    "realization": "experimental runtime; current prototype Unified Sandbox Runtime v0.1.4",
+    "status": "capability validation pending",
+    "historical_designation": "Unified Metacognition Runtime (UMR); retired from active scientific designation, retained for provenance and retrieval",
+    "reference": "README.md",
+    "terminology_precedent": "https://doi.org/10.1007/s10462-026-11669-5"
   }
 }

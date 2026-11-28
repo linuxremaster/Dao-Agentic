@@ -9,6 +9,7 @@ Hot routing surface derived from the SOC-THREAD-089 sandbox. Keep small, current
 - Populate identity only when material and independently established.
 
 ## Current source anchors
+- Research framing: `README.md` — computational metacognition / experimental computational metacognitive architecture (CMA) / adaptive self-regulation through experience. UMR is historical terminology; current prototype v0.1.4 unchanged.
 - Environment v0.1.31: `policy/environment.md` — TESTING / NO NEW AUTHORIZATION / TEST CLOSURE PENDING.
 - Temporal Notepad v0.1.14: `policy/temporal_notepad.md` — STATE-OWNER ABLATION CANDIDATE / READY FOR BOUNDED TESTING / NO LIVE GRAPH MUTATION AUTHORITY.
 - Manual FIRST_INFERENCE / RECALIBRATION source: `policy/DAO_ENVIRONMENT_PLUS_NOTEPAD_v0.1.31_v0.1.14_CONTEXT_PASTE.md`.
