@@ -85,6 +85,17 @@
       "implementation": "none; preserves two-sided exposure failure, source refinement/retrieval, criterion release, and anti-authority boundaries without promoting three subsystems/managers",
       "authority": "none; exact precedent not found in bounded search is not a novelty claim, and accessibility/filtering/retrieval do not determine relevance, sufficiency, truth, authorization, or source mutation",
       "evidence": "direct prior work separately supports selective tool exposure, hierarchical/selective memory, task-conditioned active perception, and relevance/sufficiency separation; exact combined formulation not found in bounded search"
+    },
+    "representation_independent_composition_v0_1": {
+      "name": "research/experiments/representation_independent_composition/DAO_REPRESENTATION_INDEPENDENT_COMPOSITION_CONSTRUCTIVE_FALSIFICATION_SPEC_v0.1.3.md",
+      "executable": "tools/composition_fixture.py",
+      "tests": "tests/test_composition_fixture.py",
+      "result": "research/experiments/representation_independent_composition/INITIAL_BOUNDED_COMPARISON_v0.1.json",
+      "status": "BOUNDED EXECUTABLE RESEARCH FIXTURE / INITIAL SMALL COMPARISON COMPLETE",
+      "role": "M1 explicit persistent graph versus M3 state-local transition-predicate comparison under selected S0/S1/S2a/S4 disturbances",
+      "implementation": "candidate-agnostic wake loop; raw durable state; declared atomic authorization primitive; observational effect sink without deduplication/retry; scenario-local assertions only",
+      "authority": "none; local fixture evidence only; does not establish harness independence, composition-functionality ablation, general architecture validation, or a standing evaluator",
+      "admission_test": "12/12 local standard-library tests passed; exact recorded result supports local substitution + reencoding only; result_sha256 130b46274db6544bc9ac9e687be6cfa1e3d0106514d62f91ed02dc7bb7e58d27"
     }
   },
   "source_selection_note": "v2.5 remains the verified baseline package for the unified repository. Current repo-local owners are Environment v0.1.31 and Temporal Notepad v0.1.14; the current combined context is regenerated from those self-contained/current owner artifacts, while historical diffs remain under verification/.",
@@ -132,10 +143,10 @@
       "authority": "source artifacts retain only their own bounded semantics; repository presence adds no authority"
     },
     "research/": {
-      "role": "shared research standards plus archival references/objects for completed, frozen or superseded experimental evidence; private payloads may remain private or externally stored with recoverable references",
-      "mutation": "add or revise only when a material research-preservation/interoperability requirement or archived experimental object justifies it",
-      "autoload": "no; retrieve only when archival/research-history work is load-bearing",
-      "authority": "research preservation/interoperability only; archive presence does not imply currentness, adoption, scientific validity, authorization, retrieval duty or semantic authority"
+      "role": "shared research methodology, bounded experimental specifications/results, and archival interoperability references/objects; private payloads may remain private or externally stored with recoverable references",
+      "mutation": "add or revise only when a material research-method, bounded experiment, preservation/interoperability requirement, or archived experimental object justifies it",
+      "autoload": "no; retrieve only when research-method, experiment, archival, or research-history work is load-bearing",
+      "authority": "research evidence/preservation/interoperability only; repository presence does not imply currentness, adoption, scientific validity, authorization, retrieval duty or semantic authority"
     },
     "verification/": {
       "role": "release verification, lineage, reviews, and historical diffs",
@@ -205,6 +216,12 @@
       "autoload": "read for authorized repository mutation and distribution",
       "authority": "repository-maintenance requirements only; not Environment/Temporal Notepad semantics, action authorization, runtime controller or role assignment",
       "sha256": "c0e4e9ca8eba2dbf1d4a611e3bbf46e7a3a411fc0cacfb4daa8f5c94e46afbae"
+    },
+    "research/experiments/representation_independent_composition/": {
+      "role": "bounded composition research specification, exact v0.1.2→v0.1.3 lineage diff, initial reproducibility record, and result summary",
+      "mutation": "preserve exact completed result/diff; new runs or revisions use distinct versioned artifacts",
+      "autoload": "no; retrieve when representation-independent composition, harness-substitution attribution, migration, or fixture reproduction is load-bearing",
+      "authority": "research evidence only; tested result does not imply current runtime semantics, global validation, harness independence, ablation, or new authorization"
     }
   },
   "retrieval_policy": [
