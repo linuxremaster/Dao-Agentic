@@ -185,6 +185,13 @@
       "autoload": "no; retrieve only when context-compaction or memory-mechanism work is load-bearing",
       "authority": "research/design-selection only; post-eviction recalibration remains a candidate for testing, not a tested consequence or implementation duty"
     },
+    "research/methodology/EVIDENCE_BASED_RESEARCH_METHOD_v0.1.md": {
+      "role": "shared evidence-based research and method-selection guidance: terminology normalization, external evidence reuse, transfer-boundary evaluation, mechanical-verification separation, and bounded simulation/naturalistic observation fallback",
+      "mutation": "authorized bounded revision when methodological evidence or project research constraints materially change; preserve versioned lineage",
+      "autoload": "no; retrieve when selecting research evidence, deciding whether to test/simulate/observe, or evaluating intuition-driven proposals",
+      "authority": "research-method guidance only; not Environment/Temporal Notepad semantics, action authorization, runtime controller, standing evaluator, or scientific-validity oracle",
+      "sha256": "514b17dd6d39f110a160d6b765c9e0c588b73a0a7f156821cc5ef444e8cfd473"
+    },
     "research/standards/EXPERIMENTAL_RESEARCH_OBJECT_ARCHIVAL_STANDARD_v0.1.md": {
       "role": "shared minimal archival interoperability profile for experimental research objects using RO-Crate 1.3, BagIt 1.0/RFC 8493, Process Run Crate 0.6 where applicable, FAIR guidance and W3C PROV fallback vocabulary",
       "mutation": "authorized bounded revision when standards/current preservation requirements materially change; preserve versioned lineage",
