@@ -42,7 +42,7 @@ Core project principle: [Repository Stewardship](policy/repository_stewardship.m
 - `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.
 - `LICENSE` — Mozilla Public License 2.0 restored from the pre-ablation tree; distribution metadata only.
 - `policy/` — current Environment and Temporal Notepad owner artifacts stored once, plus the manual combined context paste, external changelog, and shared repository-stewardship requirements.
-- `research/` — shared research methodology and archival-interoperability standards; no runtime semantic or scientific-validity authority.
+- `research/` — shared research methodology, bounded experimental specifications/results, and archival-interoperability standards; no runtime semantic or scientific-validity authority.
 - `verification/` — release verification, lineage, reviews, checksums, and historical diffs.
 - `testing/` — non-authoritative candidate mechanisms/reminders under ordinary-use testing; no implementation mandate.
 
