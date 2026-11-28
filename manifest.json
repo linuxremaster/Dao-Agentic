@@ -1,7 +1,7 @@
 {
   "harness_name": "dao-agentic-unified-runtime",
   "version": "0.1.4-unified-repo",
-  "scope": "single-project repository combining the mini sandbox runtime with current Environment / Temporal Notepad policy and release verification history",
+  "scope": "single-project repository for the experimental Cognitive Architecture Runtime, with Sandbox Runtime Library v0.1.4, current Environment / Temporal Notepad policy and release verification history",
   "origin_thread_handle": "SOC-THREAD-089",
   "recipient_identity": "unresolved by package",
   "durability": "disposable",
@@ -207,12 +207,15 @@
   },
   "research_framing": {
     "project": "Dao Agentic",
+    "scientific_domain": "cognitive science and artificial intelligence",
+    "architectural_category": "Cognitive Architecture (experimental)",
     "field": "computational metacognition",
-    "architectural_category": "experimental computational metacognitive architecture (CMA)",
     "objective": "adaptive self-regulation through experience",
-    "realization": "experimental runtime; current prototype Unified Sandbox Runtime v0.1.4",
+    "realization": "Cognitive Architecture Runtime (experimental; under development)",
+    "supporting_component": "Sandbox Runtime Library v0.1.4 (current prototype scaffold)",
     "status": "capability validation pending",
-    "historical_designation": "Unified Metacognition Runtime (UMR); retired from active scientific designation, retained for provenance and retrieval",
+    "historical_designation": "Dao Sandbox Mini Harness; Unified Sandbox Runtime; Unified Metacognition Runtime (UMR); retained for provenance and retrieval only",
+    "compatibility_identifiers": "Existing harness_name and version strings are retained for compatibility; not active architecture designations",
     "reference": "README.md",
     "terminology_precedent": "https://doi.org/10.1007/s10462-026-11669-5"
   }

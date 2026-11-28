@@ -1,19 +1,21 @@
 # Dao Agentic
 
 **Status:** TESTING / NO NEW AUTHORIZATION  
-**Runtime:** sandbox mini-harness v0.1.4 unified repository form  
+**Architecture:** Cognitive Architecture (experimental)  
+**Engineering realization:** Cognitive Architecture Runtime (experimental; under development)  
+**Supporting component:** Sandbox Runtime Library v0.1.4  
 **Environment:** v0.1.31 TESTING  
 **Temporal Notepad:** v0.1.14 TESTING
 
-Dao Agentic investigates computational metacognition and adaptive self-regulation through the development of an experimental computational metacognitive architecture (CMA). Its research objective is adaptive self-regulation through experience, including the monitoring, evaluation and regulation of cognition. Capability validation remains pending; the current runtime is an experimental working-state and memory scaffold, not a validated CMA.
+Dao Agentic investigates cognition in the context of cognitive science and artificial intelligence through development of an experimental cognitive architecture. Its engineering realization is the Cognitive Architecture Runtime, supported by the Sandbox Runtime Library. The current research focus is computational metacognition; the research objective is adaptive self-regulation through experience, including the monitoring, evaluation and regulation of cognition. The current library prototype (v0.1.4) is a working-state and memory scaffold; the runtime's architectural capabilities remain unvalidated.
 
 ## Scientific framing
 
-Use established scientific terminology and formalisms wherever they adequately express the distinction. Scientific conformity means conceptual comparability and evidentiary rigor, not mandatory reproduction of existing architectures. Novelty may emerge from research evidence; novelty is not a design objective. The designation Unified Metacognition Runtime (UMR) is retained only as historical research terminology, not an active scientific category. Existing research tracks continue under computational metacognition. The Unified Sandbox Runtime v0.1.4 remains the prototype lineage; no implementation or version change follows from this terminology update.
+Use established scientific terminology and formalisms wherever they adequately express the distinction. Scientific conformity means conceptual comparability and evidentiary rigor, not mandatory reproduction of existing architectures. Novelty may emerge from research evidence; novelty is not a design objective. Cognitive architecture is the broader scientific architectural category; computational metacognition is the present research focus, and computational metacognitive architectures (CMAs) are a relevant specialization, not the exclusive category for this project. Cognitive Architecture Runtime and Sandbox Runtime Library are descriptive engineering designations, not claims of standardized scientific categories. Historical project designations (Dao Sandbox Mini Harness, Unified Sandbox Runtime, Unified Metacognition Runtime / UMR) remain recoverable as lineage and retrieval terms only. The existing manifest identifier `harness_name: dao-agentic-unified-runtime` and version strings are retained for compatibility, not as active architecture names. No implementation or version change follows from this terminology update.
 
 Terminological precedent: [How metacognitive architectures remember their own thoughts: a systematic scoping review](https://doi.org/10.1007/s10462-026-11669-5) uses computational metacognitive architectures (CMAs) and identifies inconsistent terminology as a barrier to comparison. This supports terminology selection, not validation of Dao Agentic's architecture.
 
-This repository is the single-project merge of the portable mini sandbox runtime and the current calibration / context-hygiene policy package. The prior SOCRATES/Epiq working-tree architecture is intentionally not carried forward. Git history remains the historical record of that ablated tree.
+This repository originated in the single-project merge of the earlier sandbox scaffold and the calibration / context-hygiene policy package. The prior SOCRATES/Epiq working-tree architecture is intentionally not carried forward. Git history remains the historical record of that ablated tree.
 
 ## Start
 
@@ -41,7 +43,7 @@ Core project principle: [Repository Stewardship](policy/repository_stewardship.m
 
 ## Boundary
 
-The runtime scaffold is a memory / working-state aid. It is not a semantic owner, controller, authority source, roster, behavioral scorer, or live graph-mutation capability. Canonical policy semantics remain bounded to the owner artifacts under `policy/`.
+The current Sandbox Runtime Library scaffold is a memory / working-state aid. It is not a semantic owner, controller, authority source, roster, behavioral scorer, or live graph-mutation capability. Canonical policy semantics remain bounded to the owner artifacts under `policy/`.
 
 Local projections, summaries, notes, event records, and indices do not become source state merely because they are convenient or persistent.
 

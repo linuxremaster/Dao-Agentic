@@ -31,7 +31,7 @@
       "role": "verified v2.5 baseline provenance package; current repo-local owners have advanced beyond the bundle"
     }
   },
-  "current_objective": "Maintain a minimal portable working-state and memory scaffold that exposes current Environment v0.1.31 and Temporal Notepad v0.1.14 semantics without becoming a semantic owner, regulator, identity source, or new control plane.",
+  "current_objective": "Maintain the Sandbox Runtime Library as a minimal portable working-state and memory scaffold that exposes current Environment v0.1.31 and Temporal Notepad v0.1.14 semantics without becoming a semantic owner, regulator, identity source, or new control plane.",
   "current_load_bearing_state": [
     "Environment v0.1.31 is the current supplied non-state semantic artifact and remains TESTING with test closure pending.",
     "Temporal Notepad v0.1.14 is the current state-semantics owner and minimal persistent-state substrate; non-state semantics remain owned by Environment.",
