@@ -1,6 +1,6 @@
-# Cohort handoff — Dao Agentic / Sandbox Runtime Library v0.1.4
+# Cohort Handoff — Dao Agentic
 
-This package is a **portable memory / working-state scaffold**, not a semantic owner, controller, authority source, roster, or graph-mutation capability.
+This handoff orients recipients to Dao Agentic's experimental Cognitive Architecture Runtime, currently under development. Its supporting component, Sandbox Runtime Library v0.1.4, is a **portable memory / working-state scaffold**, not a semantic owner, controller, authority source, roster, or graph-mutation capability.
 
 ## Start
 1. Read `index.md`.
