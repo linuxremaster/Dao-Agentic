@@ -120,13 +120,13 @@
       "authority": "observable event history, not behavioral scoring or semantic state owner"
     },
     "telemetry/": {
-      "role": "passive append-only raw model/runtime observations; separate from project events and semantic state",
+      "role": "passive append-only observations of environmental regulation, external environmental behavior, development outcomes, and bounded model/runtime behavior; separate from project events and semantic state",
       "mutation": "append observations only; corrections append via supersedes_observation_id; contract changes remain explicit",
       "autoload": "no",
       "authority": "provenance/observation only; no judgment, scoring, authorization, causal-diagnosis, identity, successorship, or semantic-state authority"
     },
     "policy/": {
-      "role": "canonical current Environment / Temporal Notepad owner artifacts plus manual combined calibration source and external changelog; shared repository-stewardship requirements",
+      "role": "current Environment / Temporal Notepad owner artifacts plus manual combined calibration source and external changelog; shared repository-stewardship requirements",
       "mutation": "amend the applicable artifact only by authorized bounded change; adopt current semantic owners deliberately",
       "autoload": "no; retrieve exact source when load-bearing",
       "authority": "source artifacts retain only their own bounded semantics; repository presence adds no authority"
@@ -202,7 +202,7 @@
   "packaging_repair": {
     "from_version": "0.1.3-local-cohort",
     "reason": "merge mini sandbox runtime with v2.5 calibration/policy package as one repository project and remove duplicated embedded source/provenance surfaces",
-    "change": "single canonical policy surface + verification/history surface; old repository working tree ablated",
+    "change": "single current policy-owner surface + verification/history surface; old repository working tree ablated",
     "semantic_delta": "none"
   },
   "research_framing": {

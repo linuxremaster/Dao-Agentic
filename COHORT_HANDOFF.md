@@ -36,6 +36,6 @@ Orientation reminder: **Durability in the source and provenance; flexibility in 
 
 ## v0.1.4 repository unification
 - No Environment, Temporal Notepad, judgment, state/event, or authorization semantics changed.
-- Canonical policy artifacts are stored once under `policy/`; embedded provenance comments remain externalized in `policy/changelog.md`.
+- Current policy-owner artifacts are stored once under `policy/`; embedded provenance comments remain externalized in `policy/changelog.md`.
 - Release verification and historical diffs are stored under `verification/`; old SOCRATES/Epiq working-tree architecture is not carried forward.
 - Runtime memory surfaces remain disposable projections/scaffolding and do not become semantic owners.

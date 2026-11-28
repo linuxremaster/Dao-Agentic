@@ -37,13 +37,13 @@ Core project principle: [Repository Stewardship](policy/repository_stewardship.m
 
 - `index.md`, `state.json`, `notepad.md`, `events.jsonl`, `contradictions.jsonl` — runtime memory / working-state surfaces.
 - `LICENSE` — Mozilla Public License 2.0 restored from the pre-ablation tree; distribution metadata only.
-- `policy/` — one canonical copy of current Environment and Temporal Notepad sources, the manual combined context paste, external changelog, and shared repository-stewardship requirements.
+- `policy/` — current Environment and Temporal Notepad owner artifacts stored once, plus the manual combined context paste, external changelog, and shared repository-stewardship requirements.
 - `verification/` — release verification, lineage, reviews, checksums, and historical diffs.
 - `testing/` — non-authoritative candidate mechanisms/reminders under ordinary-use testing; no implementation mandate.
 
 ## Boundary
 
-The current Sandbox Runtime Library scaffold is a memory / working-state aid. It is not a semantic owner, controller, authority source, roster, behavioral scorer, or live graph-mutation capability. Canonical policy semantics remain bounded to the owner artifacts under `policy/`.
+The current Sandbox Runtime Library scaffold is a memory / working-state aid. It is not a semantic owner, controller, authority source, roster, behavioral scorer, or live graph-mutation capability. Current policy semantics remain bounded to the owner artifacts under `policy/`.
 
 Local projections, summaries, notes, event records, and indices do not become source state merely because they are convenient or persistent.
 
